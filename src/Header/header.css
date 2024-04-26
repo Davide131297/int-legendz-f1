@@ -1,0 +1,80 @@
+.navbar {
+    background-color: black;
+    height: 80px;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.title {
+    color: white;
+    cursor: pointer;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.closeButton {
+   margin-left: auto;
+}
+
+.logo {
+    cursor: pointer;
+}
+
+.offcanvas-body {
+    margin-top: 10px;
+    position: relative;
+}
+
+.offcanvas-custom {
+    width: 30vh !important;
+    top: 80px !important;
+}
+
+.panel-custom {
+    width: 100%; 
+    height: 100%;
+}
+
+.tab-custom {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    margin-top: 30px;
+    font-weight: bold;
+    font-size: x-large;
+    cursor: pointer;
+    font-size: medium;
+}
+
+.tab-custom:hover {
+    background-color: rgb(245, 245, 245);
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    font-size: x-small;
+}
+
+@media screen and (max-width: 600px) {
+    .tab-custom {
+        font-size: small;
+    }
+    
+}

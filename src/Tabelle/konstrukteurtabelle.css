@@ -1,0 +1,30 @@
+.sticky-konstrukteur-body {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0px;
+    font-size: 0.8em;
+    z-index: 100;
+}
+
+#sticky-konstrukteur {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0px;
+    top: 0px;
+    z-index: 300;
+}
+
+.chart-container {
+    padding-bottom: 10px;
+    float: left;
+    width: 50%;
+}
+
+@media  screen and (max-width: 768px) {
+    .chart-container {
+        overflow-x: scroll;
+        transform: scale(0.9);
+        width: 100%;
+    }
+    
+}

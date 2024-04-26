@@ -1,0 +1,73 @@
+.img-size {
+    max-width: 25px;
+    max-height: 15px;
+    cursor: pointer;
+}
+
+.table-container {
+    width: 97%;
+    margin: auto;
+    padding-top: 10px;
+    overflow-x: auto;
+}
+
+.scrollarea {
+    height: calc(100vh - 100px);
+}
+
+.thead-sticky th {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+}
+
+td {
+    padding: 5px !important;
+    text-align: center;
+}
+
+th {
+    text-align: center;
+}
+
+.sticky-name {
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    left: 0;
+}
+
+.pos {
+    font-size: 0.9em;
+}
+
+.fahrer {
+    position: sticky;
+    position: -webkit-sticky;
+    left: 0;
+    background: white;
+    z-index: 20;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+#fahrer {
+    position: sticky;
+    position: -webkit-sticky;
+    left: 0;
+    background: white;
+    z-index: 30;
+}
+
+.teamname {
+    font-size: 0.9em;
+}
+
+.zweiRennen {
+    font-size: smaller;
+}
+
+td {
+    font-size: 0.9em;
+}

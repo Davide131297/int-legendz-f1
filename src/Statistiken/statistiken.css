@@ -1,0 +1,14 @@
+.statistiken-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 30px 20px 0px 20px;
+}
+
+@media screen and (max-width: 768px) {
+    .statistiken-container {
+        display: flex;
+        justify-content: center;
+    }
+    
+}

@@ -1,0 +1,16 @@
+.table-container {
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.table-container th, .table-container td {
+    width: 50%;
+}
+
+.table-header {
+    text-align: center;
+}
+
+.profiltabelle {
+    height: 320px;
+}

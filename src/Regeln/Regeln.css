@@ -1,0 +1,21 @@
+/* styles.css */
+.list-item {
+    margin-bottom: 10px;
+    font-size: 0.9em;
+    padding-right: 10px;
+}
+
+.regelnseite {
+    padding-right: 20px;
+    overflow-x: hidden;
+}
+
+.regelnDivider {
+    padding-left: 20px;
+    margin-top: 20px;
+}
+
+#regelntitel{
+    text-align: center;
+    padding-top: 10px;
+}
