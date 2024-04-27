@@ -36,6 +36,7 @@ import McLaren from '../Teamlogos/MclarenIcon.png';
 import Alpine from '../Teamlogos/Alpine.png';
 import AlfaRomeo from '../Teamlogos/AlfaRomeoIcon.png';
 import Haas from '../Teamlogos/Haas.png';
+import AlphaTauri from '../Teamlogos/AlphaTauri.png';
 
 const Konstrukteurtabelle = () => {
     const [teams, setTeams] = useState([]);
@@ -90,13 +91,16 @@ const Konstrukteurtabelle = () => {
         if (team === 'Haas') {
           return <img src={Haas} alt="Haas Logo" style={{ width: '40px', height: '15px', marginLeft: '8px' }} />;
         }
+        if (team === 'Alpha Tauri') {
+          return <img src={AlphaTauri} alt="Alpha Tauri Logo" style={{ width: '25px', height: '20px', marginLeft: '8px' }} />;
+        }
         return null;
     }
 
     return (
         <>
         <div className='table-container'>
-            <ScrollArea type='never' className='scrollarea' h={330}>
+            <ScrollArea type='never' className='scrollarea' h={380}>
                 <Table striped bordered hover>
                     <thead className='thead-sticky'>
                         <tr>
