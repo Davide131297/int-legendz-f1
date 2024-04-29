@@ -154,7 +154,7 @@ const KonstrukteurLineChart = (props) => {
     return (
         <>
             <LineChart
-                h={300}
+                h={250}
                 data={data}
                 dataKey="date"
                 withLegend
