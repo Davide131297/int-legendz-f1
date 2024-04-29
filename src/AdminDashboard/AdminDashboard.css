@@ -1,0 +1,26 @@
+.adminDashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.dataGridContainer {
+    width: 100%;
+    padding: 10px;
+    align-self: flex-start;
+}
+
+@media (min-width: 768px) {
+    /* Für Desktop-Bildschirme */
+    .dataGridContainer {
+        width: 30%;
+    }
+}
+
+@media (max-width: 767px) {
+    /* Für mobile Geräte */
+    .dataGridContainer {
+        width: 80%;
+    }
+}
