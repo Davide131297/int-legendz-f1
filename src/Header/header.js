@@ -12,7 +12,7 @@ import { ActionIcon, Drawer, Modal } from '@mantine/core';
 import { GrAdd } from "react-icons/gr";
 import ErgebnisEintragen from "../ErgebnisEintragen/ErgebnisEintragen";
 import ZusatzKompoennte from "./ZusatzKompoennte";
-import { CiSettings } from "react-icons/ci";
+import { CiLogin, CiSettings } from "react-icons/ci";
 
 const getCookie = (name) => {
     const value = "; " + document.cookie;
@@ -31,6 +31,7 @@ const Header = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [showForm, setShowForm] = useState(false);
     const [openSettings, setOpenSettings] = useState(false);
+    const [openLogin, setOpenLogin] = useState(false);
 
     const navigateKonstrukteurstabelle = () => {
         toggle();
@@ -60,6 +61,11 @@ const Header = () => {
     const navigateHome = () => {
         toggle();
         navigate('/');
+    }
+
+    const openTheLogin = () => {
+        toggle();
+        setOpenLogin(true);
     }
 
     return (
@@ -106,6 +112,9 @@ const Header = () => {
                     <ActionIcon variant='transparent' size="xs" onClick={openTheSettings}>
                         <CiSettings color="black" size={20} />
                     </ActionIcon>
+                    <ActionIcon variant='transparent' size="xs" onClick={openTheLogin}>
+                        <CiLogin color="black" size={20} />
+                    </ActionIcon>
                         <div>Int.League V1.5</div>
                         <div>Releasedatum 25.04.2024</div>
                     </div>
@@ -143,6 +152,26 @@ const Header = () => {
                     <ErgebnisEintragen setDrawerOpen={setDrawerOpen} showForm={showForm} setShowForm={setShowForm}/>
                 </Modal>
             )}
+
+           <Modal // Login Modal
+                opened={openLogin}
+                onClose={() => setOpenLogin(false)}
+                title="Login"
+                size="sm"
+                centered
+            >
+                <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                    <label>
+                        E-Mail:
+                        <input type="email" name="email" required />
+                    </label>
+                    <label>
+                        Passwort:
+                        <input type="password" name="password" required />
+                    </label>
+                    <button type="submit">Anmelden</button>
+                </div>
+            </Modal>
 
            {/* <Zufallsgenerator /> wird nicht mehr benötigt */}
 
