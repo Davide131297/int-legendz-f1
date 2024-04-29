@@ -1,9 +1,9 @@
-import React, {useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import LigaLogo from './LigaLogo.png';
 import './header.css';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { Burger } from '@mantine/core';
 import { Button } from '@mantine/core';
@@ -12,7 +12,11 @@ import { ActionIcon, Drawer, Modal } from '@mantine/core';
 import { GrAdd } from "react-icons/gr";
 import ErgebnisEintragen from "../ErgebnisEintragen/ErgebnisEintragen";
 import ZusatzKompoennte from "./ZusatzKompoennte";
-import { CiLogin, CiSettings } from "react-icons/ci";
+import { CiLogin, CiSettings, CiLogout } from "react-icons/ci";
+import LoginKomponente from "./LoginKomponente";
+import { signOut, getAuth } from "firebase/auth";
+import { notifications } from "@mantine/notifications";
+import { AccessTokenContext } from "../utils/AccesTokenContext";
 
 const getCookie = (name) => {
     const value = "; " + document.cookie;
@@ -32,6 +36,12 @@ const Header = () => {
     const [showForm, setShowForm] = useState(false);
     const [openSettings, setOpenSettings] = useState(false);
     const [openLogin, setOpenLogin] = useState(false);
+    const { accessToken, setAccessToken } = useContext(AccessTokenContext);
+    const auth = getAuth();
+
+    useEffect(() => {
+        console.log("accessToken:", accessToken);
+    }, [accessToken]);
 
     const navigateKonstrukteurstabelle = () => {
         toggle();
@@ -67,6 +77,29 @@ const Header = () => {
         toggle();
         setOpenLogin(true);
     }
+
+    const navigateAdminDashboard = () => {
+        toggle();
+        navigate('/adminDashboard');
+    }
+
+    const logout = () => {
+        toggle();
+        signOut(auth).then(() => {
+            console.log("Logout erfolgreich");
+            navigate('/');
+            notifications.show({
+                title: 'Logout erfolgreich! 🎉',
+                message: 'Du hast dich erfolgreich ausgeloggt!',
+                color: 'green',
+                autoClose: 2000,
+            });
+            setAccessToken(null);
+        }).catch((error) => {
+            console.error("Fehler beim Logout:", error.message);
+        });
+    }
+
 
     return (
         <>
@@ -108,13 +141,22 @@ const Header = () => {
                     <div className="tab-custom" onClick={navigateKonstrukteurstabelle}>Konstrukteurstabelle</div>
                     <div className="tab-custom" onClick={navigateStatistiken}>Statistiken</div>
                     <div className="tab-custom" onClick={navigateRegeln}>Regeln</div>
+                    {accessToken === "davide.chiffi@gmx.de" && (
+                        <div className="tab-custom" onClick={navigateAdminDashboard}>Admin Dashboard</div>
+                    )}
                     <div className="footer">
                     <ActionIcon variant='transparent' size="xs" onClick={openTheSettings}>
                         <CiSettings color="black" size={20} />
                     </ActionIcon>
+                    {accessToken === null ? (
                     <ActionIcon variant='transparent' size="xs" onClick={openTheLogin}>
                         <CiLogin color="black" size={20} />
                     </ActionIcon>
+                    ) :(
+                        <ActionIcon variant='transparent' size="xs" onClick={logout}>
+                            <CiLogout color="black" size={20} />
+                        </ActionIcon>
+                    )}
                         <div>Int.League V1.5</div>
                         <div>Releasedatum 25.04.2024</div>
                     </div>
@@ -160,17 +202,7 @@ const Header = () => {
                 size="sm"
                 centered
             >
-                <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-                    <label>
-                        E-Mail:
-                        <input type="email" name="email" required />
-                    </label>
-                    <label>
-                        Passwort:
-                        <input type="password" name="password" required />
-                    </label>
-                    <button type="submit">Anmelden</button>
-                </div>
+                <LoginKomponente setOpenLogin={setOpenLogin} setAccessToken={setAccessToken}/>
             </Modal>
 
            {/* <Zufallsgenerator /> wird nicht mehr benötigt */}
