@@ -136,6 +136,10 @@ const Home = () => {
         setShowModal(true);
     }
 
+    function DiscordWeiterleitung() {
+        window.open("https://discord.gg/8radc3Mx", "_blank");
+    }
+
     return (
         <>
         <div className="header-image">
@@ -193,6 +197,9 @@ const Home = () => {
         <div className='bottom-container'>
             <div className='footer-image'>
                 <img src={PirelliReifen} alt="Pirelli Reifen" />
+                {windowWidth < 600 && (
+                <img style={{width: '60px', height: '60px'}} src="https://img.icons8.com/color/48/discord-logo.png" alt="discord-logo" onClick={DiscordWeiterleitung}/>
+                )}
             </div>
         </div>
 
