@@ -78,7 +78,7 @@ function TeilnehmerTabelle() {
 
     function renderTeamLogo(team) {
         if (team === 'Ferrari') {
-          return <img src={Ferrari} alt="Ferrari Logo" style={{ width: '15px', height: '20px', marginLeft: '10px' }} />;
+          return <img src={Ferrari} alt="Ferrari Logo" style={{ width: '10px', height: '15px', marginLeft: '10px' }} />;
         }
         if (team === 'Aston Martin') {
           return <img src={AstonMartin} alt="Aston Martin Logo" style={{ width: '15px', height: '15px', marginLeft: '5px' }} />;
@@ -93,7 +93,7 @@ function TeilnehmerTabelle() {
           return <img src={Williams} alt="Williams Logo" style={{ width: '20px', height: '20px', marginLeft: '10px' }} />;
         }
         if (team === 'McLaren') {
-          return <img src={McLaren} alt="McLaren Logo" style={{ width: '25px', height: '25px', marginLeft: '8px' }} />;
+          return <img src={McLaren} alt="McLaren Logo" style={{ width: '20px', height: '20px', marginLeft: '5px' }} />;
         }
         if (team === 'Alpine') {
           return <img src={Alpine} alt="Alpine Logo" style={{ width: '20px', height: '20px', marginLeft: '8px' }} />;
