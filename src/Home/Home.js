@@ -175,19 +175,31 @@ const Home = () => {
                 <div className='card-container'>
                     <Card shadow="sm" padding="lg" radius="md" withBorder>
                         <Card.Section>
+                            {timeLeft.days ? (
                             <Image
                                 onClick={handleImageClick}
                                 src={nextRace?.flagge}
                                 alt={nextRace ? nextRace.id : "Unknown"}
                                 style={{ cursor: 'pointer' }}
                             />
+                            ) : (
+                            <div style={{display: 'flex', justifyContent: 'center'}}>
+                                <Loader type="dots" color='blue' size="lg" />
+                            </div>
+                            )}
                         </Card.Section>
 
                         <Group mt="md" mb="xs">
                             <Text fw={700}>Nächstes Rennen:</Text>
+                            {timeLeft.days ? (
                             <Badge color="rgba(0, 0, 0, 1)">
                                 {nextRace ? nextRace.id : "Kein Rennen geplant"}
                             </Badge>
+                            ) : (
+                            <Badge color="rgba(0, 0, 0, 1)">
+                                Wird geladen...
+                            </Badge>
+                            )}
                         </Group>
 
                         {timeLeft.days ? (
