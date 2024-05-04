@@ -196,8 +196,8 @@ const AdminDashboard = () => {
                 <div className="adminDashboard">
                     <h1>Admin Dashboard</h1>
                     
-                    <div className="dataGridsContainer" style={{display: 'flex', justifyContent: 'space-between'}}>
-                        <div className="dataGridContainer" style={{width: '30%'}}>
+                    <div className="dataGridsContainer">
+                        <div className="dataGridContainerTeilnehmer">
                             <h5>Teilnehmerfeld</h5>
                             <DataGrid 
                                 dataSource={Personen} 
@@ -222,7 +222,7 @@ const AdminDashboard = () => {
                                 <Paging enabled={true} pageSize={10}/>
                             </DataGrid>
                         </div>
-                        <div className="dataGridContainerStrecken" style={{width: '70%'}}>
+                        <div className="dataGridContainerStrecken">
                             <h5>Strecken</h5>
                             <DataGrid
                                 dataSource={Strecken} 
