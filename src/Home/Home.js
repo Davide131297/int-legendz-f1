@@ -106,14 +106,23 @@ const Home = () => {
             let tempStrecken = [];
             snapshot.forEach((doc) => {
                 const data = doc.data();
-                const datum = data.Datum.toDate(); // Convert Firebase Timestamp to Date
-                tempStrecken.push({
-                    id: doc.id, // Track name
-                    datum: datum,
-                    flagge: data.Flagge,
-                    layout: data.Layout,
-                });
+                if (data.Datum) { // Überprüfen Sie, ob das Feld Datum existiert
+                    const datum = data.Datum.toDate(); // Convert Firebase Timestamp to Date
+                    tempStrecken.push({
+                        id: doc.id, // Track name
+                        datum: datum,
+                        flagge: data.Flagge,
+                        layout: data.Layout,
+                    });
+                } else {
+                    console.warn(`Document with id ${doc.id} does not have a Datum field.`);
+                }
             });
+
+            // Sortieren Sie tempStrecken basierend auf dem Datum, das am nächsten am aktuellen Datum liegt
+            tempStrecken.sort((a, b) => Math.abs(new Date() - a.datum) - Math.abs(new Date() - b.datum));
+
+            console.log("Strecken:", tempStrecken);
             setStrecken(tempStrecken);
         });
 

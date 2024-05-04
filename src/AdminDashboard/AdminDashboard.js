@@ -107,6 +107,10 @@ const AdminDashboard = () => {
                     console.warn(`Document with id ${doc.id} does not have a Datum field.`);
                 }
             });
+
+            // Sortieren Sie tempStrecken basierend auf dem Datum, das am nächsten am aktuellen Datum liegt
+            tempStrecken.sort((a, b) => Math.abs(new Date() - a.datum) - Math.abs(new Date() - b.datum));
+
             console.log("Strecken:", tempStrecken);
             setStrecken(tempStrecken);
         });
