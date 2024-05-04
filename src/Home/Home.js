@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import moment from 'moment';
-import { Card, Image, Text, Badge, Group } from '@mantine/core';
+import { Card, Image, Text, Badge, Group, Loader } from '@mantine/core';
 import './Home.css';
 import TeilnehmerTabelle from '../Tabelle/TeilnehmerTabelle' // Importieren der TeilnehmerTabelle
 import { ScrollArea } from '@mantine/core';
@@ -67,6 +67,7 @@ const Home = () => {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [mapLayout, setMapLayout] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [strecken, setStrecken] = useState([]);
 
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
@@ -98,13 +99,33 @@ const Home = () => {
         return () => unsubscribe();
     }, []);
 
+    // Fetching Strecken data from Firebase, converting timestamp to Date
+    useEffect(() => {
+        const streckenRef = collection(db, 'Strecken');
+        const unsubscribe = onSnapshot(streckenRef, (snapshot) => {
+            let tempStrecken = [];
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                const datum = data.Datum.toDate(); // Convert Firebase Timestamp to Date
+                tempStrecken.push({
+                    id: doc.id, // Track name
+                    datum: datum,
+                    flagge: data.Flagge,
+                    layout: data.Layout,
+                });
+            });
+            setStrecken(tempStrecken);
+        });
+
+        return () => unsubscribe();
+    }, []);
+
     useEffect(() => {
         const findNextRace = () => {
             const now = moment();
-            for (let race of Rennstrecken) {
-                let raceDate = moment(race.date, "DD.MM.YYYY").hour(20);
+            for (let race of strecken) {
+                let raceDate = moment(race.datum);
                 if (raceDate.isAfter(now)) {
-                    setMapLayout(race.layout);
                     return race;
                 }
             }
@@ -114,22 +135,21 @@ const Home = () => {
         const calculateTimeLeft = () => {
             if (nextRace) {
                 const now = moment();
-                const raceDate = moment(nextRace.date, "DD.MM.YYYY").hour(20);
+                const raceDate = moment(nextRace.datum);
                 const diff = moment.duration(raceDate.diff(now));
                 setTimeLeft({
                     days: diff.days(),
                     hours: diff.hours(),
                     minutes: diff.minutes(),
-                    seconds: diff.seconds()
+                    seconds: diff.seconds(),
                 });
             }
         };
 
         setNextRace(findNextRace());
-        calculateTimeLeft();
         const timer = setInterval(calculateTimeLeft, 1000);
         return () => clearInterval(timer);
-    }, [nextRace]);
+    }, [strecken, nextRace]);
 
     function handleImageClick() {
         console.log("Image clicked");
@@ -149,24 +169,31 @@ const Home = () => {
             <div className='Rennkalender'>
                 <div className='card-container'>
                     <Card shadow="sm" padding="lg" radius="md" withBorder>
-                    <Card.Section>
-                        <Image
-                            onClick={() => 
-                                handleImageClick()
-                            }
-                            src={nextRace && nextRace.flag}
-                            alt={nextRace ? nextRace.name : "Norway"}
-                        />
-                    </Card.Section>
+                        <Card.Section>
+                            <Image
+                                onClick={handleImageClick}
+                                src={nextRace?.flagge}
+                                alt={nextRace ? nextRace.id : "Unknown"}
+                                style={{ cursor: 'pointer' }}
+                            />
+                        </Card.Section>
 
                         <Group mt="md" mb="xs">
                             <Text fw={700}>Nächstes Rennen:</Text>
-                            <Badge color="rgba(0, 0, 0, 1)">{nextRace ? nextRace.name : "Kein Rennen geplant"}</Badge>
+                            <Badge color="rgba(0, 0, 0, 1)">
+                                {nextRace ? nextRace.id : "Kein Rennen geplant"}
+                            </Badge>
                         </Group>
 
-                        <Text size="sm" c="dimmed">
-                            Startet in {nextRace ? `${timeLeft.days} Tagen, ${timeLeft.hours} Stunden ${timeLeft.minutes} Minuten, und ${timeLeft.seconds} Sekunden ` : "N/A"}
-                        </Text>
+                        {timeLeft.days ? (
+                            <Text size="sm" c="dimmed">
+                            Startet in {`${timeLeft.days} Tagen, ${timeLeft.hours} Stunden, ${timeLeft.minutes} Minuten und ${timeLeft.seconds} Sekunden`}
+                            </Text>
+                        ) : (
+                            <div style={{display: 'flex', justifyContent: 'center'}}>
+                                <Loader type="dots" color='blue' size="lg" />
+                            </div>
+                        )}
                     </Card>
                 </div>
             </div>
@@ -203,7 +230,7 @@ const Home = () => {
             </div>
         </div>
 
-        <Modal opened={showModal} onClose={() => setShowModal(false)} title="Streckenlayout" size="xl" padding="xl" hideCloseButton centered> 
+        <Modal opened={showModal} onClose={() => setShowModal(false)} title="Streckenlayout" size="md" padding="xl" hideCloseButton centered> 
             <Image src={nextRace && nextRace.layout}  />
         </Modal>
         </>
