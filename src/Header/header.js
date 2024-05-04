@@ -101,7 +101,7 @@ const Header = () => {
     }
 
     function DiscordWeiterleitung() {
-        window.open("https://discord.gg/8radc3Mx", "_blank");
+        window.open("https://discord.com/invite/jGVFqcYDB4", "_blank");
     }
 
     return (
