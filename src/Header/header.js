@@ -100,6 +100,9 @@ const Header = () => {
         });
     }
 
+    function DiscordWeiterleitung() {
+        window.open("https://discord.gg/8radc3Mx", "_blank");
+    }
 
     return (
         <>
@@ -141,6 +144,11 @@ const Header = () => {
                     <div className="tab-custom" onClick={navigateKonstrukteurstabelle}>Konstrukteurstabelle</div>
                     <div className="tab-custom" onClick={navigateStatistiken}>Statistiken</div>
                     <div className="tab-custom" onClick={navigateRegeln}>Regeln</div>
+                    <div className="tab-custom" onClick={DiscordWeiterleitung}>
+                        <img src="https://i0.wp.com/peakofserenity.com/wp-content/uploads/2018/12/wZgPoYaVlU0gAAAABJRU5ErkJggg.png?fit=777%2C249&ssl=1" alt="Discord" 
+                            style={{width: '100px', height: '30px', marginRight: '5px'}} 
+                        />    
+                    </div>
                     {accessToken === "davide.chiffi@gmx.de" && (
                         <div className="tab-custom" onClick={navigateAdminDashboard}>Admin Dashboard</div>
                     )}
