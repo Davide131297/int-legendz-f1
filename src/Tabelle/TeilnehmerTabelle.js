@@ -81,7 +81,7 @@ function TeilnehmerTabelle() {
                 let data = doc.data();
                 tempListe.push({
                     id: doc.id,
-                    ansicht: data.ansicht
+                    ansicht: data.Ansicht
                 });
             });
             setStrecken(tempListe);
