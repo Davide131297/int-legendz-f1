@@ -102,6 +102,7 @@ const AdminDashboard = () => {
                         datum: datum,
                         flagge: data.Flagge,
                         layout: data.Layout,
+                        ansicht: data.Ansicht
                     });
                 } else {
                     console.warn(`Document with id ${doc.id} does not have a Datum field.`);
@@ -161,6 +162,7 @@ const AdminDashboard = () => {
     };
 
     const handleRowUpdatedStrecken = async (e) => {
+        console.log("e.data vor Speichern:", e.data);
        // JavaScript Date zu Firebase Timestamp umwandeln
        const date = new Date(e.data.datum);
        date.setHours(20, 0, 0, 0); // Setze die Stunden auf 20:00:00
@@ -173,17 +175,19 @@ const AdminDashboard = () => {
            Flagge: e.data.flagge,
            Layout: e.data.layout,
            Datum: datum, // Hinzufügen des umgewandelten Datums zu StreckenData
+           Ansicht: e.data.ansicht
        };
         try {
+            console.log("StreckenData:", StreckenData);
             await updateDoc(doc(db, "Strecken", e.data.id), StreckenData);
             notifications.show({
                 title: 'Erfolgreich aktualisiert',
                 message: e.data.id + " wurde erfolgreich aktualisiert.",
                 color: 'green',
             })
-            console.log("Document updated with ID: ", e.data.id);
+            console.log("Document updated  ", e.data);
         } catch (e) {
-            console.error("Error updating document: ", e);
+            console.error("Error updating document: ", e.data, e);
         }
     };
 
@@ -204,7 +208,7 @@ const AdminDashboard = () => {
                                 keyExpr="id"
                                 onRowInserted={handleRowInserted}
                                 onRowRemoved={handleRowRemoved}
-                                onRowUpdated={handleRowUpdated}
+                                onRowUpdated={handleRowUpdatedStrecken}
                             >
                                 <SearchPanel visible={true} />
                                 <Column dataField="spielerID" caption="Spieler ID">
@@ -229,13 +233,14 @@ const AdminDashboard = () => {
                                 keyExpr="id"
                                 onRowInserted={handleRowInsertedStrecken}
                                 onRowRemoved={handleRowRemovedStrecken}
-                                onRowUpdated={handleRowInsertedStrecken}
+                                onRowUpdated={handleRowUpdatedStrecken}
                             >
                                 <SearchPanel visible={true} />
                                 <Column dataField="id" caption="Strecke"/>
                                 <Column dataField="datum" caption="Datum" dataType="date" format="dd.MM.yyyy" />
                                 <Column dataField="flagge" caption="Flagge" />
                                 <Column dataField="layout" caption="Layout" />
+                                <Column dataField="ansicht" caption="Ansicht" cellRender={data => data.value ? 'Ja' : 'Nein'} />
                                 <Editing
                                     mode="row"
                                     allowUpdating={true}
