@@ -18,6 +18,9 @@ const Regeln = () => {
             <List.Item className='list-item'>
                 Ein Fahrer kann WM – Punkte erhalten, sobald er eine Renndistanz von 90% zurückgelegt hat
             </List.Item>
+            <List.Item className='list-item'>
+                Spieler die nicht regelmäßig an den Ligarennen teilnehmen, werden als Reservefahrer eingestuft und verlieren ihren Stammplatz.
+            </List.Item>  
                 <Divider margins="md" label="Vor dem Rennen" className='regelnDivider' />
             <List.Item className='list-item'>
                 Das Training und Qualifying findet immer am Freitag vor dem Rennen statt
@@ -31,6 +34,11 @@ const Regeln = () => {
             <List.Item className='list-item'>
                 Fahrer dürfen ausschließlich ihrem eigenen Teamkollegen für die Qualifikation Windschatten geben.
             </List.Item>
+            <List.Item className='list-item'>
+                Bei einem Sprintwochenede gilt im Spiel F1 23 noch die Regel aus der Saison 2023. Das Resultat des Sprintrennens ist demnach das Startgrid für das Hauptrennen.
+                <br></br>
+                Ab F124 wird diese Regel angepasst.
+            </List.Item>
                 <Divider margins="md" label="Während des Rennens" className='regelnDivider' />
             <List.Item className='list-item'>
                 Während der Qualifikation und des Rennens sind die Fahrer dazu angehalten, ein Video aufzunehmen, 
@@ -40,15 +48,13 @@ const Regeln = () => {
                 Innerhalb der ersten 5 Runden kann ein Neustart des Rennens durchgeführt werden, falls ein Bug auftritt oder ein Disconnect eines Fahrers.
             </List.Item>
             <List.Item className='list-item'>
-                Absichtliches hinauszögern der SC-Phase (2 SP)
+                Ein Überholen unter SC/VSC ist grundsätzlich nicht gestattet, auch wenn das Spiel etwas anderes vorgibt
             </List.Item>
             <List.Item className='list-item'>
-                Während eines SC muss das Delta vom Spiel beachtet werden, es darf nicht überholt werden und der Abstand zum Vordermann muss groß genug sein, 
-                um auf Zwischenfälle reagieren zu können
+                Sollte der Voranfahrende so signifikant abreißen lassen, dass es die dahinter fahrenden Spieler blockiert und ins Renngeschehen eingreift, kann dies als Ticket eingereicht werden
             </List.Item>
             <List.Item className='list-item'>
-                Bei Beendigung des SC muss bis zur Start-/Ziellinie mit Überholmanövern gewartet werden, die Abstände zum Vordermann sollten 
-                im Sinne des Racing klein gehalten werden
+                Jeder Fahrer verpflichtet sich dazu, sowohl Delta als auch Abstand zum SC so groß wie nötig und gering wie möglich zu halten, Zuwiderhandlungen können geahndet werden
             </List.Item>
             <List.Item className='list-item'>
                 Sollte ein Fahrer einen Schaden erlitten haben und dadurch die Box aufsuchen, ist er dazu angehalten, schnellere Fahrer passieren zu lassen
@@ -64,28 +70,25 @@ const Regeln = () => {
             </List.Item>
                 <Divider margins="md" label="Bestrafungen" className='regelnDivider' />
             <List.Item className='list-item'>
+                Absichtliches hinauszögern der SC-Phase (10 Sekunden)
+            </List.Item>    
+            <List.Item className='list-item'>
                 Während der Out- und Inlap darf ein Fahrer keinen Fahrer auf eine Hotlap behindern (1 SP), bei schwerwiegendem Kontakt höher (2 SP + 10 Plätze Grid Strafe)
-            </List.Item>
-            <List.Item className='list-item'>
-                Abkürzen während der Out- und Inlap ist verboten, außer es dient der Sicherheit (1 SP)
-            </List.Item>
-            <List.Item className='list-item'>
-                Überholen anderer Fahrzeuge durch Fehlstart (1 SP)
             </List.Item>
             <List.Item className='list-item'>
                 Im Grid den Startcountdown initiieren ohne Freigabe durch Ligaleiter (1 SP)
             </List.Item>
             <List.Item className='list-item'>
-                Abdrängen eines Fahrers von der Strecke (1 SP + 10 Sekunden)
+                Absichtliches oder unnötiges abdrängen eines Fahrers von der Strecke (1 SP + 10 Sekunden)
             </List.Item>
             <List.Item className='list-item'>
-                Mehrfaches ändern der Linie vor der Bremszone um den Hintermann zu verwirren/blockieren (5s)
+                Mehrfaches ändern der Linie vor der Bremszone um den Hintermann zu verwirren/blockieren (5 Sekunden)
             </List.Item>
             <List.Item className='list-item'>
-                Mehrfaches ändern der Linie in der Bremszone (1 SP)
+                Mehrfaches ändern der Linie in der Bremszone (10 Sekunden)
             </List.Item>
             <List.Item className='list-item'>
-                Gefährliches oder unkorrektes Ein- oder Ausfahren der Boxengasse (1 SP + 10s)
+                Gefährliches oder unkorrektes Ein- oder Ausfahren der Boxengasse (1 SP + 10 Sekunden)
             </List.Item>
             <List.Item className='list-item'>
                 Gefährliches Zurückkehren auf die Strecke (1 SP), bei Konsequenzen für andere Fahrer (bis zu 3 SP + bis zu 30s)
@@ -97,10 +100,10 @@ const Regeln = () => {
                 Verursachen einer Kollision:
                 <List className='list-item'>
                     <List.Item>
-                        Ohne Schaden beim Gegner (1 SP + 3 Sekunden)
+                        Ohne Schaden beim Gegner (5 Sekunden)
                     </List.Item>
                     <List.Item>
-                        Mit Schaden beim Gegner (2 SP + 5 Sekunden)
+                        Mit Schaden beim Gegner (1 SP + 5 Sekunden)
                     </List.Item>
                     <List.Item>
                         Mit DNF des Gegners (3 SP + 15 Sekunden)

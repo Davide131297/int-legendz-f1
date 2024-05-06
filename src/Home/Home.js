@@ -168,7 +168,7 @@ const Home = () => {
     return (
         <>
         <div className="header-image">
-            <img src={f1background} alt="F1 Background" />
+            <img src="https://media.giphy.com/headers/f1/9lY5U4kCU2FT.gif" alt="F1 Background" />
         </div>
         <div className='top-container'>
             <div className='Rennkalender'>
