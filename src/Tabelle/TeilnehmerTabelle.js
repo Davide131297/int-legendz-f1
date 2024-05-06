@@ -49,6 +49,7 @@ function TeilnehmerTabelle() {
     const storage = getStorage();
     const [selectedImage, setSelectedImage] = useState(null);
     const [clickedFlag, setClickedFlag] = useState(null);
+    const [Strecken, setStrecken] = useState([]);
 
     useEffect(() => {
         const personenRef = collection(db, 'personen');
@@ -71,6 +72,26 @@ function TeilnehmerTabelle() {
         // Aufräumen bei Unmount
         return () => unsubscribe();
     }, []);
+
+    useEffect(() => {
+        const streckenRef = collection(db, 'Strecken');
+        const unsubscribe = onSnapshot(streckenRef, (snapshot) => {
+            let tempListe = [];
+            snapshot.forEach((doc) => {
+                let data = doc.data();
+                tempListe.push({
+                    id: doc.id,
+                    ansicht: data.ansicht
+                });
+            });
+            setStrecken(tempListe);
+            console.log(tempListe);
+        });
+
+        // Aufräumen bei Unmount
+        return () => unsubscribe();
+    }, []);
+
 
     const handleClick = (id) => {
         navigate(`/profil/${id}`);
@@ -164,6 +185,12 @@ function TeilnehmerTabelle() {
         }
     }
 
+    function shouldRenderImage(Strecken, imageName) {
+        // Überprüfen Sie, ob das Array 'strecken' ein Objekt mit einer ID enthält, die dem Namen der Bildquelle ähnlich ist
+         // und dessen 'ansicht'-Attribut auch true ist
+        return Strecken.some(strecke => strecke.id.toLowerCase().includes(imageName.toLowerCase()) && strecke.ansicht === true);
+    }
+
     return (
         <div className='table-container'>
             <ScrollArea type='never' className='scrollarea'>
@@ -173,58 +200,127 @@ function TeilnehmerTabelle() {
                             <th>Pos</th>
                             <th id='fahrer'>Fahrer</th>
                             <th style={{zIndex: '10'}}>Konstrukteur</th>
-                            <th onClick={handleFlagClick}><img src={Bahrain} alt="Bahrain" className='img-size'/></th>
+
+                            {shouldRenderImage(Strecken, 'Bahrain') && 
+                                <th onClick={handleFlagClick}>
+                                    <img src={Bahrain} alt="Bahrain" className='img-size'/>
+                                </th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'SaudiArabien') &&
                             <th onClick={handleFlagClick}><img src={SaudiArabien} alt="Saudi Arabien" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Australien') &&
                             <th onClick={handleFlagClick}><img src={Australien} alt="Australien" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Aserbaidschan') &&
                             <th onClick={handleFlagClick} colSpan={2}><img src={Aserbaidschan} alt="Aserbaidschan" className='img-size'/>
                             <tr>
                                 <td className='zweiRennen'>SPR</td>
                                 <td className='zweiRennen'>HAU</td>
                             </tr>
                             </th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Miami') &&
                             <th onClick={handleFlagClick}><img src={USA} alt="Miami" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Italien') &&
                             <th onClick={handleFlagClick}><img src={Italien} alt="Italien" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Monaco') &&
                             <th onClick={handleFlagClick}><img src={Monaco} alt="Monaco" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Spanien') &&
                             <th onClick={handleFlagClick}><img src={Spanien} alt="Spanien" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Kanada') &&
                             <th onClick={handleFlagClick}><img src={Kanada} alt="Kanada" className='img-size'/></th>
-                            <th onClick={handleFlagClick} colSpan={2}><img src={Österreich} alt="Österreich" className='img-size'/>
-                            <tr>
-                                <td className='zweiRennen'>SPR</td>
-                                <td className='zweiRennen'>HAU</td>
-                            </tr>
-                            </th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Österreich') && 
+                                <th onClick={handleFlagClick} colSpan={2}><img src={Österreich} alt="Österreich" className='img-size'/>
+                                <tr>
+                                    <td className='zweiRennen'>SPR</td>
+                                    <td className='zweiRennen'>HAU</td>
+                                </tr>
+                                </th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Großbritannien') &&
                             <th onClick={handleFlagClick}><img src={England} alt="England" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Ungarn') &&
                             <th onClick={handleFlagClick}><img src={Ungarn} alt="Ungarn" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Belgien') &&
                             <th onClick={handleFlagClick} colSpan={2}><img src={Belgien} alt="Belgien" className='img-size'/>
                             <tr>
                                 <td className='zweiRennen'>SPR</td>
                                 <td className='zweiRennen'>HAU</td>
                             </tr>
                             </th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Niederlande') &&
                             <th onClick={handleFlagClick}><img src={Niederlande} alt="Niederlande" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Singapur') &&
                             <th onClick={handleFlagClick}><img src={Singapur} alt="Singapur" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Japan') &&
                             <th onClick={handleFlagClick}><img src={Japan} alt="Japan" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Katar') &&
                             <th onClick={handleFlagClick} colSpan={2}><img src={Katar} alt="Katar" className='img-size'/>
                             <tr>
                                 <td className='zweiRennen'>SPR</td>
                                 <td className='zweiRennen'>HAU</td>
                             </tr>
                             </th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'USA') &&
                             <th onClick={handleFlagClick} colSpan={2}><img src={USA} alt="USA" className='img-size'/>
                             <tr>
                                 <td className='zweiRennen'>SPR</td>
                                 <td className='zweiRennen'>HAU</td>
                             </tr>
                             </th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Mexiko') &&
                             <th onClick={handleFlagClick}><img src={Mexiko} alt="Mexiko" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Brasilien') &&
                             <th onClick={handleFlagClick} colSpan={2}><img src={Brasilien} alt="Brasilien" className='img-size'/>
                             <tr>
                                 <td className='zweiRennen'>SPR</td>
                                 <td className='zweiRennen'>HAU</td>
                             </tr>
                             </th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'LasVegas') &&
                             <th onClick={handleFlagClick}><img src={USA} alt="Las Vegas" className='img-size'/></th>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Abu Dhabi') &&
                             <th onClick={handleFlagClick}><img src={AbuDhabi} alt="Abu Dhabi" className='img-size'/></th>
+                            }
+
                             <th>Gesamtpunkte</th>
                         </tr>
                         </thead>
@@ -241,90 +337,173 @@ function TeilnehmerTabelle() {
                                 </div>
                             </td> {/* Konstrukteur */}
 
+                            {shouldRenderImage(Strecken, 'Bahrain') && 
                             <td style={getCellStyle(person?.wertung?.bahrain)}>
                                 {person?.wertung?.bahrain ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'SaudiArabien') &&
                             <td style={getCellStyle(person?.wertung?.saudiarabien)}>
                                 {person?.wertung?.saudiarabien ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Australien') &&
                             <td style={getCellStyle(person?.wertung?.australien)}>
                                 {person?.wertung?.australien ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Aserbaidschan') &&
                             <td style={getCellStyle(person?.wertung?.aserbaidschan_Sprint)}>
                                 {person?.wertung?.aserbaidschan_Sprint ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Aserbaidschan') &&
                             <td style={getCellStyle(person?.wertung?.aserbaidschan_Rennen)}>
                                 {person?.wertung?.aserbaidschan_Rennen ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Miami') &&
                             <td style={getCellStyle(person?.wertung?.miami)}>
                                 {person?.wertung?.miami ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Italien') &&
                             <td style={getCellStyle(person?.wertung?.italien)}>
                                 {person?.wertung?.italien ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Monaco') &&
                             <td style={getCellStyle(person?.wertung?.monaco)}>
                                 {person?.wertung?.monaco ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Spanien') &&
                             <td style={getCellStyle(person?.wertung?.spanien)}>
                                 {person?.wertung?.spanien ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Kanada') &&
                             <td style={getCellStyle(person?.wertung?.kanada)}>
                                 {person?.wertung?.kanada ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Österreich') &&
                             <td style={getCellStyle(person?.wertung?.österreich_Sprint)}>
                                 {person?.wertung?.österreich_Sprint ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Österreich') &&
                             <td style={getCellStyle(person?.wertung?.österreich_Rennen)}>
                                 {person?.wertung?.österreich_Rennen ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Großbritannien') &&
                             <td style={getCellStyle(person?.wertung?.england)}>
                                 {person?.wertung?.england ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Ungarn') &&
                             <td style={getCellStyle(person?.wertung?.ungarn)}>
                                 {person?.wertung?.ungarn ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Belgien') &&
                             <td style={getCellStyle(person?.wertung?.belgien_Sprint)}>
                                 {person?.wertung?.belgien_Sprint ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Belgien') &&
                             <td style={getCellStyle(person?.wertung?.belgien_Rennen)}>
                                 {person?.wertung?.belgien_Rennen ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Niederlande') &&
                             <td style={getCellStyle(person?.wertung?.niederlande)}>
                                 {person?.wertung?.niederlande ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Singapur') &&
                             <td style={getCellStyle(person?.wertung?.singapur)}>
                                 {person?.wertung?.singapur ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Japan') &&
                             <td style={getCellStyle(person?.wertung?.japan)}>
                                 {person?.wertung?.japan ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Katar') &&
                             <td style={getCellStyle(person?.wertung?.katar_Sprint)}>
                                 {person?.wertung?.katar_Sprint ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Katar') &&
                             <td style={getCellStyle(person?.wertung?.katar_Rennen)}>
                                 {person?.wertung?.katar_Rennen ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'USA') &&
                             <td style={getCellStyle(person?.wertung?.usa_Sprint)}>
                                 {person?.wertung?.usa_Sprint ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'USA') &&
                             <td style={getCellStyle(person?.wertung?.usa_Rennen)}>
                                 {person?.wertung?.usa_Rennen ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Mexiko') &&
                             <td style={getCellStyle(person?.wertung?.mexiko)}>
                                 {person?.wertung?.mexiko ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Brasilien') &&
                             <td style={getCellStyle(person?.wertung?.brasilien_Sprint)}>
                                 {person?.wertung?.brasilien_Sprint || ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Brasilien') &&
                             <td style={getCellStyle(person?.wertung?.brasilien_Rennen)}>
                                 {person?.wertung?.brasilien_Rennen || ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'LasVegas') &&
                             <td style={getCellStyle(person?.wertung?.lasvegas)}>
                                 {person?.wertung?.lasvegas ?? ''}
                             </td>
+                            }
+
+                            {shouldRenderImage(Strecken, 'Abu Dhabi') &&
                             <td style={getCellStyle(person?.wertung?.abuDhabi)}>
                                 {person?.wertung?.abuDhabi ?? ''}
                             </td>
+                            }
                             <td>
                                 {Object.values(person?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0)}
                             </td> {/* Gesamtpunkte */} {/* Gesamtpunkte */}
