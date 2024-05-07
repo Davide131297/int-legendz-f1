@@ -12,6 +12,7 @@ const AdminDashboard = () => {
     const { accessToken } = useContext(AccessTokenContext);
     const [Personen, setPersonen] = useState([]);
     const [Strecken, setStrecken] = useState([]);
+    const [anwesend, setAnwesend] = useState([]);
 
     loadMessages(deMessages);
     locale("de");
@@ -21,17 +22,40 @@ const AdminDashboard = () => {
     }, [accessToken]);
 
     useEffect(() => {
-    const personenRef = collection(db, 'personen');
-    const unsubscribe = onSnapshot(personenRef, (snapshot) => {
-        let tempListe = [];
-        snapshot.forEach((doc) => {
-            let data = doc.data();
-            tempListe.push({ spielerID: data.spielerID, team: data.team, id: data.id});
+        let streckenData = [];
+        const personenRef = collection(db, 'personen');
+        const streckenRef = collection(db, 'Strecken');
+        const unsubscribeStrecken = onSnapshot(streckenRef, (snapshot) => {
+            snapshot.forEach((doc) => {
+                const data = doc.data();
+                streckenData.push(data);
+            });
+            console.log("Streckendaten", streckenData);
+            console.log("Anzahl der Strecken", streckenData.length);
         });
-        setPersonen(tempListe);
-        console.log("Personen:", tempListe);
-    });
-    return unsubscribe; // Vergessen Sie nicht, das Abonnement zu kündigen, wenn die Komponente unmountet
+        const unsubscribe = onSnapshot(personenRef, (snapshot) => {
+            let tempListe = [];
+            let ausgabeArray = [];
+            snapshot.forEach((doc) => {
+                let data = doc.data();
+                tempListe.push({ spielerID: data.spielerID, team: data.team, id: data.id});
+                const wertungArray = Object.entries(data?.wertung || {})
+                    .filter(([key]) => !key.includes('_Sprint'))
+                    .map(([key, value]) => value);
+                const integerCount = wertungArray.reduce((count, value) => count + (Number.isInteger(value) || value === 'DNF' ? 1 : 0), 0);
+                ausgabeArray.push({
+                    spielerID: data.spielerID,
+                    anwesend: integerCount,
+                    rennen: streckenData.length
+                });
+                ausgabeArray.sort((a, b) => b.anwesend - a.anwesend);
+                setAnwesend(ausgabeArray);
+            });
+            setPersonen(tempListe);
+            console.log("Personen:", tempListe);
+            console.log("Anwesend:", ausgabeArray);
+        });
+        return unsubscribe; // Vergessen Sie nicht, das Abonnement zu kündigen, wenn die Komponente unmountet
     }, []);
 
     const handleRowInserted = async (e) => {
@@ -250,6 +274,26 @@ const AdminDashboard = () => {
                             </DataGrid>
                         </div>
                     </div>
+                </div>
+                <div className="tabellen-div">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Teilnehmer</th>
+                                <th>Anwesend</th>
+                                <th>In Prozent</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {anwesend.map((person) => (
+                                <tr key={person.spielerID}>
+                                    <td>{person.spielerID}</td>
+                                    <td>{person.anwesend} / {person.rennen}</td>
+                                    <td>{((person.anwesend / person.rennen) * 100).toFixed(2)}%</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
             )}
