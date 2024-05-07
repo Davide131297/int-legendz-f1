@@ -133,6 +133,20 @@ const Profil = () => {
         }, 0);
     }
 
+    let driverOfTheDayCount = Object.entries(person?.wertung || {}).reduce((count, [key, value]) => {
+        if (key.startsWith('driverOfTheDay_') && value === true) {
+            return count + 1;
+        }
+        return count;
+    }, 0);
+
+    let polePositions = Object.entries(person?.wertung || {}).reduce((count, [key, value]) => {
+        if (key.startsWith('pole_') && value === true) {
+            return count + 1;
+        }
+        return count;
+    }, 0);
+
     return (
         <React.Fragment>
 
@@ -157,6 +171,10 @@ const Profil = () => {
                                     {person && <span className="spielerinfos">Punkte: {Object.values(person?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0)}</span>}
                                     <br></br>
                                     {person && <span className="spielerinfos">Siege: {siege}</span>}
+                                    <br></br>
+                                    {person && <span className="spielerinfos">Fahrer des Tages: {driverOfTheDayCount}</span>}
+                                    <br></br>
+                                    {person && <span className="spielerinfos">Pole Positionen: {polePositions}</span>}
                                 </div>
                                 {isLoggedIn && <FaUserEdit size={20} className='userEdit' onClick={open}/>}
                             </div>
