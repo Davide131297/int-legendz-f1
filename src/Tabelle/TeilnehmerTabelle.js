@@ -207,7 +207,7 @@ function TeilnehmerTabelle() {
                                 </th>
                             }
 
-                            {shouldRenderImage(Strecken, 'SaudiArabien') &&
+                            {shouldRenderImage(Strecken, 'Saudi Arabien') &&
                             <th onClick={handleFlagClick}><img src={SaudiArabien} alt="Saudi Arabien" className='img-size'/></th>
                             }
 
@@ -343,7 +343,7 @@ function TeilnehmerTabelle() {
                             </td>
                             }
 
-                            {shouldRenderImage(Strecken, 'SaudiArabien') &&
+                            {shouldRenderImage(Strecken, 'Saudi Arabien') &&
                             <td style={getCellStyle(person?.wertung?.saudiarabien)}>
                                 {person?.wertung?.saudiarabien ?? ''}
                             </td>
