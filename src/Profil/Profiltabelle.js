@@ -130,7 +130,7 @@ const Profiltabelle = () => {
         },
         {header: <img src={USA} alt="Las Vegas" className='img-size'/>, value: person?.wertung?.lasvegas || 0},
         {header: <img src={AbuDhabi} alt="AbuDhabi" className='img-size'/>, value: person?.wertung?.abudhabi || 0},
-        {header: 'Gesamtpunkte', value: gesamtPunkte}
+        {header: 'Gesamtpunkte', value: Object.values(person?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0)}
     ];
 
     return (

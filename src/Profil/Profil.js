@@ -154,7 +154,7 @@ const Profil = () => {
                                     <br></br>
                                     {person && <span className="spielerinfos">Team: {person.team ? person.team : "Reservefahrer"}</span>}
                                     <br></br>
-                                    {person && <span className="spielerinfos">Punkte: {gesamtPunkte}</span>}
+                                    {person && <span className="spielerinfos">Punkte: {Object.values(person?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0)}</span>}
                                     <br></br>
                                     {person && <span className="spielerinfos">Siege: {siege}</span>}
                                 </div>
