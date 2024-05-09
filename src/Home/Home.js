@@ -10,6 +10,7 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import f1background from './F1Background.jpg';
 import PirelliReifen from './PirelliReifen.webp';
 import { Modal  } from '@mantine/core';
+import { set } from 'firebase/database';
 
 const Home = () => {
 
@@ -68,14 +69,16 @@ const Home = () => {
     const [mapLayout, setMapLayout] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [strecken, setStrecken] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener('resize', handleResize);
+        console.log("Zeige Zeit", timeLeft);
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, []);
+    }, [timeLeft]);
 
     useEffect(() => {
         const personenRef = collection(db, 'personen');
@@ -152,6 +155,7 @@ const Home = () => {
                     minutes: diff.minutes(),
                     seconds: diff.seconds(),
                 });
+                setIsLoading(false);
             }
         };
 
@@ -175,7 +179,7 @@ const Home = () => {
                 <div className='card-container'>
                     <Card shadow="sm" padding="lg" radius="md" withBorder>
                         <Card.Section>
-                            {timeLeft.days ? (
+                            {!isLoading ? (
                             <Image
                                 onClick={handleImageClick}
                                 src={nextRace?.flagge}
@@ -191,7 +195,7 @@ const Home = () => {
 
                         <Group mt="md" mb="xs">
                             <Text fw={700}>Nächstes Rennen:</Text>
-                            {timeLeft.days ? (
+                            {!isLoading ? (
                             <Badge color="rgba(0, 0, 0, 1)">
                                 {nextRace ? nextRace.id : "Kein Rennen geplant"}
                             </Badge>
@@ -202,7 +206,7 @@ const Home = () => {
                             )}
                         </Group>
 
-                        {timeLeft.days ? (
+                        {!isLoading ? (
                             <Text size="sm" c="dimmed">
                             Startet in {`${timeLeft.days} Tagen, ${timeLeft.hours} Stunden, ${timeLeft.minutes} Minuten und ${timeLeft.seconds} Sekunden`}
                             </Text>
