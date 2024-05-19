@@ -68,6 +68,11 @@ const Header = () => {
         navigate('/statistiken');
     }
 
+    const ArchivWeiterleitung = () => {
+        toggle();
+        navigate('/archiv');
+    }
+
     const navigateHome = () => {
         toggle();
         navigate('/');
@@ -143,7 +148,8 @@ const Header = () => {
                     <div className="tab-custom" onClick={navigateFahrertabelle}>Fahrertabelle</div>
                     <div className="tab-custom" onClick={navigateKonstrukteurstabelle}>Konstrukteurstabelle</div>
                     <div className="tab-custom" onClick={navigateStatistiken}>Statistiken</div>
-                    <div className="tab-custom" onClick={navigateRegeln}>Regeln</div>
+                   {/*} <div className="tab-custom" onClick={navigateRegeln}>Regeln</div> */}
+                    <div className="tab-custom" onClick={ArchivWeiterleitung}>Archiv</div>
                     <div className="tab-custom" onClick={DiscordWeiterleitung}>
                         <img src="https://i0.wp.com/peakofserenity.com/wp-content/uploads/2018/12/wZgPoYaVlU0gAAAABJRU5ErkJggg.png?fit=777%2C249&ssl=1" alt="Discord" 
                             style={{width: '100px', height: '30px', marginRight: '5px'}} 

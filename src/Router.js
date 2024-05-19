@@ -7,6 +7,7 @@ import Profil from './Profil/Profil';
 import Home from './Home/Home';
 import Regeln from './Regeln/Regeln';
 import AdminDashboard from './AdminDashboard/AdminDashboard';
+import Archiv from './Archiv/Archiv';
 
 
 export function Router() {
@@ -21,6 +22,7 @@ export function Router() {
                 <Route path="/profil/:id" element={<Profil />} />
                 <Route path="/regeln" element={<Regeln />} />
                 <Route path="/adminDashboard" element={<AdminDashboard />} />
+                <Route path="/archiv" element={<Archiv />} />
             </Routes>
         </BrowserRouter>
     );
