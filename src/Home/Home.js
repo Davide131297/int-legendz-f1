@@ -10,7 +10,6 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import f1background from './F1Background.jpg';
 import PirelliReifen from './PirelliReifen.webp';
 import { Modal  } from '@mantine/core';
-import { set } from 'firebase/database';
 
 const Home = () => {
 
@@ -172,7 +171,7 @@ const Home = () => {
     return (
         <>
         <div className="header-image">
-            <img src="https://media.giphy.com/headers/f1/9lY5U4kCU2FT.gif" alt="F1 Background" />
+            <img src={f1background} alt="F1 Background" />
         </div>
         <div className='top-container'>
             <div className='Rennkalender'>
