@@ -191,9 +191,11 @@ function TeilnehmerTabelle() {
         return Strecken.some(strecke => strecke.id.toLowerCase().includes(imageName.toLowerCase()) && strecke.ansicht === true);
     }
 
+    const height = window.innerHeight < 767 ? 600 : 'calc(10vh - 100px)';
+
     return (
         <div className='table-container'>
-            <ScrollArea type='never' className='scrollarea'>
+            <ScrollArea type='never' h={height}>
                 <Table striped bordered hover>
                     <thead className='thead-sticky'>
                         <tr>
