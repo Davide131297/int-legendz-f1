@@ -8,6 +8,7 @@ import Home from './Home/Home';
 import Regeln from './Regeln/Regeln';
 import AdminDashboard from './AdminDashboard/AdminDashboard';
 import Archiv from './Archiv/Archiv';
+import SocialMedia from './Social-Media/SocialMedia';
 
 
 export function Router() {
@@ -23,6 +24,7 @@ export function Router() {
                 <Route path="/regeln" element={<Regeln />} />
                 <Route path="/adminDashboard" element={<AdminDashboard />} />
                 <Route path="/archiv" element={<Archiv />} />
+                <Route path="/socialmedia" element={<SocialMedia />} />
             </Routes>
         </BrowserRouter>
     );

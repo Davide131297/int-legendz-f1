@@ -17,6 +17,7 @@ import LoginKomponente from "./LoginKomponente";
 import { signOut, getAuth } from "firebase/auth";
 import { notifications } from "@mantine/notifications";
 import { AccessTokenContext } from "../utils/AccesTokenContext";
+import { LuSmartphone } from "react-icons/lu";
 
 const getCookie = (name) => {
     const value = "; " + document.cookie;
@@ -66,6 +67,11 @@ const Header = () => {
     const navigateStatistiken = () => {
         toggle();
         navigate('/statistiken');
+    }
+
+    const navigateSocialMedia = () => {
+        toggle();
+        navigate('/socialmedia');
     }
 
     const ArchivWeiterleitung = () => {
@@ -148,6 +154,10 @@ const Header = () => {
                     <div className="tab-custom" onClick={navigateFahrertabelle}>Fahrertabelle</div>
                     <div className="tab-custom" onClick={navigateKonstrukteurstabelle}>Konstrukteurstabelle</div>
                     <div className="tab-custom" onClick={navigateStatistiken}>Statistiken</div>
+                    <div className="tab-custom" onClick={navigateSocialMedia} style={{display: 'flex', alignItems: 'center'}}>
+                        <LuSmartphone />
+                        Social Media
+                    </div>
                    {/*} <div className="tab-custom" onClick={navigateRegeln}>Regeln</div> */}
                     <div className="tab-custom" onClick={ArchivWeiterleitung}>Archiv</div>
                     <div className="tab-custom" onClick={DiscordWeiterleitung}>
