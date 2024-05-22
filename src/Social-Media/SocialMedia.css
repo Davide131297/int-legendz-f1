@@ -1,7 +1,7 @@
-.feed-container {
+.socialMedia {
     display: flex;
     justify-content: center;
-    height: 'calc(100vh - 80px)';
+    height: calc(100vh - 80px);
 }
 
 .myFeedBox {
@@ -21,7 +21,7 @@
 }
 
 .paper-avatar {
-    flex: '0 0 10%';
+    flex: 0 0 10%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -30,7 +30,7 @@
 }
 
 .paper-content {
-    flex: '1 0 90%';
+    flex: 1 0 90%;
     display: flex;
     flex-direction: column;
     padding: 10px;
@@ -43,4 +43,28 @@
 }
 
 
+/* Media Query für Bildschirme mit einer Breite von bis zu 768px */
+@media (max-width: 768px) {
+    .myFeedBox {
+        width: 80%;
+    }
 
+    .paper {
+        flex-direction: column;
+    }
+
+    .paper-avatar {
+        flex: 0 0 100%;
+    }
+
+    .paper-content {
+        flex: 1 0 100%;
+    }
+}
+
+/* Media Query für Bildschirme mit einer Breite von bis zu 480px */
+@media (max-width: 480px) {
+    .myFeedBox {
+        width: 100%;
+    }
+}

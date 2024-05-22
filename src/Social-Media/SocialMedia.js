@@ -57,22 +57,22 @@ const SocialMedia = () => {
 
 
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', height: 'calc(100vh - 80px)' }}>
-            <Box bg="#F2F2F2" style={{ marginTop: '20px', width: '40%', borderTopLeftRadius: '30px', borderTopRightRadius: '30px' }}>
+        <div className='socialMedia'>
+            <Box bg="#F2F2F2" className='myFeedBox'>
                 <ScrollArea style={{ height: '100%' }}>
                 <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70px', borderBottom: '1px solid #ccc' }}>
                     <h2>International Gaming Feed</h2>
                 </Box>
                     {Nachrichten.map((nachricht) => (
-                        <Paper key={nachricht.id} shadow="xs" padding="xl" style={{marginTop: '10px', width: '95%', marginLeft: 'auto', marginRight: 'auto', display: 'flex', flexDirection: 'row'}}>
-                            <div style={{ flex: '0 0 10%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', height: '100%', padding: '10px' }}>
+                        <Paper key={nachricht.id} shadow="xs" padding="xl" className='paper'>
+                            <div className='paper-avatar'>
                                 <Avatar
                                     size="md"
                                     src={process.env.PUBLIC_URL + '/ligalogo.png'}
                                     radius="xl"
                                 />
                             </div>
-                            <div style={{ flex: '1 0 90%', display: 'flex', flexDirection: 'column', padding: '10px' }}>
+                            <div className='paper-content'>
                                 <div>
                                     <h4>F1 Legendz Gaming</h4>
                                 </div>
@@ -81,7 +81,7 @@ const SocialMedia = () => {
                                         {nachricht.message}
                                     </Text>
                                 </div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <div className='paper-like-time'>
                                     <Button leftSection={<CiHeart size={14}/>} variant="transparent" style={{marginLeft: '-12px'}} onClick={() => clickedLikeButton(nachricht.id)}>
                                         {nachricht.like !== 0 ? nachricht.like : null}
                                     </Button>
