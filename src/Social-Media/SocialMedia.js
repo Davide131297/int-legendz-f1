@@ -8,6 +8,7 @@ import Cookies from 'js-cookie';
 import './SocialMedia.css';
 import RichText from '../RichTextComponent/RichTextEditor';
 import { notifications } from '@mantine/notifications';
+import {useNavigate} from 'react-router-dom';
 
 import { Link } from '@mantine/tiptap';
 import { useEditor } from '@tiptap/react';
@@ -43,6 +44,8 @@ const SocialMedia = () => {
     const [profileValue, setProfileValue] = useState('');
     const [error, setError] = useState('');
     const [characterCount, setCharacterCount] = useState(0);
+    const [Personen, setPersonen] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const NachrichtenRef = collection(db, 'Nachrichten');
@@ -59,11 +62,29 @@ const SocialMedia = () => {
                     profil: data.ProfilName
                 });
             })
+            tempListe.sort((a, b) => new Date(b.zeit) - new Date(a.zeit));
             setNachrichten(tempListe);
             console.log("Zeige Nachrichten: ", tempListe);
         });
         return () => unsubscribe();
     }, [updateStatus]);
+
+    useEffect(() => {
+        const personenRef = collection(db, 'personen');
+        let tempListe = [];
+        const unsubscribe = onSnapshot(personenRef, (snapshot) => {
+            tempListe = []; // Leeren Sie das Array, bevor Sie die Daten abrufen
+            snapshot.forEach((doc) => {
+                let data = doc.data();
+                tempListe.push({
+                    id: doc.id,
+                    name: data.spielerID
+                });
+            })
+            setPersonen(tempListe);
+        });
+        return () => unsubscribe();
+    }, []);
 
     const clickedLikeButton = async (id) => {
         const nachrichtRef = doc(db, 'Nachrichten', id);
@@ -147,7 +168,8 @@ const SocialMedia = () => {
         'Aston Martin',
         'RB Visa Cash App',
         'Haas',
-        'Kick Sauber'
+        'Kick Sauber',
+        ...Personen.map(person => person.name)
     ];
 
     const editor = useEditor({
@@ -220,13 +242,13 @@ const SocialMedia = () => {
             }
           }),
           CharacterCount.configure({
-            limit: 200,
+            limit: 280,
           })
         ],
         onUpdate: ({ editor }) => {
           const count = editor.storage.characterCount.characters();
           setCharacterCount(count);
-          if (count > 200) {
+          if (count > 280) {
             notifications.show({
                 title: 'Zu viele Zeichen!',
                 message: 'Du hast mehr ala 200 Zeichen eingegeben. Bitte kürze deine Nachricht.',
@@ -254,7 +276,38 @@ const SocialMedia = () => {
         await addDoc(nachrichtenRef, newNachricht);
         editor.commands.clearContent();
         close();
+        setUpdateStatus(!updateStatus);
     };
+
+    const handleMentionClick = (id) => {
+        navigate(`/profil/${id}`);
+    };
+
+    const renderMessageWithMentions = (message) => {
+        return message.replace(/@(\w+)/g, (match, username) => {
+            const person = Personen.find(p => p.name === username);
+            if (person) {
+                return `<a href="#" class="mention-link" data-id="${person.id}">@${username}</a>`;
+            }
+            return match;
+        });
+    };
+
+    useEffect(() => {
+        const handleLinkClick = (event) => {
+            if (event.target.matches('.mention-link')) {
+                event.preventDefault();
+                const id = event.target.getAttribute('data-id');
+                handleMentionClick(id);
+            }
+        };
+
+        document.addEventListener('click', handleLinkClick);
+
+        return () => {
+            document.removeEventListener('click', handleLinkClick);
+        };
+    }, []);
 
     return (
         <>
@@ -295,7 +348,7 @@ const SocialMedia = () => {
                                         <h4>{nachricht.profil}</h4>
                                     </div>
                                     <div>
-                                        <div dangerouslySetInnerHTML={{ __html: nachricht.message }} />
+                                        <div dangerouslySetInnerHTML={{ __html: renderMessageWithMentions(nachricht.message) }} />
                                     </div>
                                     <div className='paper-like-time'>
                                         <Button leftSection={<CiHeart size={14}/>} variant="transparent" style={{marginLeft: '-12px'}} onClick={() => clickedLikeButton(nachricht.id)}>
@@ -331,14 +384,15 @@ const SocialMedia = () => {
                         withAsterisk
                         w={180}
                         onChange={(value) => setProfileValue(value)}
+                        searchable
                     />
                 </div>
                 <RichText 
                     handleSave={handleSave} 
                     editor={editor} 
                 />
-                <div style={{ color: characterCount > 200 ? 'red' : 'black' }}>
-                    Zeichen: {characterCount} von max. 200
+                <div style={{ color: characterCount > 280 ? 'red' : 'black' }}>
+                    Zeichen: {characterCount} von max. 280
                 </div>
             </Modal>
         </>
