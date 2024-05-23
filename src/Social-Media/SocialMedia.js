@@ -252,6 +252,7 @@ const SocialMedia = () => {
             Zeit: new Date()
         };
         await addDoc(nachrichtenRef, newNachricht);
+        editor.commands.clearContent();
         close();
     };
 
@@ -314,6 +315,7 @@ const SocialMedia = () => {
                 onClose={() => {
                     if (window.confirm('Nachricht verwerfen?')) {
                         close();
+                        editor.commands.clearContent();
                     }
                 }}
                 centered 
