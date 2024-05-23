@@ -49,16 +49,8 @@
         width: 80%;
     }
 
-    .paper {
-        flex-direction: column;
-    }
-
-    .paper-avatar {
-        flex: 0 0 100%;
-    }
-
-    .paper-content {
-        flex: 1 0 100%;
+    .paper-like-time {
+        margin-right: 20px;
     }
 }
 
