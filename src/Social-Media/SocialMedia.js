@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import { Box, ScrollArea, Avatar, Paper, Text, Button, TextInput, Modal, Select } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { db } from './../utils/firebase';
@@ -9,6 +9,7 @@ import './SocialMedia.css';
 import RichText from '../RichTextComponent/RichTextEditor';
 import { notifications } from '@mantine/notifications';
 import {useNavigate} from 'react-router-dom';
+import { AccessTokenContext } from "../utils/AccesTokenContext";
 
 import { Link } from '@mantine/tiptap';
 import { useEditor } from '@tiptap/react';
@@ -46,6 +47,7 @@ const SocialMedia = () => {
     const [characterCount, setCharacterCount] = useState(0);
     const [Personen, setPersonen] = useState([]);
     const navigate = useNavigate();
+    const { accessToken } = useContext(AccessTokenContext);
 
     useEffect(() => {
         const NachrichtenRef = collection(db, 'Nachrichten');
@@ -325,6 +327,15 @@ const SocialMedia = () => {
                             />
                         </div>
                         <div className='paper-content'>
+                            {accessToken === null ? (
+                                <div>
+                                <TextInput 
+                                    variant='unstyled' 
+                                    placeholder='Melde dich an um eine Nachricht zu schreiben'
+                                    disabled
+                                />
+                            </div>
+                            ) : (
                             <div>
                                 <TextInput 
                                     variant='unstyled' 
@@ -332,6 +343,7 @@ const SocialMedia = () => {
                                     onClick={open}
                                 />
                             </div>
+                            )}
                         </div>
                     </Paper>
                         {Nachrichten.map((nachricht) => (
