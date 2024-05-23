@@ -24,7 +24,6 @@ import Mention from '@tiptap/extension-mention';
 import CharacterCount from '@tiptap/extension-character-count';
 
 import Ferrari from '../Teamlogos/Ferrari.png';
-import AstonMartin from '../Teamlogos/AstonMartin.png';
 import Merceds from '../Teamlogos/MercedesIcon.png';
 import RedBull from '../Teamlogos/RedBullIcon.svg';
 import Williams from '../Teamlogos/Williams.png';
@@ -32,7 +31,6 @@ import McLaren from '../Teamlogos/MclarenIcon.png';
 import Alpine from '../Teamlogos/Alpine.png';
 import KickSauber from '../Teamlogos/KickSauber.png';
 import RBVisa from '../Teamlogos/RBVisaCashApp.svg';
-import Haas from '../Teamlogos/Haas.png';
 import F1LegendzGaming from '../Teamlogos/IntLegendzGaming.png';
 
 const SocialMedia = () => {
@@ -115,11 +113,11 @@ const SocialMedia = () => {
     const Teamlogos = [
         {
             name: 'Ferrari',
-            src: Ferrari
+            src: 'https://pbs.twimg.com/profile_images/947659786555940865/P5eYYYIx_400x400.jpg'
         },
         {
             name: 'Aston Martin',
-            src: AstonMartin
+            src: 'https://media.astonmartin.com/wp-content/uploads/2021/01/588489-scaled.jpg'
         },
         {
             name: 'Mercedes',
@@ -127,7 +125,7 @@ const SocialMedia = () => {
         },
         {
             name: 'RedBull',
-            src: RedBull
+            src: 'https://pbs.twimg.com/profile_images/1788139372723765248/Oqxg1aY7_400x400.jpg'
         },
         {
             name: 'Williams',
@@ -143,7 +141,7 @@ const SocialMedia = () => {
         },
         {
             name: 'Kick Sauber',
-            src: KickSauber
+            src: 'https://pbs.twimg.com/profile_images/1760033883473805312/xd3tAg8y_400x400.jpg'
         },
         {
             name: 'RB Visa Cash App',
@@ -151,7 +149,7 @@ const SocialMedia = () => {
         },
         {
             name: 'Haas',
-            src: Haas
+            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Logo_Haas_F1.png/800px-Logo_Haas_F1.png'
         },
         {
             name: 'F1 Legenz Gaming',

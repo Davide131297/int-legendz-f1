@@ -22,7 +22,6 @@ const LoginKomponente = ({setOpenLogin, setAccessToken}) => {
           const user = userCredential.user;
           setOpenLogin(false);
           setAccessToken(user.email);
-          navigate('/adminDashboard');
           console.log("Erfolgreich angemeldet:", user);
           notifications.show({
             title: 'Login erfolgreich! 🎉',
