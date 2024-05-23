@@ -1,0 +1,23 @@
+.mention-suggestion {
+    background: white;
+    border: 1px solid #676464; /* Grauer Rand */
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    overflow-y: auto; /* Scrollbar */
+    padding: 8px;
+    z-index: 10000; /* Höherer z-index-Wert */
+  }
+  
+  .mention-item {
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  
+  .mention-item:hover {
+    background: #f0f0f0;
+  }
+  
+  .modal-button {
+    margin-top: 50px;
+    text-align: end;
+  }

@@ -42,6 +42,9 @@
     align-items: center;
 }
 
+.modal-select {
+    margin-bottom: 15px;
+}
 
 /* Media Query für Bildschirme mit einer Breite von bis zu 768px */
 @media (max-width: 768px) {
