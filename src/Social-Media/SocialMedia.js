@@ -154,11 +154,16 @@ const SocialMedia = () => {
         {
             name: 'F1 Legenz Gaming',
             src: F1LegendzGaming
+        },
+        {
+            name: 'Sky Sports F1',
+            src: 'https://pbs.twimg.com/profile_images/1368604963832803334/SYowRps3_400x400.jpg'
         }
     ];
 
     const profiles = [
         'F1 Legenz Gaming',
+        'Sky Sports F1',
         'RedBull',
         'Ferrari',
         'Mercedes',
