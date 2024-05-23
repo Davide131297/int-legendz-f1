@@ -48,6 +48,11 @@
 
 /* Media Query für Bildschirme mit einer Breite von bis zu 768px */
 @media (max-width: 768px) {
+
+    .socialMedia {
+        height: 78vh;
+    }
+
     .myFeedBox {
         width: 80%;
     }

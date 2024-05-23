@@ -57,12 +57,12 @@ const SocialMedia = () => {
                 tempListe.push({
                     id: doc.id,
                     message: data.Nachricht,
-                    zeit: data.Zeit.toDate().toLocaleString(),
+                    zeit: data.Zeit.toDate(), // Speichern Sie das Datum direkt als Date-Objekt
                     like: data.Like,
                     profil: data.ProfilName
                 });
             })
-            tempListe.sort((a, b) => new Date(b.zeit) - new Date(a.zeit));
+            tempListe.sort((a, b) => b.zeit - a.zeit); // Verwenden Sie das Date-Objekt für die Sortierung
             setNachrichten(tempListe);
             console.log("Zeige Nachrichten: ", tempListe);
         });
@@ -313,7 +313,7 @@ const SocialMedia = () => {
         <>
             <div className='socialMedia'>
                 <Box bg="#F2F2F2" className='myFeedBox'>
-                    <ScrollArea style={{ height: '100%' }}>
+                    <ScrollArea style={{ height: '100%'}}>
                     <Box style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70px', borderBottom: '1px solid #ccc' }}>
                         <h2>International Gaming Feed</h2>
                     </Box>
@@ -354,7 +354,7 @@ const SocialMedia = () => {
                                         <Button leftSection={<CiHeart size={14}/>} variant="transparent" style={{marginLeft: '-12px'}} onClick={() => clickedLikeButton(nachricht.id)}>
                                             {nachricht.like !== 0 ? nachricht.like : null}
                                         </Button>
-                                        <Text c="dimmed" size='12px'>{nachricht.zeit}</Text>
+                                        <Text c="dimmed" size='12px'>{nachricht.zeit.toLocaleString()}</Text>
                                     </div>
                                 </div>
                             </Paper>
