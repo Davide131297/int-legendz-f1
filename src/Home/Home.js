@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import moment from 'moment';
 import { Card, Image, Text, Badge, Group, Loader } from '@mantine/core';
 import './Home.css';
-import TeilnehmerTabelle from '../Tabelle/TeilnehmerTabelle' // Importieren der TeilnehmerTabelle
 import { ScrollArea } from '@mantine/core';
 import Table from 'react-bootstrap/Table';
 import { db } from './../utils/firebase';
@@ -69,6 +68,7 @@ const Home = () => {
     const [showModal, setShowModal] = useState(false);
     const [strecken, setStrecken] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [seasonEnded, setSeasonEnded] = useState(false);
 
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
@@ -105,29 +105,29 @@ const Home = () => {
     useEffect(() => {
         const streckenRef = collection(db, 'Strecken');
         const unsubscribe = onSnapshot(streckenRef, (snapshot) => {
-            let tempStrecken = [];
-            snapshot.forEach((doc) => {
-                const data = doc.data();
-                if (data.Datum) { // Überprüfen Sie, ob das Feld Datum existiert
-                    const datum = data.Datum.toDate(); // Convert Firebase Timestamp to Date
-                    tempStrecken.push({
-                        id: doc.id, // Track name
-                        datum: datum,
-                        flagge: data.Flagge,
-                        layout: data.Layout,
-                    });
-                } else {
-                    console.warn(`Document with id ${doc.id} does not have a Datum field.`);
-                }
-            });
-
-            // Sortieren Sie tempStrecken basierend auf dem Datum, das am nächsten am aktuellen Datum liegt
-            tempStrecken.sort((a, b) => Math.abs(new Date() - a.datum) - Math.abs(new Date() - b.datum));
-
-            console.log("Strecken:", tempStrecken);
-            setStrecken(tempStrecken);
+          let tempStrecken = [];
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            if (data.Datum) {
+              const datum = data.Datum.toDate();
+              tempStrecken.push({
+                id: doc.id,
+                datum: datum,
+                flagge: data.Flagge,
+                layout: data.Layout,
+              });
+            } else {
+              console.warn(`Document with id ${doc.id} does not have a Datum field.`);
+            }
+          });
+          tempStrecken.sort((a, b) => a.datum - b.datum);
+          setStrecken(tempStrecken);
+    
+          const lastRace = tempStrecken[tempStrecken.length - 1];
+          if (lastRace && moment(lastRace.datum).isBefore(moment())) {
+            setSeasonEnded(true);
+          }
         });
-
         return () => unsubscribe();
     }, []);
 
@@ -176,6 +176,7 @@ const Home = () => {
         <div className='top-container'>
             <div className='Rennkalender'>
                 <div className='card-container'>
+                    {!seasonEnded ? (
                     <Card shadow="sm" padding="lg" radius="md" withBorder>
                         <Card.Section>
                             {!isLoading ? (
@@ -215,6 +216,19 @@ const Home = () => {
                             </div>
                         )}
                     </Card>
+                    ) : (
+                    <Card shadow="sm" padding="lg" radius="md" withBorder>
+                        <Card.Section>
+                            <Image
+                                src="http://localhost:3000/static/media/LigaLogo.18eb5c4f65a48d830770.png"
+                                alt="Liga Logo"
+                            />
+                            <Text size="xl" align="center" weight={700}>
+                                Die Saison ist beendet!
+                            </Text>
+                        </Card.Section>
+                    </Card>
+                    )}
                 </div>
             </div>
 
