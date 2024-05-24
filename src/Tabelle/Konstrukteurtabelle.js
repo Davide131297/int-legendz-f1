@@ -309,7 +309,7 @@ const Konstrukteurtabelle = () => {
                                 <td>{team?.wertung?.lasvegas}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'Abu Dhabi') &&
-                                <td>{team?.wertung?.abuDhabi}</td>
+                                <td>{team?.wertung?.abudhabi}</td>
                                 }
                                 <td>{team.gesamtPunkte}</td>
                             </tr>

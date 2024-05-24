@@ -423,6 +423,7 @@ const ErgebnisEintragen = (props) => {
                     <Select
                         label="Wähle deinen Fahrer aus:"
                         placeholder="Fahrer auswahl"
+                        searchable
                         data={personen
                             .filter(person => person.spielerID !== "Driver OUT")
                             .map(person => ({value: person.spielerID, label: person.spielerID}))
