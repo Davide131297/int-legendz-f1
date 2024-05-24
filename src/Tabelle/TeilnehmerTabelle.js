@@ -500,8 +500,8 @@ function TeilnehmerTabelle() {
                             }
 
                             {shouldRenderImage(Strecken, 'Abu Dhabi') &&
-                            <td style={getCellStyle(person?.wertung?.abuDhabi)}>
-                                {person?.wertung?.abuDhabi ?? ''}
+                            <td style={getCellStyle(person?.wertung?.abudhabi)}>
+                                {person?.wertung?.abudhabi ?? ''}
                             </td>
                             }
                             <td>
