@@ -9,6 +9,7 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import f1background from './F1Background.jpg';
 import PirelliReifen from './PirelliReifen.webp';
 import { Modal  } from '@mantine/core';
+import IntLegendzPNG from './../Teamlogos/IntLegendzGaming.png';
 
 const Home = () => {
 
@@ -220,7 +221,7 @@ const Home = () => {
                     <Card shadow="sm" padding="lg" radius="md" withBorder>
                         <Card.Section>
                             <Image
-                                src="http://localhost:3000/static/media/LigaLogo.18eb5c4f65a48d830770.png"
+                                src={IntLegendzPNG}
                                 alt="Liga Logo"
                             />
                             <Text size="xl" align="center" weight={700}>
