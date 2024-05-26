@@ -48,14 +48,19 @@ const Rennergebnise = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {RennErgebnis && Fahrerliste && RennErgebnis.slice(0, -2).map((ergebnis, index) => (
-                        <tr key={index}>
-                            <td>{Fahrerliste[index].m_name}</td>
-                            <td>{ergebnis.m_gridPosition}</td>
-                            <td>{ergebnis.m_position}</td>
-                            <td>{ergebnis.m_points}</td>
-                        </tr>
-                    ))}
+                    {
+                    RennErgebnis && Fahrerliste && RennErgebnis.slice(0, -2)
+                        .map((ergebnis, index) => ({ fahrer: Fahrerliste[index], ergebnis }))
+                        .sort((a, b) => a.ergebnis.m_position - b.ergebnis.m_position)
+                        .map((item, index) => (
+                            <tr key={index}>
+                                <td>{item.fahrer.m_name}</td>
+                                <td>{item.ergebnis.m_gridPosition}</td>
+                                <td>{item.ergebnis.m_position}</td>
+                                <td>{item.ergebnis.m_points}</td>
+                            </tr>
+                        ))
+                    }
                 </tbody>
             </table>
         </div>
