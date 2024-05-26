@@ -1,11 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { realtimeDatabase } from './../utils/firebase';
 import { ref, onValue, get } from 'firebase/database'; // Importieren Sie die ref und onValue Funktionen
+import { ScrollArea } from '@mantine/core';
+import './Rennergebnise.css';
 
 const Rennergebnise = () => {
     const [RennErgebnis, setRennergebnis] = useState(null);
     const [Fahrerliste, setFahrerliste] = useState(null);
-const fastestLap = Math.min(...RennErgebnis.filter(ergebnis => ergebnis.m_bestLapTimeInMS !== 0).map(ergebnis => ergebnis.m_bestLapTimeInMS));
+    const [height, setHeight] = useState('90vh');
+
+    let fastestLap;
+    if (RennErgebnis) {
+        fastestLap = Math.min(...RennErgebnis.filter(ergebnis => ergebnis.m_bestLapTimeInMS !== 0).map(ergebnis => ergebnis.m_bestLapTimeInMS));
+    }
+
+    useEffect(() => {
+        function handleResize() {
+            if (window.innerWidth < 767) {
+                setHeight('74vh');
+            } else {
+                setHeight('90vh');
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     useEffect(() => {
         const rennergebniseRef = ref(realtimeDatabase, 'finalClassification');
@@ -116,6 +138,7 @@ const fastestLap = Math.min(...RennErgebnis.filter(ergebnis => ergebnis.m_bestLa
     return (
         <div>
             <h1>Rennergebnisse</h1>
+            <ScrollArea h={height}>
             <table>
                 <thead>
                     <tr>
@@ -162,6 +185,7 @@ const fastestLap = Math.min(...RennErgebnis.filter(ergebnis => ergebnis.m_bestLa
                     }
                 </tbody>
             </table>
+            </ScrollArea>
         </div>
     );
 }
