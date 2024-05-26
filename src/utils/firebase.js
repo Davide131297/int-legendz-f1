@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
+import { getDatabase } from "firebase/database";
 import { getStorage } from "firebase/storage";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -16,13 +17,15 @@ const firebaseConfig = {
   messagingSenderId: "517140205326",
   appId: "1:517140205326:web:400230f480f5db349cd15f",
   measurementId: "G-09JFYGPLLY",
-  storageBucket: "gs://f1-liga-int-legendz.appspot.com"
+  storageBucket: "gs://f1-liga-int-legendz.appspot.com",
+  databaseURL: "https://f1-liga-int-legendz-default-rtdb.europe-west1.firebasedatabase.app",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+const realtimeDatabase = getDatabase(app);  // Initialisieren Sie die Realtime Database
 
 // Firestore initailisieren
 const db = getFirestore();
-export { db };
+export { db, realtimeDatabase };

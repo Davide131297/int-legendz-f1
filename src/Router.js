@@ -9,6 +9,7 @@ import Regeln from './Regeln/Regeln';
 import AdminDashboard from './AdminDashboard/AdminDashboard';
 import Archiv from './Archiv/Archiv';
 import SocialMedia from './Social-Media/SocialMedia';
+import Rennergebnise from './RennErgebnisse/Rennergebnise';
 
 
 export function Router() {
@@ -25,6 +26,7 @@ export function Router() {
                 <Route path="/adminDashboard" element={<AdminDashboard />} />
                 <Route path="/archiv" element={<Archiv />} />
                 <Route path="/socialmedia" element={<SocialMedia />} />
+                <Route path="/rennergebnisse" element={<Rennergebnise />} />
             </Routes>
         </BrowserRouter>
     );

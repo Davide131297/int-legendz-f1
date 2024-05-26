@@ -84,6 +84,11 @@ const Header = () => {
         navigate('/');
     }
 
+    const handleRennergebnisse = () => {
+        toggle();
+        navigate('/rennergebnisse');
+    }
+
     const openTheLogin = () => {
         toggle();
         setOpenLogin(true);
@@ -151,6 +156,7 @@ const Header = () => {
             <Offcanvas show={opened} onHide={toggle} className="offcanvas-custom">
                 <Offcanvas.Body className="offcanvas-body">
                     <div className="tab-custom" onClick={navigateHome}>Home</div>
+                    <div className="tab-custom" onClick={handleRennergebnisse}>Rennergebnisse</div>
                     <div className="tab-custom" onClick={navigateFahrertabelle}>Fahrertabelle</div>
                     <div className="tab-custom" onClick={navigateKonstrukteurstabelle}>Konstrukteurstabelle</div>
                     <div className="tab-custom" onClick={navigateStatistiken}>Statistiken</div>
