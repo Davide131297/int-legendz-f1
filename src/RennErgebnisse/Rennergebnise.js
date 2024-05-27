@@ -1,33 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { realtimeDatabase } from './../utils/firebase';
 import { ref, onValue, get } from 'firebase/database'; // Importieren Sie die ref und onValue Funktionen
-import { ScrollArea } from '@mantine/core';
 import './Rennergebnise.css';
+import ErgebnisTabelle from './ErgebnisTabelle';
+import { Tabs, rem } from '@mantine/core';
+import { CiViewTable } from "react-icons/ci";
+import { MdLiveTv } from "react-icons/md";
+
+import { Card } from '@mantine/core';
+
 
 const Rennergebnise = () => {
+
+    const iconStyle = { width: rem(12), height: rem(12) };
     const [RennErgebnis, setRennergebnis] = useState(null);
     const [Fahrerliste, setFahrerliste] = useState(null);
-    const [height, setHeight] = useState('90vh');
+    const [WetterDaten, setWetterDaten] = useState(null);
 
-    let fastestLap;
-    if (RennErgebnis) {
-        fastestLap = Math.min(...RennErgebnis.filter(ergebnis => ergebnis.m_bestLapTimeInMS !== 0).map(ergebnis => ergebnis.m_bestLapTimeInMS));
-    }
 
-    useEffect(() => {
-        function handleResize() {
-            if (window.innerWidth < 767) {
-                setHeight('74vh');
-            } else {
-                setHeight('90vh');
-            }
-        }
-
-        window.addEventListener('resize', handleResize);
-        handleResize();
-
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
 
     useEffect(() => {
         const rennergebniseRef = ref(realtimeDatabase, 'finalClassification');
@@ -57,136 +47,99 @@ const Rennergebnise = () => {
         });
     }, []);
 
-    function getNationality(nationalityId) {
-        const nationalities = {
-            1: 'https://cdn.countryflags.com/thumbs/united-states-of-america/flag-square-250.png',
-            3: 'https://cdn.countryflags.com/thumbs/australia/flag-square-250.png',
-            4: 'https://cdn.countryflags.com/thumbs/austria/flag-square-250.png',
-            9: 'https://cdn.countryflags.com/thumbs/brazil/flag-square-250.png',
-            10: 'https://cdn.countryflags.com/thumbs/united-kingdom/flag-square-250.png',
-            13: 'https://cdn.countryflags.com/thumbs/canada/flag-square-250.png',
-            15: 'https://cdn.countryflags.com/thumbs/china/flag-square-250.png',
-            21: 'https://cdn.countryflags.com/thumbs/denmark/flag-square-250.png',
-            22: 'https://cdn.countryflags.com/thumbs/netherlands/flag-square-250.png',
-            24: 'https://cdn.countryflags.com/thumbs/england/flag-square-250.png',
-            27: 'https://cdn.countryflags.com/thumbs/finland/flag-square-250.png',
-            28: 'https://cdn.countryflags.com/thumbs/france/flag-square-250.png',
-            29: 'https://cdn.countryflags.com/thumbs/germany/flag-square-250.png',
-            31: 'https://cdn.countryflags.com/thumbs/greece/flag-square-250.png',
-            41: 'https://cdn.countryflags.com/thumbs/italy/flag-square-250.png',
-            43: 'https://cdn.countryflags.com/thumbs/japan/flag-square-250.png',
-            53: 'https://cdn.countryflags.com/thumbs/monaco/flag-square-250.png',
-            77: 'https://cdn.countryflags.com/thumbs/spain/flag-square-250.png',
-            80: 'https://cdn.countryflags.com/thumbs/thailand/flag-square-250.png',
-            89: 'https://cdn.countryflags.com/thumbs/bosnia-and-herzegovina/flag-square-250.png'
+    useEffect(() => {
+        const sessionRef = ref(realtimeDatabase, 'session');
+        onValue(sessionRef, (snapshot) => {
+            const data = snapshot.val();
+            console.log("Eingegangene Sessiondaten:" ,data);
+            const wetterDaten = data.m_weatherForecastSamples;
+            const wetterDatenGespeichert = wetterDaten.slice(0, data.m_totalLaps);
+            console.log("Eingegangene Wetterdaten:" ,wetterDatenGespeichert);
+            console.log ("Anzahl der Runden:" ,data.m_totalLaps);
 
-        };
+            setWetterDaten(wetterDatenGespeichert);
+        });
+    }, []);
 
-        return nationalities[nationalityId] || '/pfad/zum/standardbild.png';
-    }
-
-    function getTeam(teamId) {
-        const teams = {
-            0: { url: 'https://cdn3.emoji.gg/emojis/6785_Mercedes_Logo.png', width: '25', height: '25' }, // Mercedes
-            1: { url: 'https://cdn3.emoji.gg/emojis/ferrari.png', width: '22', height: '28' }, // Ferrari
-            2: { url: 'https://www.hatchwise.com/wp-content/uploads/2021/12/Screen-Shot-2021-12-22-at-7.31.56-AM-1024x607.png.webp', width: '50', height: '35' }, // Red Bull
-            3: { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Logo_Williams_F1.png/300px-Logo_Williams_F1.png', width: '25', height: '20' }, // Williams
-            4: { url: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/bd/Aston_Martin_Lagonda_brand_logo.png/220px-Aston_Martin_Lagonda_brand_logo.png', width: '40', height: '20' }, // Aston Martin
-            5: { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Alpine_F1_Team_Logo.svg/200px-Alpine_F1_Team_Logo.svg.png', width: '25', height: '25' }, // Alpine
-            6: { url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAZlBMVEX////r6+u8vL2mpqfg4OCvr6/v7+9ycnIAAAD7+/vU1NVPT1C4uLgiIiKbm5vo6OkdHR4AAAJ6enoyMjI6OjsICAkpKSlBQUGFhYbd3d5jY2NpaWrGxsZZWVn19fVLS0vMzMyQkJEEf5xWAAAAw0lEQVR4Ad2QBZbEIBQEf9COu/v9L7n0us0FphKgH4XLsxEprSIGY43V7yghzoP4OEmBLMc7BV1ZAXUNNAoB1aImgKPsUCPQJj1DNuDNpXQZu0bfFRNDOk9ACF2qKBcAq0hccjMtsiU7ACtCKgAJT8ylDxETS7D6p5wBnDyfzNv7zK9lV9RsRc/b1eIK6etAIwIqvsx4H7HvY6qvq6DGfuWdv6fi7DTF1yPUvOkYPM/avKuv52ucOQFVodKPH/465Pl4Aa3GDR90HEWMAAAAAElFTkSuQmCC', width: '30', height: '30' }, // AlphaTauri
-            7: { url: 'https://logos-world.net/wp-content/uploads/2022/07/Haas-Symbol-700x394.png', width: '45', height: '25' }, // Haas
-            8: { url: 'https://cdn3.emoji.gg/emojis/9807_McLaren_Logo.png', width: '35', height: '35' }, // McLaren
-            9: { url: 'https://upload.wikimedia.org/wikipedia/de/thumb/c/c7/Alfa_Romeo_2015.svg/512px-Alfa_Romeo_2015.svg.png?20190221044846', width: '30', height: '30' }  // Alfa Romeo
-        };
-
-        return teams[teamId] || { url: '/pfad/zum/standardbild.png', width: '35', height: '20' };
-    }
-
-    function formatRaceTime(timeInSeconds) {
-        const minutes = Math.floor(timeInSeconds / 60);
-        const seconds = Math.floor(timeInSeconds % 60).toString().padStart(2, '0');
-        const milliseconds = Math.floor((timeInSeconds * 1000) % 1000).toString().padStart(3, '0');
-
-        return `${minutes}:${seconds}:${milliseconds}`;
-    }
-
-    function formatResultStatus(status) {
-        const statuses = {
-            0: 'invcalid',
-            1: 'inactive',
-            2: 'active',
-            3: 'finished',
-            4: 'DNF',
-            5: 'Disqualifziert',
-            6: 'Nicht gestartet',
-            7: 'Zurückgezogen',
+    function renderWeatherImage(weather) {
+        switch(weather) {
+            case 0:
+                return <img src="https://cdn.icon-icons.com/icons2/1370/PNG/512/if-weather-3-2682848_90785.png" alt="Klar" height="40" width="40" />;
+            case 1:
+                return <img src="https://cdn.icon-icons.com/icons2/3349/PNG/256/cloudy_weather_sun_cloud_icon_210228.png" alt="Leicht Wolkig" height="40" width="40" />;
+            case 2:
+                return <img src="https://cdn.icon-icons.com/icons2/2453/PNG/512/cloud_cloudy_overcast_clouds_weather_icon_148923.png" alt="Bedeckt" height="40" width="60" />;
+            case 3:
+                return <img src="https://cdn.icon-icons.com/icons2/2035/PNG/512/weather_rain_raining_cloud_cloudy_icon_124154.png" alt="Leichter Regen" height="40" width="40"/>;
+            case 4:
+                return <img src="https://cdn.icon-icons.com/icons2/3000/PNG/512/rain_weather_cloud_flood_icon_187696.png" alt="Stark Regen" height="40" width="40" />;
+            case 5:
+                return <img src="https://cdn.icon-icons.com/icons2/33/PNG/256/weather_storms_storm_rain_thunder_2783.png" alt="Stürmisch" height="40" width="40" />;
+            default:
+                return null;
         }
-
-        return statuses[status] || 'Status unbekannt';
-
     }
 
-    function formatBestRaceTime(timeInMilliseconds) {
-    const minutes = Math.floor(timeInMilliseconds / 60000);
-    const seconds = Math.floor((timeInMilliseconds % 60000) / 1000).toString().padStart(2, '0');
-    const milliseconds = (timeInMilliseconds % 1000).toString().padStart(3, '0');
-
-    return `${minutes}:${seconds}:${milliseconds}`;
-}
-
+    function getBackgroundImage(weather) {
+        switch(weather) {
+            case 0:
+                return "https://img.freepik.com/free-vector/blue-sky-clouds_1017-30892.jpg?w=826&t=st=1716812648~exp=1716813248~hmac=2ebd580d70cd3b8fad69a54f0a72bac196b463b7be0509803f4bd46c5723e3ba";
+            case 1:
+                return "https://img.freepik.com/free-photo/cloud-background_1137-330.jpg?w=826&t=st=1716813112~exp=1716813712~hmac=1e0df1c2b35aca44ffcf977978c284bd9fbd23f0aae9f927a14ac3fa9ad9d14f";
+            case 2:
+                return "https://img.freepik.com/free-photo/black-rain-abstract-dark-power_1127-2380.jpg?t=st=1716813273~exp=1716816873~hmac=5ab719acb6691fd1555d951f4a1a0f295aac5d9819ed5ba879dacf429ba47584&w=826";
+            case 3:
+                return "https://cdn.pixabay.com/photo/2015/06/19/20/14/water-815271_1280.jpg";
+            case 4:
+                return "https://cdn.pixabay.com/animation/2023/02/15/02/20/02-20-04-915_512.gif";
+            case 5:
+                return "https://cdn.pixabay.com/animation/2024/04/03/23/48/23-48-16-122_512.gif"
+            default:
+                return "";
+        }
+    }
 
     return (
-        <div>
-            <h1>Rennergebnisse</h1>
-            <ScrollArea h={height}>
-            <table className='Rennergebnis-Tabelle'>
-                <thead>
-                    <tr>
-                        <th>Nationalität</th>
-                        <th>Fahrername</th>
-                        <th>Team</th>
-                        <th>Grid Position</th>
-                        <th>Position</th>
-                        <th>Beste Persönliche Runde</th>
-                        <th>Rennzeit</th>
-                        <th>Punkte</th>
-                        <th>{/* Ereigniss*/}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                    RennErgebnis && Fahrerliste && RennErgebnis.slice(0, -2)
-                        .map((ergebnis, index) => ({ fahrer: Fahrerliste[index], ergebnis }))
-                        .sort((a, b) => a.ergebnis.m_position - b.ergebnis.m_position)
-                        .map((item, index) => (
-                            <tr key={index}>
-                                <td><img src={getNationality(item.fahrer.m_nationality)} alt="Nationalität" width="20" height="20" /></td>
-                                <td>{item.fahrer.m_name}</td>
-                                <td>
-                                    <img 
-                                        src={getTeam(item.fahrer.m_teamId).url} 
-                                        alt="Team" 
-                                        width={getTeam(item.fahrer.m_teamId).width} 
-                                        height={getTeam(item.fahrer.m_teamId).height} 
-                                    />
-                                </td>
-                                <td>{item.ergebnis.m_gridPosition}</td>
-                                <td>{item.ergebnis.m_position}</td>
-                                <td style={{ color: item.ergebnis.m_bestLapTimeInMS === fastestLap ? 'purple' : 'black' }}>
-                                    {formatBestRaceTime(item.ergebnis.m_bestLapTimeInMS)}
-                                </td>
-                                <td>{formatRaceTime(item.ergebnis.m_totalRaceTime)}</td>
-                                <td>{item.ergebnis.m_points}</td>
-                                { item.ergebnis.m_resultStatus !== 3 && 
-                                    <td>{formatResultStatus(item.ergebnis.m_resultStatus)}</td>
-                                }
-                            </tr>
-                        ))
-                    }
-                </tbody>
-            </table>
-            </ScrollArea>
+        <>
+        {WetterDaten && (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}> 
+            <Tabs defaultValue="Ergebnistabelle">
+                <Tabs.List>
+                    <Tabs.Tab value="Ergebnistabelle" leftSection={<CiViewTable style={iconStyle} />}>
+                        Ergebnistabelle
+                    </Tabs.Tab>
+                    <Tabs.Tab value="LiveRace" leftSection={<MdLiveTv  style={iconStyle} />}>
+                        Aktuelles Rennen
+                    </Tabs.Tab>
+                    <Tabs.Tab value="settings">
+                        Settings
+                    </Tabs.Tab>
+                </Tabs.List>
+
+                <Tabs.Panel value="Ergebnistabelle">
+                    <ErgebnisTabelle RennErgebnis={RennErgebnis} Fahrerliste={Fahrerliste} />
+                </Tabs.Panel>
+
+                <Tabs.Panel value="LiveRace">
+                    <Card shadow='sm' padding="lg" radius="lg" withBorder style={{backgroundImage: `url(${getBackgroundImage(WetterDaten[WetterDaten.length - 1].m_weather)})`}}>
+                       <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                            <p>{renderWeatherImage(WetterDaten[WetterDaten.length - 1].m_weather)}</p>
+                            <h5>{WetterDaten[WetterDaten.length - 1].m_airTemperature} °C Streckentemperatur</h5>
+                        </div>
+                        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
+                            <h5>{WetterDaten[WetterDaten.length - 1].m_trackTemperature} °C Streckentemperatur</h5>
+                            <h5>{WetterDaten[WetterDaten.length - 1].m_rainPercentage}% Regen</h5>
+                        </div>
+                    </Card>
+                </Tabs.Panel>
+
+                <Tabs.Panel value="settings">
+                    Settings tab content
+                </Tabs.Panel>
+            </Tabs>
         </div>
+        )}
+        </>
     );
 }
 
