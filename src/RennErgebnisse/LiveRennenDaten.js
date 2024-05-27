@@ -196,24 +196,25 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
                         </thead>
                         <tbody>
                             {
-                            Fahrerliste && Rundendaten && Fahrerliste.slice(0, -2)
-                                .map((fahrer, index) => ({ fahrer, rundendaten: Rundendaten[index] }))
-                                .sort((a, b) => a.rundendaten.m_carPosition - b.rundendaten.m_carPosition)
-                                .map((item, index) => (
-                                    <tr key={index}>
-                                        <td>{item.rundendaten ? item.rundendaten.m_carPosition : 'N/A'}</td>
-                                        <td>{item.fahrer.m_name}</td>
-                                        <td>{item.rundendaten ? item.rundendaten.m_gridPosition : 'N/A'}</td>
-                                        <td>{item.rundendaten && item.rundendaten.m_sector1TimeInMS && !isNaN(item.rundendaten.m_sector1TimeInMS) ? formatLapTime(item.rundendaten.m_sector1TimeInMS) : ''}</td>
-                                        <td>{item.rundendaten && item.rundendaten.m_sector2TimeInMS && !isNaN(item.rundendaten.m_sector2TimeInMS) ? formatLapTime(item.rundendaten.m_sector2TimeInMS) : ''}</td>
-                                        <td>{item.rundendaten && item.rundendaten.lastLapTimeInMS && !isNaN(item.rundendaten.lastLapTimeInMS - (item.rundendaten.m_sector1TimeInMS + item.rundendaten.m_sector2TimeInMS)) ? formatLapTime(item.rundendaten.lastLapTimeInMS - (item.rundendaten.m_sector1TimeInMS + item.rundendaten.m_sector2TimeInMS)) : ''}</td>
-                                        <td>{item.rundendaten && item.rundendaten.m_lastLapTimeInMS && !isNaN(item.rundendaten.m_lastLapTimeInMS) ? formatLapTime(item.rundendaten.m_lastLapTimeInMS) : ''}</td>
-                                        <td>{item.rundendaten && item.rundendaten.m_deltaToCarInFrontInMS && !isNaN(item.rundendaten.m_deltaToCarInFrontInMS) ? '+' + formatLapTime(item.rundendaten.m_deltaToCarInFrontInMS) : ''}</td>
-                                        <td>{item.rundendaten ? item.rundendaten.m_numPitStops : 'N/A'}</td>
-                                        <td>{item.rundendaten ? item.rundendaten.m_penalties : 'N/A'}</td>
-                                        <td>{item.rundendaten ? getPitStatus(item.rundendaten.m_pitStatus) : 'N/A'}</td>
-                                    </tr>
-                                ))
+                                Fahrerliste && Rundendaten && Fahrerliste.slice(0, -2)
+                                    .map((fahrer, index) => ({ fahrer, rundendaten: Rundendaten[index] }))
+                                    .filter(item => item.rundendaten.m_carPosition !== 0) // Filtert alle Elemente, bei denen m_carPosition nicht 0 ist
+                                    .sort((a, b) => a.rundendaten.m_carPosition - b.rundendaten.m_carPosition)
+                                    .map((item, index) => (
+                                        <tr key={index}>
+                                            <td>{item.rundendaten ? item.rundendaten.m_carPosition : 'N/A'}</td>
+                                            <td>{item.fahrer.m_name}</td>
+                                            <td>{item.rundendaten ? item.rundendaten.m_gridPosition : 'N/A'}</td>
+                                            <td>{item.rundendaten && item.rundendaten.m_sector1TimeInMS && !isNaN(item.rundendaten.m_sector1TimeInMS) ? formatLapTime(item.rundendaten.m_sector1TimeInMS) : ''}</td>
+                                            <td>{item.rundendaten && item.rundendaten.m_sector2TimeInMS && !isNaN(item.rundendaten.m_sector2TimeInMS) ? formatLapTime(item.rundendaten.m_sector2TimeInMS) : ''}</td>
+                                            <td>{item.rundendaten && item.rundendaten.lastLapTimeInMS && !isNaN(item.rundendaten.lastLapTimeInMS - (item.rundendaten.m_sector1TimeInMS + item.rundendaten.m_sector2TimeInMS)) ? formatLapTime(item.rundendaten.lastLapTimeInMS - (item.rundendaten.m_sector1TimeInMS + item.rundendaten.m_sector2TimeInMS)) : ''}</td>
+                                            <td>{item.rundendaten && item.rundendaten.m_lastLapTimeInMS && !isNaN(item.rundendaten.m_lastLapTimeInMS) ? formatLapTime(item.rundendaten.m_lastLapTimeInMS) : ''}</td>
+                                            <td>{item.rundendaten && item.rundendaten.m_deltaToCarInFrontInMS && !isNaN(item.rundendaten.m_deltaToCarInFrontInMS) ? '+' + formatLapTime(item.rundendaten.m_deltaToCarInFrontInMS) : ''}</td>
+                                            <td>{item.rundendaten ? item.rundendaten.m_numPitStops : 'N/A'}</td>
+                                            <td>{item.rundendaten ? item.rundendaten.m_penalties : 'N/A'}</td>
+                                            <td>{item.rundendaten ? getPitStatus(item.rundendaten.m_pitStatus) : 'N/A'}</td>
+                                        </tr>
+                                    ))
                             }
                         </tbody>
                     </Table>
