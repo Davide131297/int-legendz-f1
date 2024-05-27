@@ -103,7 +103,7 @@ const Rennergebnise = () => {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="settings">
-                    Settings tab content
+                    Hier wird noch etwas neues entstehen...
                 </Tabs.Panel>
             </Tabs>
         </div>

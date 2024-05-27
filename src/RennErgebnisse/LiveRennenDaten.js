@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ScrollArea } from "@mantine/core";
 import Table from 'react-bootstrap/Table';
+import './Rennergebnise.css';
 
 const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
 
@@ -166,8 +167,8 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
             </div>
 
             <div>
-                <ScrollArea h={height}>
-                    <Table striped bordered hover>
+                <ScrollArea h={height} w={window.innerWidth < 768 ? "400" : "1000"}>
+                    <Table striped bordered hover className="Live-Table">
                         <thead>
                             <tr>
                                 <th>Position</th>
