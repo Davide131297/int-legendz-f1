@@ -169,8 +169,8 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
 
 
     return (
-        <>
-            <div style={{marginLeft: '20px', marginTop: '10px'}}>
+        <>  
+            <div style={{marginLeft: '20px', marginTop: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
                 <p>Rennstrecke: {Strecke}</p>
                 <p>Sessionlänge: {SessionLänge}</p>
                 <p>Sessiontyp: {SessionTyp}</p>

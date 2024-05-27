@@ -42,7 +42,7 @@ const WeatherWidget = ({WetterDaten}) => {
     }
 
     return (
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '15px'}}>
             <Card 
                 shadow='sm' 
                 padding="lg" 
