@@ -139,7 +139,7 @@ const Rennergebnise = () => {
         <div>
             <h1>Rennergebnisse</h1>
             <ScrollArea h={height}>
-            <table>
+            <table className='Rennergebnis-Tabelle'>
                 <thead>
                     <tr>
                         <th>Nationalität</th>
