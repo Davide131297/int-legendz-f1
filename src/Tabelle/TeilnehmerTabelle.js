@@ -81,17 +81,18 @@ function TeilnehmerTabelle() {
                 let data = doc.data();
                 tempListe.push({
                     id: doc.id,
-                    ansicht: data.Ansicht
+                    ansicht: data.Ansicht,
+                    datum: data.Datum.toDate().toLocaleDateString('de-DE'),
+                    flagge: data.Flagge
                 });
             });
             setStrecken(tempListe);
-            console.log(tempListe);
+            console.log("StreckenArray:", tempListe);
         });
 
         // Aufräumen bei Unmount
         return () => unsubscribe();
     }, []);
-
 
     const handleClick = (id) => {
         navigate(`/profil/${id}`);
@@ -147,189 +148,39 @@ function TeilnehmerTabelle() {
         return { backgroundColor: 'transparent' };
     }
 
-    async function handleFlagClick(event) {
-
-        // Setzen des Flaggenbilds, das geklickt wurde
-        setClickedFlag(event.target.alt);
-        // Referenz auf den Bucket
-        const listRef = ref(storage, 'gs://f1-liga-int-legendz.appspot.com');
-
-        // Findet alle Dateien im Bucket
-        const res = await listAll(listRef);
-
-        let fileExists = false;
-        let selectedImages = [];
-
-        for (const itemRef of res.items) {
-            // itemRef.name ist der Name der Datei
-            if (itemRef.name.includes(event.target.alt) && (itemRef.name.includes("_Sprint") || itemRef.name.includes("_Rennen") || (!itemRef.name.includes("_Sprint") && !itemRef.name.includes("_Rennen")))) {
-                fileExists = true;
-                const url = await getDownloadURL(itemRef);
-                // Füge die URL zum Array hinzu
-                selectedImages.push(url);
-                // Beenden Sie die Schleife, sobald beide Bilder gefunden wurden
-                if (selectedImages.length == 2) {
-                    break;
-                }
-            }
-        }
-
-        if (!fileExists) {
-            setSelectedImage(null);
-            console.log(event.target.alt, 'Bild(er) nicht gefunden');
-        } else {
-            // Setzen Sie die ausgewählten Bilder
-            setSelectedImage(selectedImages);
-            console.log(event.target.alt, 'Bild(er) gefunden');
-            console.log(selectedImages);
-        }
-    }
-
-    function shouldRenderImage(Strecken, imageName) {
-        // Überprüfen Sie, ob das Array 'strecken' ein Objekt mit einer ID enthält, die dem Namen der Bildquelle ähnlich ist
-         // und dessen 'ansicht'-Attribut auch true ist
-        return Strecken.some(strecke => strecke.id.toLowerCase().includes(imageName.toLowerCase()) && strecke.ansicht === true);
-    }
 
     return (
         <div className='table-container'>
             <ScrollArea type='never' className='scrollarea'>
                 <Table striped bordered hover>
-                    <thead className='thead-sticky'>
+                   <thead className='thead-sticky'>
                         <tr>
                             <th>Pos</th>
                             <th id='fahrer'>Fahrer</th>
                             <th style={{zIndex: '10'}}>Konstrukteur</th>
-
-                            {shouldRenderImage(Strecken, 'Bahrain') && 
-                                <th onClick={handleFlagClick}>
-                                    <img src={Bahrain} alt="Bahrain" className='img-size'/>
-                                </th>
+                            {
+                                Strecken.sort((a, b) => {
+                                    let datumA = a.datum.split(".").reverse().join("/");
+                                    let datumB = b.datum.split(".").reverse().join("/");
+                                    return new Date(datumA) - new Date(datumB);
+                                })
+                                .filter(strecke => strecke.ansicht)
+                                .map((strecke, index) => 
+                                    <th key={index}>
+                                        <img src={strecke.flagge} alt="Flagge" height="10px" width="20px" />
+                                    </th>
+                                )
                             }
-
-                            {shouldRenderImage(Strecken, 'Saudi Arabien') &&
-                            <th onClick={handleFlagClick}><img src={SaudiArabien} alt="Saudi Arabien" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Australien') &&
-                            <th onClick={handleFlagClick}><img src={Australien} alt="Australien" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Aserbaidschan') &&
-                            <th onClick={handleFlagClick} colSpan={2}><img src={Aserbaidschan} alt="Aserbaidschan" className='img-size'/>
-                            <tr>
-                                <td className='zweiRennen'>SPR</td>
-                                <td className='zweiRennen'>HAU</td>
-                            </tr>
-                            </th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Miami') &&
-                            <th onClick={handleFlagClick}><img src={USA} alt="Miami" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Italien') &&
-                            <th onClick={handleFlagClick}><img src={Italien} alt="Italien" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Monaco') &&
-                            <th onClick={handleFlagClick}><img src={Monaco} alt="Monaco" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Spanien') &&
-                            <th onClick={handleFlagClick}><img src={Spanien} alt="Spanien" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Kanada') &&
-                            <th onClick={handleFlagClick}><img src={Kanada} alt="Kanada" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Österreich') && 
-                                <th onClick={handleFlagClick} colSpan={2}><img src={Österreich} alt="Österreich" className='img-size'/>
-                                <tr>
-                                    <td className='zweiRennen'>SPR</td>
-                                    <td className='zweiRennen'>HAU</td>
-                                </tr>
-                                </th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Großbritannien') &&
-                            <th onClick={handleFlagClick}><img src={England} alt="England" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Ungarn') &&
-                            <th onClick={handleFlagClick}><img src={Ungarn} alt="Ungarn" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Belgien') &&
-                            <th onClick={handleFlagClick} colSpan={2}><img src={Belgien} alt="Belgien" className='img-size'/>
-                            <tr>
-                                <td className='zweiRennen'>SPR</td>
-                                <td className='zweiRennen'>HAU</td>
-                            </tr>
-                            </th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Niederlande') &&
-                            <th onClick={handleFlagClick}><img src={Niederlande} alt="Niederlande" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Singapur') &&
-                            <th onClick={handleFlagClick}><img src={Singapur} alt="Singapur" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Japan') &&
-                            <th onClick={handleFlagClick}><img src={Japan} alt="Japan" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Katar') &&
-                            <th onClick={handleFlagClick} colSpan={2}><img src={Katar} alt="Katar" className='img-size'/>
-                            <tr>
-                                <td className='zweiRennen'>SPR</td>
-                                <td className='zweiRennen'>HAU</td>
-                            </tr>
-                            </th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'USA') &&
-                            <th onClick={handleFlagClick} colSpan={2}><img src={USA} alt="USA" className='img-size'/>
-                            <tr>
-                                <td className='zweiRennen'>SPR</td>
-                                <td className='zweiRennen'>HAU</td>
-                            </tr>
-                            </th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Mexiko') &&
-                            <th onClick={handleFlagClick}><img src={Mexiko} alt="Mexiko" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Brasilien') &&
-                            <th onClick={handleFlagClick} colSpan={2}><img src={Brasilien} alt="Brasilien" className='img-size'/>
-                            <tr>
-                                <td className='zweiRennen'>SPR</td>
-                                <td className='zweiRennen'>HAU</td>
-                            </tr>
-                            </th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'LasVegas') &&
-                            <th onClick={handleFlagClick}><img src={USA} alt="Las Vegas" className='img-size'/></th>
-                            }
-
-                            {shouldRenderImage(Strecken, 'Abu Dhabi') &&
-                            <th onClick={handleFlagClick}><img src={AbuDhabi} alt="Abu Dhabi" className='img-size'/></th>
-                            }
-
                             <th>Gesamtpunkte</th>
                         </tr>
-                        </thead>
+                    </thead>
                         <tbody>
                         {personen.map((person, index) => (
                         <tr key={index}>
                             <td className='pos'>{index + 1}</td> {/* Pos */}
+                            
                             <td className='fahrer' onClick={() => handleClick(person.id)}>{person.spielerID}</td> {/* Fahrer */}
-                           
+                            
                             <td>
                                 <div>
                                     <span className='teamname'>{person.team ? person.team : "Reservefahrer"}</span>
@@ -337,173 +188,118 @@ function TeilnehmerTabelle() {
                                 </div>
                             </td> {/* Konstrukteur */}
 
-                            {shouldRenderImage(Strecken, 'Bahrain') && 
                             <td style={getCellStyle(person?.wertung?.bahrain)}>
                                 {person?.wertung?.bahrain ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Saudi Arabien') &&
                             <td style={getCellStyle(person?.wertung?.saudiarabien)}>
                                 {person?.wertung?.saudiarabien ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Australien') &&
                             <td style={getCellStyle(person?.wertung?.australien)}>
                                 {person?.wertung?.australien ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Aserbaidschan') &&
                             <td style={getCellStyle(person?.wertung?.aserbaidschan_Sprint)}>
                                 {person?.wertung?.aserbaidschan_Sprint ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Aserbaidschan') &&
                             <td style={getCellStyle(person?.wertung?.aserbaidschan_Rennen)}>
                                 {person?.wertung?.aserbaidschan_Rennen ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Miami') &&
                             <td style={getCellStyle(person?.wertung?.miami)}>
                                 {person?.wertung?.miami ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Italien') &&
                             <td style={getCellStyle(person?.wertung?.italien)}>
                                 {person?.wertung?.italien ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Monaco') &&
                             <td style={getCellStyle(person?.wertung?.monaco)}>
                                 {person?.wertung?.monaco ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Spanien') &&
                             <td style={getCellStyle(person?.wertung?.spanien)}>
                                 {person?.wertung?.spanien ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Kanada') &&
                             <td style={getCellStyle(person?.wertung?.kanada)}>
                                 {person?.wertung?.kanada ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Österreich') &&
                             <td style={getCellStyle(person?.wertung?.österreich_Sprint)}>
                                 {person?.wertung?.österreich_Sprint ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Österreich') &&
                             <td style={getCellStyle(person?.wertung?.österreich_Rennen)}>
                                 {person?.wertung?.österreich_Rennen ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Großbritannien') &&
                             <td style={getCellStyle(person?.wertung?.england)}>
                                 {person?.wertung?.england ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Ungarn') &&
                             <td style={getCellStyle(person?.wertung?.ungarn)}>
                                 {person?.wertung?.ungarn ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Belgien') &&
                             <td style={getCellStyle(person?.wertung?.belgien_Sprint)}>
                                 {person?.wertung?.belgien_Sprint ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Belgien') &&
                             <td style={getCellStyle(person?.wertung?.belgien_Rennen)}>
                                 {person?.wertung?.belgien_Rennen ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Niederlande') &&
                             <td style={getCellStyle(person?.wertung?.niederlande)}>
                                 {person?.wertung?.niederlande ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Singapur') &&
                             <td style={getCellStyle(person?.wertung?.singapur)}>
                                 {person?.wertung?.singapur ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Japan') &&
                             <td style={getCellStyle(person?.wertung?.japan)}>
                                 {person?.wertung?.japan ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Katar') &&
                             <td style={getCellStyle(person?.wertung?.katar_Sprint)}>
                                 {person?.wertung?.katar_Sprint ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Katar') &&
                             <td style={getCellStyle(person?.wertung?.katar_Rennen)}>
                                 {person?.wertung?.katar_Rennen ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'USA') &&
                             <td style={getCellStyle(person?.wertung?.usa_Sprint)}>
                                 {person?.wertung?.usa_Sprint ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'USA') &&
                             <td style={getCellStyle(person?.wertung?.usa_Rennen)}>
                                 {person?.wertung?.usa_Rennen ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Mexiko') &&
                             <td style={getCellStyle(person?.wertung?.mexiko)}>
                                 {person?.wertung?.mexiko ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Brasilien') &&
                             <td style={getCellStyle(person?.wertung?.brasilien_Sprint)}>
                                 {person?.wertung?.brasilien_Sprint || ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Brasilien') &&
                             <td style={getCellStyle(person?.wertung?.brasilien_Rennen)}>
                                 {person?.wertung?.brasilien_Rennen || ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'LasVegas') &&
                             <td style={getCellStyle(person?.wertung?.lasvegas)}>
                                 {person?.wertung?.lasvegas ?? ''}
                             </td>
-                            }
 
-                            {shouldRenderImage(Strecken, 'Abu Dhabi') &&
                             <td style={getCellStyle(person?.wertung?.abudhabi)}>
                                 {person?.wertung?.abudhabi ?? ''}
                             </td>
-                            }
+
                             <td>
                                 {Object.values(person?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0)}
                             </td> {/* Gesamtpunkte */} {/* Gesamtpunkte */}

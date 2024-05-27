@@ -166,9 +166,9 @@ const KonstrukteurLineChart = (props) => {
                     { name: 'Aston Martin', color: '#008B00' },
                     { name: 'Red Bull', color: 'darkblue' },
                     { name: 'Alpine', color: '#ff82ab' },
-                    { name: 'Alfa Romeo', color: '#CD0000' },
+                    { name: 'Kick Sauber', color: '#32CD32' },
                     { name: 'Haas', color: 'red' },
-                    { name: 'Alpha Tauri', color: '#040505' }
+                    { name: 'Visa RB', color: '#040505' }
                 ]}
                 curveType="linear"
             />

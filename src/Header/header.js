@@ -156,7 +156,6 @@ const Header = () => {
             <Offcanvas show={opened} onHide={toggle} className="offcanvas-custom">
                 <Offcanvas.Body className="offcanvas-body">
                     <div className="tab-custom" onClick={navigateHome}>Home</div>
-                    <div className="tab-custom" onClick={handleRennergebnisse}>Rennergebnisse</div>
                     <div className="tab-custom" onClick={navigateFahrertabelle}>Fahrertabelle</div>
                     <div className="tab-custom" onClick={navigateKonstrukteurstabelle}>Konstrukteurstabelle</div>
                     <div className="tab-custom" onClick={navigateStatistiken}>Statistiken</div>
@@ -165,6 +164,7 @@ const Header = () => {
                         Social Media
                     </div>
                    {/*} <div className="tab-custom" onClick={navigateRegeln}>Regeln</div> */}
+                    <div className="tab-custom" onClick={handleRennergebnisse}>Rennergebnisse</div>
                     <div className="tab-custom" onClick={ArchivWeiterleitung}>Archiv</div>
                     <div className="tab-custom" onClick={DiscordWeiterleitung}>
                         <img src="https://i0.wp.com/peakofserenity.com/wp-content/uploads/2018/12/wZgPoYaVlU0gAAAABJRU5ErkJggg.png?fit=777%2C249&ssl=1" alt="Discord" 
