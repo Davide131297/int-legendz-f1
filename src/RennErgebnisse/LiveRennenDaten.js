@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ScrollArea } from "@mantine/core";
+import Table from 'react-bootstrap/Table';
 
 const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
 
@@ -137,6 +138,25 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
     const SessionLänge = getSessionLengh(SessionData.m_sessionLength);
     const SessionTyp = getSessionType(SessionData.m_sessionType);
 
+    function formatLapTime(timeInMilliseconds) {
+        const minutes = Math.floor(timeInMilliseconds / 60000);
+        const seconds = Math.floor((timeInMilliseconds % 60000) / 1000).toString().padStart(2, '0');
+        const milliseconds = (timeInMilliseconds % 1000).toString().padStart(3, '0');
+
+        return `${minutes}:${seconds}:${milliseconds}`;
+    }
+
+    function getPitStatus(status) {
+        switch(status) {
+            case 0: return "";
+            case 1: return "In der Box";
+            case 2: return "In der Pitlane"; 
+        break;
+            default: return "Unbekannter Status";
+        }
+    }
+
+
     return (
         <>
             <div>
@@ -147,14 +167,19 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
 
             <div>
                 <ScrollArea h={height}>
-                    <table>
+                    <Table striped bordered hover>
                         <thead>
                             <tr>
+                                <th>Position</th>
                                 <th>Fahrername</th>
-                                <th>Auto Position</th>
                                 <th>Grid Position</th>
+                                <th>Sektor 1</th>
+                                <th>Sektor 2</th>
+                                <th>Sektor 3</th>
+                                <th>Letzte Rundenzeit</th>
+                                <th>Delta zum nächsten Fahrer</th>
                                 <th>Anzahl der Boxenstopps</th>
-                                <th>Strafen</th>
+                                <th>Strafen (s)</th>
                                 <th>Boxenstopp Status</th>
                             </tr>
                         </thead>
@@ -162,19 +187,25 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
                             {
                             Fahrerliste && Rundendaten && Fahrerliste.slice(0, -2)
                                 .map((fahrer, index) => ({ fahrer, rundendaten: Rundendaten[index] }))
+                                .sort((a, b) => a.rundendaten.m_carPosition - b.rundendaten.m_carPosition)
                                 .map((item, index) => (
                                     <tr key={index}>
-                                        <td>{item.fahrer.m_name}</td>
                                         <td>{item.rundendaten ? item.rundendaten.m_carPosition : 'N/A'}</td>
+                                        <td>{item.fahrer.m_name}</td>
                                         <td>{item.rundendaten ? item.rundendaten.m_gridPosition : 'N/A'}</td>
+                                        <td>{item.rundendaten && item.rundendaten.m_sector1TimeInMS && !isNaN(item.rundendaten.m_sector1TimeInMS) ? formatLapTime(item.rundendaten.m_sector1TimeInMS) : ''}</td>
+                                        <td>{item.rundendaten && item.rundendaten.m_sector2TimeInMS && !isNaN(item.rundendaten.m_sector2TimeInMS) ? formatLapTime(item.rundendaten.m_sector2TimeInMS) : ''}</td>
+                                        <td>{item.rundendaten && item.rundendaten.lastLapTimeInMS && !isNaN(item.rundendaten.lastLapTimeInMS - (item.rundendaten.m_sector1TimeInMS + item.rundendaten.m_sector2TimeInMS)) ? formatLapTime(item.rundendaten.lastLapTimeInMS - (item.rundendaten.m_sector1TimeInMS + item.rundendaten.m_sector2TimeInMS)) : ''}</td>
+                                        <td>{item.rundendaten && item.rundendaten.m_lastLapTimeInMS && !isNaN(item.rundendaten.m_lastLapTimeInMS) ? formatLapTime(item.rundendaten.m_lastLapTimeInMS) : ''}</td>
+                                        <td>{item.rundendaten && item.rundendaten.m_deltaToCarInFrontInMS && !isNaN(item.rundendaten.m_deltaToCarInFrontInMS) ? '+' + formatLapTime(item.rundendaten.m_deltaToCarInFrontInMS) : ''}</td>
                                         <td>{item.rundendaten ? item.rundendaten.m_numPitStops : 'N/A'}</td>
                                         <td>{item.rundendaten ? item.rundendaten.m_penalties : 'N/A'}</td>
-                                        <td>{item.rundendaten ? item.rundendaten.m_pitStatus : 'N/A'}</td>
+                                        <td>{item.rundendaten ? getPitStatus(item.rundendaten.m_pitStatus) : 'N/A'}</td>
                                     </tr>
                                 ))
                             }
                         </tbody>
-                    </table>
+                    </Table>
                 </ScrollArea>
             </div>
         </>
