@@ -79,8 +79,9 @@ const Rennergebnise = () => {
     return (
         <>
         {WetterDaten && (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}> 
+        <div> 
             <Tabs defaultValue="Ergebnistabelle">
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
                 <Tabs.List>
                     <Tabs.Tab value="Ergebnistabelle" leftSection={<CiViewTable style={iconStyle} />}>
                         Ergebnistabelle
@@ -92,6 +93,7 @@ const Rennergebnise = () => {
                         Settings
                     </Tabs.Tab>
                 </Tabs.List>
+            </div>
 
                 <Tabs.Panel value="Ergebnistabelle">
                     <ErgebnisTabelle RennErgebnis={RennErgebnis} Fahrerliste={Fahrerliste} />

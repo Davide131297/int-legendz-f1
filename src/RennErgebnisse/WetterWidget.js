@@ -42,25 +42,27 @@ const WeatherWidget = ({WetterDaten}) => {
     }
 
     return (
-        <Card 
-            shadow='sm' 
-            padding="lg" 
-            radius="lg" 
-            withBorder 
-            style={{
-                backgroundImage: `url(${getBackgroundImage(WetterDaten[WetterDaten.length - 1].m_weather)})`,
-                width: '400px'
-            }}
-        >
-            <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
-                <p>{renderWeatherImage(WetterDaten[WetterDaten.length - 1].m_weather)}</p>
-                <h5>{WetterDaten[WetterDaten.length - 1].m_airTemperature} °C Streckentemperatur</h5>
-            </div>
-            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
-                <h5>{WetterDaten[WetterDaten.length - 1].m_trackTemperature} °C Streckentemperatur</h5>
-                <h5>{WetterDaten[WetterDaten.length - 1].m_rainPercentage}% Regen</h5>
-            </div>
-        </Card>
+        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <Card 
+                shadow='sm' 
+                padding="lg" 
+                radius="lg" 
+                withBorder 
+                style={{
+                    backgroundImage: `url(${getBackgroundImage(WetterDaten[WetterDaten.length - 1].m_weather)})`,
+                    width: '400px'
+                }}
+            >
+                <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                    <p>{renderWeatherImage(WetterDaten[WetterDaten.length - 1].m_weather)}</p>
+                    <h5>{WetterDaten[WetterDaten.length - 1].m_airTemperature} °C Streckentemperatur</h5>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
+                    <h5>{WetterDaten[WetterDaten.length - 1].m_trackTemperature} °C Streckentemperatur</h5>
+                    <h5>{WetterDaten[WetterDaten.length - 1].m_rainPercentage}% Regen</h5>
+                </div>
+            </Card>
+        </div>
     );
     }
 export default WeatherWidget;

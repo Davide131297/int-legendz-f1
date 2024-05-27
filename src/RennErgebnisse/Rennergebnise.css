@@ -9,3 +9,11 @@
     font-size: 0.5em;
   }
 }
+
+@media (min-width: 768px) and (max-width: 1024px){
+
+  .Live-Table {
+    width: 100%;
+    font-size: 0.6em;
+  }
+}

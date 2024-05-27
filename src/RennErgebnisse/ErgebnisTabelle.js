@@ -103,7 +103,7 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
     }
 
     return (
-        <div>
+        <div style={{marginTop: '15px'}}>
             <ScrollArea h={height}>
             <table className='Rennergebnis-Tabelle'>
                 <thead>

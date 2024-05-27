@@ -157,17 +157,27 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
         }
     }
 
+    function getCardWidth() {
+        if (window.innerWidth < 600) {
+            return '400px'
+        } else if (window.innerWidth < 800) {
+            return '600px'
+        } else if (window.innerWidth < 1000) {  
+            return 'auto'
+        }
+    }
+
 
     return (
         <>
-            <div>
+            <div style={{marginLeft: '20px', marginTop: '10px'}}>
                 <p>Rennstrecke: {Strecke}</p>
                 <p>Sessionlänge: {SessionLänge}</p>
                 <p>Sessiontyp: {SessionTyp}</p>
             </div>
 
-            <div>
-                <ScrollArea h={height} w={window.innerWidth < 768 ? "400" : "1000"}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
+                <ScrollArea h={height} w={getCardWidth()}>
                     <Table striped bordered hover className="Live-Table">
                         <thead>
                             <tr>
