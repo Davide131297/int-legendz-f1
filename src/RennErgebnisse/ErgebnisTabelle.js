@@ -123,33 +123,34 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
                 </thead>
                 <tbody>
                     {
-                    RennErgebnis && Fahrerliste && RennErgebnis.slice(0, -2)
-                        .map((ergebnis, index) => ({ fahrer: Fahrerliste[index], ergebnis }))
-                        .sort((a, b) => a.ergebnis.m_position - b.ergebnis.m_position)
-                        .map((item, index) => (
-                            <tr key={index}>
-                                <td><img src={getNationality(item.fahrer.m_nationality)} alt="Nationalität" width="20" height="20" /></td>
-                                <td>{item.fahrer.m_name}</td>
-                                <td>
-                                    <img 
-                                        src={getTeam(item.fahrer.m_teamId).url} 
-                                        alt="Team" 
-                                        width={getTeam(item.fahrer.m_teamId).width} 
-                                        height={getTeam(item.fahrer.m_teamId).height} 
-                                    />
-                                </td>
-                                <td>{item.ergebnis.m_gridPosition}</td>
-                                <td>{item.ergebnis.m_position}</td>
-                                <td style={{ color: item.ergebnis.m_bestLapTimeInMS === fastestLap ? 'purple' : 'black' }}>
-                                    {formatBestRaceTime(item.ergebnis.m_bestLapTimeInMS)}
-                                </td>
-                                <td>{formatRaceTime(item.ergebnis.m_totalRaceTime)}</td>
-                                <td>{item.ergebnis.m_points}</td>
-                                { item.ergebnis.m_resultStatus !== 3 && 
-                                    <td>{formatResultStatus(item.ergebnis.m_resultStatus)}</td>
-                                }
-                            </tr>
-                        ))
+                        RennErgebnis && Fahrerliste && RennErgebnis.slice(0, -2)
+                            .map((ergebnis, index) => ({ fahrer: Fahrerliste[index], ergebnis }))
+                            .filter(item => item.ergebnis.m_position !== 0) // Filtert alle Elemente, bei denen m_position nicht 0 ist
+                            .sort((a, b) => a.ergebnis.m_position - b.ergebnis.m_position)
+                            .map((item, index) => (
+                                <tr key={index}>
+                                    <td><img src={getNationality(item.fahrer.m_nationality)} alt="Nationalität" width="20" height="20" /></td>
+                                    <td>{item.fahrer.m_name}</td>
+                                    <td>
+                                        <img 
+                                            src={getTeam(item.fahrer.m_teamId).url} 
+                                            alt="Team" 
+                                            width={getTeam(item.fahrer.m_teamId).width} 
+                                            height={getTeam(item.fahrer.m_teamId).height} 
+                                        />
+                                    </td>
+                                    <td>{item.ergebnis.m_gridPosition}</td>
+                                    <td>{item.ergebnis.m_position}</td>
+                                    <td style={{ color: item.ergebnis.m_bestLapTimeInMS === fastestLap ? 'purple' : 'black' }}>
+                                        {formatBestRaceTime(item.ergebnis.m_bestLapTimeInMS)}
+                                    </td>
+                                    <td>{formatRaceTime(item.ergebnis.m_totalRaceTime)}</td>
+                                    <td>{item.ergebnis.m_points}</td>
+                                    { item.ergebnis.m_resultStatus !== 3 && 
+                                        <td>{formatResultStatus(item.ergebnis.m_resultStatus)}</td>
+                                    }
+                                </tr>
+                            ))
                     }
                 </tbody>
             </table>
