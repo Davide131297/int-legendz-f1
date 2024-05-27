@@ -42,7 +42,16 @@ const WeatherWidget = ({WetterDaten}) => {
     }
 
     return (
-        <Card shadow='sm' padding="lg" radius="lg" withBorder style={{backgroundImage: `url(${getBackgroundImage(WetterDaten[WetterDaten.length - 1].m_weather)})`}}>
+        <Card 
+            shadow='sm' 
+            padding="lg" 
+            radius="lg" 
+            withBorder 
+            style={{
+                backgroundImage: `url(${getBackgroundImage(WetterDaten[WetterDaten.length - 1].m_weather)})`,
+                width: '400px'
+            }}
+        >
             <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
                 <p>{renderWeatherImage(WetterDaten[WetterDaten.length - 1].m_weather)}</p>
                 <h5>{WetterDaten[WetterDaten.length - 1].m_airTemperature} °C Streckentemperatur</h5>
