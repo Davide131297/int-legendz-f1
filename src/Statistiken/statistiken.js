@@ -3,7 +3,7 @@ import { db } from './../utils/firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { DonutChart } from '@mantine/charts';
 import './statistiken.css';
-
+import { Table } from 'react-bootstrap';
 
 const Statistiken = () => {
     const [personen, setPersonen] = useState([]);
@@ -176,29 +176,53 @@ const Statistiken = () => {
         console.log("Teams nach Stärke sortiert", teamstaerke);
     }, [myDataPole, myDataDriverOfTheDay, myDataFastetLap, siege, teamstaerke]);
 
+    const TabelleLegende = ({ daten }) => (
+    <Table striped bordered hover>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Wert</th>
+        </tr>
+        </thead>
+        <tbody>
+        {daten.map((item, index) => (
+            <tr key={index}>
+            <td style={{padding: '0'}}>{item.name}</td>
+            <td style={{padding: '0'}}>{item.value}</td>
+            </tr>
+        ))}
+        </tbody>
+    </Table>
+    );
+
     return (
         <>
             <div className='statistiken-container'>
-                <div>
-                    <h2 style={{display: 'flex', justifyContent: 'center'}}>Pole Position</h2>
-                    <DonutChart size={180} withLabelsLine withLabels chartLabel="Pole Position" data={myDataPole} />
-                </div>
-                <div>
-                    <h2>Fahrer des Tages</h2>
-                    <DonutChart size={180} withLabelsLine withLabels chartLabel="Driver of the Day" data={myDataDriverOfTheDay} />
-                </div>
-                <div>
-                    <h2>Schnellste Runde</h2>
-                    <DonutChart size={180} withLabelsLine withLabels chartLabel="Fastest Lap" data={myDataFastetLap} />
-                </div>
-                <div>
-                    <h2 style={{display: 'flex', justifyContent: 'center'}}>Rennsiege</h2>
-                    <DonutChart size={180} withLabelsLine withLabels chartLabel="Wins" data={siege} />
-                </div>
-                <div>
-                    <h2>Teams nach Stärke</h2>
-                    <DonutChart size={180} withLabelsLine withLabels chartLabel="Team Strength" data={teamstaerke} />
-                </div>
+            <div>
+                <h2>Pole Position</h2>
+                <DonutChart size={180} withLabelsLine withLabels chartLabel="Pole Position" data={myDataPole} />
+                <TabelleLegende daten={myDataPole} />
+            </div>
+            <div>
+                <h2>Fahrer des Tages</h2>
+                <DonutChart size={180} withLabelsLine withLabels chartLabel="Driver of the Day" data={myDataDriverOfTheDay} />
+                <TabelleLegende daten={myDataDriverOfTheDay} />
+            </div>
+            <div>
+                <h2>Schnellste Runde</h2>
+                <DonutChart size={180} withLabelsLine withLabels chartLabel="Fastest Lap" data={myDataFastetLap} />
+                <TabelleLegende daten={myDataFastetLap} />
+            </div>
+            <div>
+                <h2 style={{display: 'flex', justifyContent: 'center'}}>Rennsiege</h2>
+                <DonutChart size={180} withLabelsLine withLabels chartLabel="Wins" data={siege} />
+                <TabelleLegende daten={siege} />
+            </div>
+            <div>
+                <h2>Teams nach Stärke</h2>
+                <DonutChart size={180} withLabelsLine withLabels chartLabel="Team Strength" data={teamstaerke} />
+                <TabelleLegende daten={teamstaerke} />
+            </div>
             </div>
         </>
     );
