@@ -54,12 +54,12 @@ const WeatherWidget = ({WetterDaten}) => {
                 }}
             >
                 <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
-                    <p>{renderWeatherImage(WetterDaten[WetterDaten.length - 1].m_weather)}</p>
-                    <h5>{WetterDaten[WetterDaten.length - 1].m_airTemperature} °C Streckentemperatur</h5>
+                    <p>{renderWeatherImage(WetterDaten[WetterDaten.length - 3].m_weather)}</p>
+                    <h5>{WetterDaten[WetterDaten.length - 3].m_airTemperature} °C Streckentemperatur</h5>
                 </div>
                 <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
-                    <h5>{WetterDaten[WetterDaten.length - 1].m_trackTemperature} °C Streckentemperatur</h5>
-                    <h5>{WetterDaten[WetterDaten.length - 1].m_rainPercentage}% Regen</h5>
+                    <h5>{WetterDaten[WetterDaten.length - 3].m_trackTemperature} °C Streckentemperatur</h5>
+                    <h5>{WetterDaten[WetterDaten.length - 3].m_rainPercentage}% Regen</h5>
                 </div>
             </Card>
         </div>
