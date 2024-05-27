@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { realtimeDatabase } from './../utils/firebase';
-import { ref, onValue, get } from 'firebase/database'; // Importieren Sie die ref und onValue Funktionen
+import { ref, onValue } from 'firebase/database'; // Importieren Sie die ref und onValue Funktionen
 import './Rennergebnise.css';
 import ErgebnisTabelle from './ErgebnisTabelle';
 import LiveRennenDaten from './LiveRennenDaten';
@@ -17,7 +17,7 @@ const Rennergebnise = () => {
     const [Fahrerliste, setFahrerliste] = useState(null);
     const [WetterDaten, setWetterDaten] = useState(null);
     const [SessionData, setSessionData] = useState(null);
-
+    const [Rundendaten, setRundendaten] = useState(null);
 
     useEffect(() => {
         const rennergebniseRef = ref(realtimeDatabase, 'finalClassification');
@@ -62,6 +62,19 @@ const Rennergebnise = () => {
         });
     }, []);
 
+    useEffect(() => {
+        const lapData = ref(realtimeDatabase, 'lapData');
+        onValue(lapData, (snapshot) => {
+            const data = snapshot.val();
+            const Rundendaten = Object.values(data);
+            const RundendatenGespeichert = Rundendaten[1];
+            RundendatenGespeichert.splice(-2, 2);
+            console.log("Eingegangene Rundendaten:" ,RundendatenGespeichert);
+            setRundendaten(RundendatenGespeichert);
+
+        });
+    }, []);
+
 
     return (
         <>
@@ -86,7 +99,7 @@ const Rennergebnise = () => {
 
                 <Tabs.Panel value="LiveRace">
                     <WeatherWidget WetterDaten={WetterDaten} />
-                    <LiveRennenDaten SessionData={SessionData} />
+                    <LiveRennenDaten SessionData={SessionData} Fahrerliste={Fahrerliste} Rundendaten={Rundendaten}/>
                 </Tabs.Panel>
 
                 <Tabs.Panel value="settings">

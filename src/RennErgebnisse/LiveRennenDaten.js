@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { ScrollArea } from "@mantine/core";
 
-const LiveRennenDaten = ({SessionData}) => {
+const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
+
+    const [height, setHeight] = useState('90vh');
 
     function getTrackName(id) {
         switch(id) {
@@ -135,11 +138,46 @@ const LiveRennenDaten = ({SessionData}) => {
     const SessionTyp = getSessionType(SessionData.m_sessionType);
 
     return (
-        <div>
-            <p>Rennstrecke: {Strecke}</p>
-            <p>Sessionlänge: {SessionLänge}</p>
-            <p>Sessiontyp: {SessionTyp}</p>
-        </div>
+        <>
+            <div>
+                <p>Rennstrecke: {Strecke}</p>
+                <p>Sessionlänge: {SessionLänge}</p>
+                <p>Sessiontyp: {SessionTyp}</p>
+            </div>
+
+            <div>
+                <ScrollArea h={height}>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Fahrername</th>
+                                <th>Auto Position</th>
+                                <th>Grid Position</th>
+                                <th>Anzahl der Boxenstopps</th>
+                                <th>Strafen</th>
+                                <th>Boxenstopp Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                            Fahrerliste && Rundendaten && Fahrerliste.slice(0, -2)
+                                .map((fahrer, index) => ({ fahrer, rundendaten: Rundendaten[index] }))
+                                .map((item, index) => (
+                                    <tr key={index}>
+                                        <td>{item.fahrer.m_name}</td>
+                                        <td>{item.rundendaten ? item.rundendaten.m_carPosition : 'N/A'}</td>
+                                        <td>{item.rundendaten ? item.rundendaten.m_gridPosition : 'N/A'}</td>
+                                        <td>{item.rundendaten ? item.rundendaten.m_numPitStops : 'N/A'}</td>
+                                        <td>{item.rundendaten ? item.rundendaten.m_penalties : 'N/A'}</td>
+                                        <td>{item.rundendaten ? item.rundendaten.m_pitStatus : 'N/A'}</td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
+                </ScrollArea>
+            </div>
+        </>
     );
 }
 export default LiveRennenDaten;
