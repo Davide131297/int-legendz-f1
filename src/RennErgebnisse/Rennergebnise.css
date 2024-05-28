@@ -1,7 +1,7 @@
 @media (max-width: 768px) {
   .Rennergebnis-Tabelle {
     width: 100%;
-    font-size: 0.5em;
+    font-size: 0.4em;
   }
 
   .Live-Table {
@@ -16,4 +16,5 @@
     width: 100%;
     font-size: 0.6em;
   }
+
 }

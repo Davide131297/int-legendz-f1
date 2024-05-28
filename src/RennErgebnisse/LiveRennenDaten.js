@@ -85,15 +85,17 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
             case 0:
                 return "Keine Daten verfügbar";
             case 2:
-                return "Sehr Kurz";
+                return "Quickfire";
             case 3:
-                return "Kurz";
+                return "Sehr Kurz";
             case 4:
-                return "Mittel";
+                return "Kurz";
             case 5:
-                return "Lang";
+                return "Mittel";
             case 6:
-                return "Volle Länge";
+                return "Lang";
+            case 7:
+                return "Komplett";
             default:
                 return "Unbekannte Session"; // Rückgabe eines Standardnamens, wenn die ID nicht erkannt wird
         }
@@ -104,13 +106,13 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
             case 0:
                 return "Unbekannt";
             case 1:
-                return "P12";
+                return "P1";
             case 2:
                 return "P2";
             case 3:
                 return "P3";
             case 4:
-                return "Blitz Qualifying";
+                return "Kurzes Training";
             case 5:
                 return "Q1"
             case 6:
@@ -120,15 +122,25 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
             case 8:
                 return "Kurze Qualifying";
             case 9:
-                return "OSQ";
+                return "Blitzqualifying";
             case 10:
-                return "Rennen";
+                return "Spint Qualifying 1";
             case 11:
-                return "Rennen 2";
+                return "Sprint Qualifying 2";
             case 12:
-                return "Rennen 3";
+                return "Sprint Qualifying 3";
             case 13:
-                return "Zeitrennen";
+                return "Kurzes Sprint Qualifying";
+            case 14:
+                return "Biitz Sprintqualifying";
+            case 15:
+                return "Rennen";
+            case 16:
+                return "Rennen 2";
+            case 17:
+                return "Rennen 3";
+            case 18:
+                return "Zeit Fahren";
             default:
                 return "Unbekannte Session"; // Rückgabe eines Standardnamens, wenn die ID nicht erkannt wird
         }

@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { ScrollArea } from '@mantine/core';
+import Stake from './../Teamlogos/Stake Sauber.png';
+import RedBull from './../Teamlogos/RedBullIcon.png';
+import Table from 'react-bootstrap/Table';
 
 const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
 
@@ -59,14 +62,14 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
         const teams = {
             0: { url: 'https://cdn3.emoji.gg/emojis/6785_Mercedes_Logo.png', width: '25', height: '25' }, // Mercedes
             1: { url: 'https://cdn3.emoji.gg/emojis/ferrari.png', width: '22', height: '28' }, // Ferrari
-            2: { url: 'https://www.hatchwise.com/wp-content/uploads/2021/12/Screen-Shot-2021-12-22-at-7.31.56-AM-1024x607.png.webp', width: '50', height: '35' }, // Red Bull
+            2: { url: RedBull, width: '50', height: '35' }, // Red Bull
             3: { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Logo_Williams_F1.png/300px-Logo_Williams_F1.png', width: '25', height: '20' }, // Williams
             4: { url: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/bd/Aston_Martin_Lagonda_brand_logo.png/220px-Aston_Martin_Lagonda_brand_logo.png', width: '40', height: '20' }, // Aston Martin
-            5: { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Alpine_F1_Team_Logo.svg/200px-Alpine_F1_Team_Logo.svg.png', width: '25', height: '25' }, // Alpine
-            6: { url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAZlBMVEX////r6+u8vL2mpqfg4OCvr6/v7+9ycnIAAAD7+/vU1NVPT1C4uLgiIiKbm5vo6OkdHR4AAAJ6enoyMjI6OjsICAkpKSlBQUGFhYbd3d5jY2NpaWrGxsZZWVn19fVLS0vMzMyQkJEEf5xWAAAAw0lEQVR4Ad2QBZbEIBQEf9COu/v9L7n0us0FphKgH4XLsxEprSIGY43V7yghzoP4OEmBLMc7BV1ZAXUNNAoB1aImgKPsUCPQJj1DNuDNpXQZu0bfFRNDOk9ACF2qKBcAq0hccjMtsiU7ACtCKgAJT8ylDxETS7D6p5wBnDyfzNv7zK9lV9RsRc/b1eIK6etAIwIqvsx4H7HvY6qvq6DGfuWdv6fi7DTF1yPUvOkYPM/avKuv52ucOQFVodKPH/465Pl4Aa3GDR90HEWMAAAAAElFTkSuQmCC', width: '30', height: '30' }, // AlphaTauri
+            5: { url: 'https://upload.wikimedia.org/wikipedia/commons/3/32/Alpine_logo.png', width: '35', height: '25' }, // Alpine
+            6: { url: 'https://www.visacashapprb.com/wp-content/uploads/2024/01/logo-f1-1.svg', width: '30', height: '30' }, // Visa RB
             7: { url: 'https://logos-world.net/wp-content/uploads/2022/07/Haas-Symbol-700x394.png', width: '45', height: '25' }, // Haas
             8: { url: 'https://cdn3.emoji.gg/emojis/9807_McLaren_Logo.png', width: '35', height: '35' }, // McLaren
-            9: { url: 'https://upload.wikimedia.org/wikipedia/de/thumb/c/c7/Alfa_Romeo_2015.svg/512px-Alfa_Romeo_2015.svg.png?20190221044846', width: '30', height: '30' }  // Alfa Romeo
+            9: { url:  Stake, width: '30', height: '30' }  // Stake F1
         };
 
         return teams[teamId] || { url: '/pfad/zum/standardbild.png', width: '35', height: '20' };
@@ -105,9 +108,9 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
     }
 
     return (
-        <div style={{marginTop: '15px'}}>
+        <div style={{marginTop: '15px', marginLeft: '15px', marginRight: '15px'}}>
             <ScrollArea h={height}>
-            <table className='Rennergebnis-Tabelle'>
+            <Table striped bordered hover variant="dark" className='Rennergebnis-Tabelle'>
                 <thead>
                     <tr>
                         <th>Nationalität</th>
@@ -153,7 +156,7 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
                             ))
                     }
                 </tbody>
-            </table>
+            </Table>
             </ScrollArea>
         </div>
     );
