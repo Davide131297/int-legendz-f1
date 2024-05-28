@@ -110,18 +110,18 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
     return (
         <div style={{marginTop: '15px', marginLeft: '15px', marginRight: '15px'}}>
             <ScrollArea h={height}>
-            <Table striped bordered hover variant="dark" className='Rennergebnis-Tabelle'>
+            <Table striped bordered hover className='Rennergebnis-Tabelle'>
                 <thead>
                     <tr>
-                        <th>Nationalität</th>
-                        <th>Fahrername</th>
-                        <th>Team</th>
-                        <th>Grid Position</th>
-                        <th>Position</th>
-                        <th>Beste Persönliche Runde</th>
-                        <th>Rennzeit</th>
-                        <th>Punkte</th>
-                        <th>{/* Ereigniss*/}</th>
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Nationalität</th>
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Fahrername</th>
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Team</th>
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Grid Position</th>
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Position</th>
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Beste Persönliche Runde</th>
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Rennzeit</th>
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Punkte</th>
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>{/* Ereigniss*/}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -132,9 +132,11 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
                             .sort((a, b) => a.ergebnis.m_position - b.ergebnis.m_position)
                             .map((item, index) => (
                                 <tr key={index}>
-                                    <td><img src={getNationality(item.fahrer.m_nationality)} alt="Nationalität" width="20" height="20" /></td>
-                                    <td>{item.fahrer.m_name}</td>
-                                    <td>
+                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                                        <img src={getNationality(item.fahrer.m_nationality)} alt="Nationalität" width="15" height="15" />
+                                    </td>
+                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.fahrer.m_name}</td>
+                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                                         <img 
                                             src={getTeam(item.fahrer.m_teamId).url} 
                                             alt="Team" 
@@ -142,15 +144,15 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
                                             height={getTeam(item.fahrer.m_teamId).height} 
                                         />
                                     </td>
-                                    <td>{item.ergebnis.m_gridPosition}</td>
-                                    <td>{item.ergebnis.m_position}</td>
-                                    <td style={{ color: item.ergebnis.m_bestLapTimeInMS === fastestLap ? 'purple' : 'black' }}>
+                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.ergebnis.m_gridPosition}</td>
+                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.ergebnis.m_position}</td>
+                                    <td style={{ textAlign: 'center', verticalAlign: 'middle', color: item.ergebnis.m_bestLapTimeInMS === fastestLap ? 'purple' : 'black' }}>
                                         {formatBestRaceTime(item.ergebnis.m_bestLapTimeInMS)}
                                     </td>
-                                    <td>{formatRaceTime(item.ergebnis.m_totalRaceTime)}</td>
-                                    <td>{item.ergebnis.m_points}</td>
+                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{formatRaceTime(item.ergebnis.m_totalRaceTime)}</td>
+                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.ergebnis.m_points}</td>
                                     { item.ergebnis.m_resultStatus !== 3 && 
-                                        <td>{formatResultStatus(item.ergebnis.m_resultStatus)}</td>
+                                        <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{formatResultStatus(item.ergebnis.m_resultStatus)}</td>
                                     }
                                 </tr>
                             ))
