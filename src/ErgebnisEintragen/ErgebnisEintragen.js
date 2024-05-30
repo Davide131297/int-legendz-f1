@@ -283,43 +283,6 @@ const ErgebnisEintragen = (props) => {
                 });
                 return;
             }
-
-            // Überprüfen, ob alle Teams bereits voll sind
-            const allPersonsQuery = collection(db, "personen");
-            const allPersonsSnapshot = await getDocs(allPersonsQuery);
-            let teams = {};
-            allPersonsSnapshot.docs.forEach(doc => {
-                const team = doc.data().team;
-                if (!teams[team]) {
-                    teams[team] = [];
-                }
-                teams[team].push(doc.data().spielerID);
-            });
-            const allTeamsHaveTwoMembers = Object.values(teams).every(team => team.length === 2);
-            console.log("Alle Teams", teams);
-            if (allTeamsHaveTwoMembers) {
-                notifications.show({
-                    title: 'Fehler!',
-                    message: 'Alle Teams sind bereits voll. Registriere dich als Reservefahrer indem du auf "Als Reserve registrieren" klickst.',
-                    autoClose: 6000,
-                    color: 'red'
-                });
-                setAllTeamsHaveTwoMembers(true);
-                return;
-            }
-    
-            // Überprüfen, ob das Team bereits zwei Personen hat
-            const teamQuery = query(collection(db, "personen"), where("team", "==", newProfile.team));
-            const teamSnapshot = await getDocs(teamQuery);
-            if (teamSnapshot.size >= 2) {
-                notifications.show({
-                    title: 'Fehler!',
-                    message: 'Bitte wähle ein anderes Team, dieses Team ist bereits voll.',
-                    autoClose: 3000,
-                    color: 'red'
-                });
-                return;
-            }
     
             const docRef = await addDoc(collection(db, "personen"), personData);
     
