@@ -26,6 +26,8 @@ import Katar from './../Flaggen/katar.png';
 import Mexiko from './../Flaggen/mexico.png';
 import Brasilien from './../Flaggen/brasilien.png';
 import AbuDhabi from './../Flaggen/abudhabi.png';
+import China from './../Flaggen/China.png';
+import Großbritannien from './../Flaggen/UK.png';
 // Icons der Konstrukteure
 import Ferrari from '../Teamlogos/Ferrari.png';
 import AstonMartin from '../Teamlogos/AstonMartin.png';
@@ -140,29 +142,32 @@ const Konstrukteurtabelle = () => {
                             {shouldRenderImage(Strecken, 'Australien') &&
                             <th><img src={Australien} alt="Australien" className='img-size'/></th>
                             }
-                            {shouldRenderImage(Strecken, 'Aserbaidschan') &&
-                            <th><img src={Aserbaidschan} alt="Aserbeidschan" className='img-size'/></th>
+                            {shouldRenderImage(Strecken, 'Japan') &&
+                            <th><img src={Japan} alt="Japan" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'China') &&
+                            <th><img src={China} alt="China" className='img-size'/></th>
                             }
                             {shouldRenderImage(Strecken, 'Miami') &&
                             <th><img src={USA} alt="Miami" className='img-size'/></th>
                             }
-                            {shouldRenderImage(Strecken, 'Italien') &&
-                            <th><img src={Italien} alt="Italien" className='img-size'/></th>
+                            {shouldRenderImage(Strecken, 'Imola') &&
+                            <th><img src={Italien} alt="Imola" className='img-size'/></th>
                             }
                             {shouldRenderImage(Strecken, 'Monaco') &&
                             <th><img src={Monaco} alt="Monaco" className='img-size'/></th>
                             }
-                            {shouldRenderImage(Strecken, 'Spanien') &&
-                            <th><img src={Spanien} alt="Spanien" className='img-size'/></th>
-                            }
                             {shouldRenderImage(Strecken, 'Kanada') &&
                             <th><img src={Kanada} alt="Kanada" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Spanien') &&
+                            <th><img src={Spanien} alt="Spanien" className='img-size'/></th>
                             }
                             {shouldRenderImage(Strecken, 'Österreich') &&
                             <th><img src={Österreich} alt="Österreich" className='img-size'/></th>
                             }
-                            {shouldRenderImage(Strecken, 'England') &&
-                            <th><img src={England} alt="England" className='img-size'/></th>
+                            {shouldRenderImage(Strecken, 'Großbritannien') &&
+                            <th><img src={Großbritannien} alt="Großbritannien" className='img-size'/></th>
                             }
                             {shouldRenderImage(Strecken, 'Ungarn') &&
                             <th><img src={Ungarn} alt="Ungarn" className='img-size'/></th>
@@ -173,17 +178,17 @@ const Konstrukteurtabelle = () => {
                             {shouldRenderImage(Strecken, 'Niederlande') &&
                             <th><img src={Niederlande} alt="Niederlande" className='img-size'/></th>
                             }
+                            {shouldRenderImage(Strecken, 'Monza') &&
+                            <th><img src={Italien} alt="Monza" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Aserbaidschan') &&
+                            <th><img src={Aserbaidschan} alt="Aserbaidschan" className='img-size'/></th>
+                            }
                             {shouldRenderImage(Strecken, 'Singapur') &&
                             <th><img src={Singapur} alt="Singapur" className='img-size'/></th>
                             }
-                            {shouldRenderImage(Strecken, 'Japan') &&
-                            <th><img src={Japan} alt="Japan" className='img-size'/></th>
-                            }
-                            {shouldRenderImage(Strecken, 'Katar') &&
-                            <th><img src={Katar} alt="Katar" className='img-size'/></th>
-                            }
-                            {shouldRenderImage(Strecken, 'USA') &&
-                            <th><img src={USA} alt="USA" className='img-size'/></th>
+                            {shouldRenderImage(Strecken, 'Austin') &&
+                            <th><img src={USA} alt="Austin" className='img-size'/></th>
                             }
                             {shouldRenderImage(Strecken, 'Mexiko') &&
                             <th><img src={Mexiko} alt="Mexiko" className='img-size'/></th>
@@ -191,10 +196,13 @@ const Konstrukteurtabelle = () => {
                             {shouldRenderImage(Strecken, 'Brasilien') &&
                             <th><img src={Brasilien} alt="Brasilien" className='img-size'/></th>
                             }
-                            {shouldRenderImage(Strecken, 'Las Vegas') &&
+                            {shouldRenderImage(Strecken, 'LasVegas') &&
                             <th><img src={USA} alt="LasVegas" className='img-size'/></th>
                             }
-                            {shouldRenderImage(Strecken, 'Abu Dhabi') &&
+                            {shouldRenderImage(Strecken, 'Katar') &&
+                            <th><img src={Katar} alt="Katar" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'AbuDhabi') &&
                             <th><img src={AbuDhabi} alt="AbuDhabi" className='img-size'/></th>
                             }
                             <th>Gesamtpunkte</th>
@@ -210,106 +218,112 @@ const Konstrukteurtabelle = () => {
                                     </div>
                                 </td>
                                 {shouldRenderImage(Strecken, 'Bahrain') && 
-                                <td>{team?.wertung?.bahrain}</td>
+                                <td>{team?.wertung?.Bahrain}</td>
                                 }
-                                {shouldRenderImage(Strecken, 'Saudi Arabien') &&
-                                <td>{team?.wertung?.saudiarabien}</td>
+                                {shouldRenderImage(Strecken, 'SaudiArabien') &&
+                                <td>{team?.wertung?.SaudiArabien}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'Australien') &&
-                                <td>{team?.wertung?.australien}</td>
+                                <td>{team?.wertung?.Australien}</td>
                                 }
-                                {shouldRenderImage(Strecken, 'Aserbaidschan') &&
-                                <>
-                                <td>
-                                    {(team?.wertung?.aserbaidschan_Sprint !== undefined || team?.wertung?.aserbaidschan_Rennen !== undefined) 
-                                        ? (team?.wertung?.aserbaidschan_Sprint || 0) + (team?.wertung?.aserbaidschan_Rennen || 0)
-                                        : ''}
-                                </td>
-                                </>
+                                {shouldRenderImage(Strecken, 'Japan') &&
+                                <td>{team?.wertung?.Japan}</td>
                                 }
+                                {shouldRenderImage(Strecken, 'China') &&
+                                <td>{team?.wertung?.China}</td>
+                                }                              
                                 {shouldRenderImage(Strecken, 'Miami') && 
-                                <td>{team?.wertung?.miami}</td>
+                                <td>{team?.wertung?.Miami}</td>
                                 }
-                                {shouldRenderImage(Strecken, 'Italien') &&
-                                <td>{team?.wertung?.italien}</td>
+                                {shouldRenderImage(Strecken, 'Imola') &&
+                                <td>{team?.wertung?.Imola}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'Monaco') &&
-                                <td>{team?.wertung?.monaco}</td>
-                                }
-                                {shouldRenderImage(Strecken, 'Spanien') &&
-                                <td>{team?.wertung?.spanien}</td>
+                                <td>{team?.wertung?.Monaco}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'Kanada') &&
-                                <td>{team?.wertung?.kanada}</td>
+                                <td>{team?.wertung?.Kanada}</td>
+                                }
+                                {shouldRenderImage(Strecken, 'Spanien') &&
+                                <td>{team?.wertung?.Spanien}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'Österreich') &&
                                 <>
                                 <td>
-                                    {(team?.wertung?.österreich_Sprint !== undefined || team?.wertung?.österreich_Rennen !== undefined) 
-                                        ? (team?.wertung?.österreich_Sprint || 0) + (team?.wertung?.österreich_Rennen || 0)
+                                    {(team?.wertung?.Österreich_Sprint !== undefined || team?.wertung?.Österreich_Rennen !== undefined) 
+                                        ? (team?.wertung?.Österreich_Sprint || 0) + (team?.wertung?.Österreich_Rennen || 0)
                                         : ''}
                                 </td>
                                 </>
                                 }
-                                {shouldRenderImage(Strecken, 'Großbritannien') && 
-                                <td>{team?.wertung?.england}</td>
+                                {shouldRenderImage(Strecken, 'Großbritannien') &&
+                                <td>{team?.wertung?.Großbritannien}</td>
                                 }
+
                                 {shouldRenderImage(Strecken, 'Ungarn') &&
-                                <td>{team?.wertung?.ungarn}</td>
+                                <td>{team?.wertung?.Ungarn}</td>
                                 }
+
                                 {shouldRenderImage(Strecken, 'Belgien') &&
-                                <>
-                                <td>
-                                    {(team?.wertung?.belgien_Sprint !== undefined || team?.wertung?.belgien_Rennen !== undefined) 
-                                        ? (team?.wertung?.belgien_Sprint || 0) + (team?.wertung?.belgien_Rennen || 0)
-                                        : ''}
-                                </td>
-                                </>
+                                <td>{team?.wertung?.Belgien}</td>
                                 }
+
                                 {shouldRenderImage(Strecken, 'Niederlande') &&
-                                <td>{team?.wertung?.niederlande}</td>
+                                <td>{team?.wertung?.Niederlande}</td>
                                 }
+
+                                {shouldRenderImage(Strecken, 'Monza') &&
+                                <td>{team?.wertung?.Monza}</td>
+                                }
+                                
+                                {shouldRenderImage(Strecken, 'Aserbaidschan') &&
+                                <td>{team?.wertung?.Aserbaidschan}</td>
+                                }
+
                                 {shouldRenderImage(Strecken, 'Singapur') &&
-                                <td>{team?.wertung?.singapur}</td>
+                                <td>{team?.wertung?.Singapur}</td>
                                 }
-                                {shouldRenderImage(Strecken, 'Japan') &&
-                                <td>{team?.wertung?.japan}</td>
-                                }
-                                {shouldRenderImage(Strecken, 'Katar') &&
+
+                                {shouldRenderImage(Strecken, 'Austin') &&
                                 <>
                                 <td>
-                                    {(team?.wertung?.katar_Sprint !== undefined || team?.wertung?.katar_Rennen !== undefined) 
-                                        ? (team?.wertung?.katar_Sprint || 0) + (team?.wertung?.katar_Rennen || 0)
+                                    {(team?.wertung?.Austin_Sprint !== undefined || team?.wertung?.Austin_Rennen !== undefined)
+                                        ? (team?.wertung?.Austin_Sprint || 0) + (team?.wertung?.Austin_Rennen || 0)
                                         : ''}
                                 </td>
                                 </>
                                 }
-                                {shouldRenderImage(Strecken, 'USA') &&
-                                <>
-                                <td>
-                                    {(team?.wertung?.usa_Sprint !== undefined || team?.wertung?.usa_Rennen !== undefined) 
-                                        ? (team?.wertung?.usa_Sprint || 0) + (team?.wertung?.usa_Rennen || 0)
-                                        : ''}
-                                </td>
-                                </>
-                                }
+
                                 {shouldRenderImage(Strecken, 'Mexiko') &&
-                                <td>{team?.wertung?.mexiko}</td>
+                                <td>{team?.wertung?.Mexiko}</td>
                                 }
+
                                 {shouldRenderImage(Strecken, 'Brasilien') &&
                                 <>
-                                <td>
-                                    {(team?.wertung?.brasilien_Sprint !== undefined || team?.wertung?.brasilien_Rennen !== undefined) 
-                                        ? (team?.wertung?.brasilien_Sprint || 0) + (team?.wertung?.brasilien_Rennen || 0)
-                                        : ''}
-                                </td>
+                                    <td>
+                                        {(team?.wertung?.Brasilien_Sprint !== undefined || team?.wertung?.Brasilien_Rennen !== undefined)
+                                            ? (team?.wertung?.Brasilien_Sprint || 0) + (team?.wertung?.Brasilien_Rennen || 0)
+                                            : ''}
+                                    </td>
                                 </>
                                 }
-                                {shouldRenderImage(Strecken, 'Las Vegas') &&
-                                <td>{team?.wertung?.lasvegas}</td>
+
+                                {shouldRenderImage(Strecken, 'LasVegas') &&
+                                <td>{team?.wertung?.LasVegas}</td>
                                 }
-                                {shouldRenderImage(Strecken, 'Abu Dhabi') &&
-                                <td>{team?.wertung?.abudhabi}</td>
+
+                                {shouldRenderImage(Strecken, 'Katar') &&
+                                <>
+                                    <td>
+                                        {(team?.wertung?.Katar_Sprint !== undefined || team?.wertung?.Katar_Rennen !== undefined)
+                                            ? (team?.wertung?.Katar_Sprint || 0) + (team?.wertung?.Katar_Rennen || 0)
+                                            : ''}
+                                    </td>
+                                </>
+                                }
+
+                                {shouldRenderImage(Strecken, 'AbuDhabi') &&
+                                <td>{team?.wertung?.AbuDhabi}</td>
                                 }
                                 <td>{team.gesamtPunkte}</td>
                             </tr>
@@ -318,7 +332,7 @@ const Konstrukteurtabelle = () => {
                 </Table>
             </ScrollArea>
             <div className='chart-container'>
-                <KonstrukteurLineChart teams={teams}/>
+               {/* <KonstrukteurLineChart teams={teams}/> */}
             </div>
         </div>
         </>

@@ -299,7 +299,7 @@ const ErgebnisEintragen = (props) => {
             team: newProfile.team,
             wertung: {
             "Bahrain": null,
-            "Saudi Arabien": null,
+            "SaudiArabien": null,
             "Australien": null,
             "Japan": null,
             "China": null,
@@ -326,7 +326,7 @@ const ErgebnisEintragen = (props) => {
             "LasVegas": null,
             "Katar_Sprint": null,
             "Katar_Rennen": null,
-            "Abu Dhabi": null,
+            "AbuDhabi": null,
             },
             pole: {},
             driverOfTheDay: {},

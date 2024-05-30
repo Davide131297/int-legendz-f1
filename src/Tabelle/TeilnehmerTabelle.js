@@ -192,8 +192,8 @@ function TeilnehmerTabelle() {
                                 {person?.wertung?.Bahrain ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.Saudiarabien)}>
-                                {person?.wertung?.Saudiarabien ?? ''}
+                            <td style={getCellStyle(person?.wertung?.SaudiArabien)}>
+                                {person?.wertung?.SaudiArabien ?? ''}
                             </td>
 
                             <td style={getCellStyle(person?.wertung?.Australien)}>
