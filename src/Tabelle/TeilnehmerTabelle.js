@@ -167,7 +167,7 @@ function TeilnehmerTabelle() {
                                 .filter(strecke => strecke.ansicht)
                                 .map((strecke, index) => 
                                     <th key={index}>
-                                        <img src={strecke.flagge} alt={strecke.id} height="10px" width="20px" />
+                                        <img src={strecke.flagge} alt="Flagge" height="10px" width="20px" />
                                     </th>
                                 )
                             }
