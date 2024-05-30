@@ -188,116 +188,116 @@ function TeilnehmerTabelle() {
                                 </div>
                             </td> {/* Konstrukteur */}
 
-                            <td style={getCellStyle(person?.Bahrain)}>
-                                {person?.wertung?.bahrain ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Bahrain)}>
+                                {person?.wertung?.Bahrain ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.saudiarabien)}>
-                                {person?.wertung?.saudiarabien ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Saudiarabien)}>
+                                {person?.wertung?.Saudiarabien ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.australien)}>
-                                {person?.wertung?.australien ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Australien)}>
+                                {person?.wertung?.Australien ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.aserbaidschan_Sprint)}>
-                                {person?.wertung?.aserbaidschan_Sprint ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Japan)}>
+                                {person?.wertung?.Japan ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.aserbaidschan_Rennen)}>
-                                {person?.wertung?.aserbaidschan_Rennen ?? ''}
+                            <td style={getCellStyle(person?.wertung?.China)}>
+                                {person?.wertung?.China ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.miami)}>
-                                {person?.wertung?.miami ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Miami)}>
+                                {person?.wertung?.Miami ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.italien)}>
-                                {person?.wertung?.italien ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Imola)}>
+                                {person?.wertung?.Imola ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.monaco)}>
-                                {person?.wertung?.monaco ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Monaco)}>
+                                {person?.wertung?.Monaco ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.spanien)}>
-                                {person?.wertung?.spanien ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Kanada)}>
+                                {person?.wertung?.Kanada ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.kanada)}>
-                                {person?.wertung?.kanada ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Spanien)}>
+                                {person?.wertung?.Spanien ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.österreich_Sprint)}>
-                                {person?.wertung?.österreich_Sprint ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Österreich_Sprint)}>
+                                {person?.wertung?.Österreich_Sprint ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.österreich_Rennen)}>
-                                {person?.wertung?.österreich_Rennen ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Österreich_Rennen)}>
+                                {person?.wertung?.Österreich_Rennen ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.england)}>
-                                {person?.wertung?.england ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Großbritannien)}>
+                                {person?.wertung?.Großbritannien ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.ungarn)}>
-                                {person?.wertung?.ungarn ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Ungarn)}>
+                                {person?.wertung?.Ungarn ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.belgien_Sprint)}>
-                                {person?.wertung?.belgien_Sprint ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Belgien)}>
+                                {person?.wertung?.Belgien ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.belgien_Rennen)}>
-                                {person?.wertung?.belgien_Rennen ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Niederlande)}>
+                                {person?.wertung?.Niederlande ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.niederlande)}>
-                                {person?.wertung?.niederlande ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Monza)}>
+                                {person?.wertung?.Monza ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.singapur)}>
-                                {person?.wertung?.singapur ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Aserbaidschan)}>
+                                {person?.wertung?.Aserbaidschan ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.japan)}>
-                                {person?.wertung?.japan ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Singapur)}>
+                                {person?.wertung?.Singapur ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.katar_Sprint)}>
-                                {person?.wertung?.katar_Sprint ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Austin_Sprint)}>
+                                {person?.wertung?.Austin_Sprint ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.katar_Rennen)}>
-                                {person?.wertung?.katar_Rennen ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Austin_Rennen)}>
+                                {person?.wertung?.Austin_Rennen ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.usa_Sprint)}>
-                                {person?.wertung?.usa_Sprint ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Mexiko)}>
+                                {person?.wertung?.Mexiko ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.usa_Rennen)}>
-                                {person?.wertung?.usa_Rennen ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Brasilien_Sprint)}>
+                                {person?.wertung?.Brasilien_Sprint ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.mexiko)}>
-                                {person?.wertung?.mexiko ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Brasilien_Rennen)}>
+                                {person?.wertung?.Brasilien_Rennen ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.brasilien_Sprint)}>
-                                {person?.wertung?.brasilien_Sprint || ''}
+                            <td style={getCellStyle(person?.wertung?.LasVegas)}>
+                                {person?.wertung?.LasVegas ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.brasilien_Rennen)}>
-                                {person?.wertung?.brasilien_Rennen || ''}
+                            <td style={getCellStyle(person?.wertung?.Katar_Sprint)}>
+                                {person?.wertung?.Katar_Sprint ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.lasvegas)}>
-                                {person?.wertung?.lasvegas ?? ''}
+                            <td style={getCellStyle(person?.wertung?.Katar_Rennen)}>
+                                {person?.wertung?.Katar_Rennen ?? ''}
                             </td>
 
-                            <td style={getCellStyle(person?.wertung?.abudhabi)}>
-                                {person?.wertung?.abudhabi ?? ''}
+                            <td style={getCellStyle(person?.wertung?.AbuDhabi)}>
+                                {person?.wertung?.AbuDhabi ?? ''}
                             </td>
 
                             <td>
