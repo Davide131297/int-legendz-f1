@@ -58,14 +58,14 @@ function TeilnehmerTabelle() {
             snapshot.forEach((doc) => {
                 let data = doc.data();
                 tempListe.push({ 
-                    id: doc.id, 
-                    gesamtPunkte: data.gesamtPunkte ? data.gesamtPunkte : 0, // Fallback-Wert hinzufügen
+                    id: doc.id,
                     ...data // Hier werden alle Attribute des Dokuments abgerufen
                 });
             });
             tempListe.sort((a, b) => {
                 return Object.values(b?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0) - Object.values(a?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0);
             });
+            console.log("PersonenArray:", tempListe);
             setPersonen(tempListe);
         });
 
@@ -188,7 +188,7 @@ function TeilnehmerTabelle() {
                                 </div>
                             </td> {/* Konstrukteur */}
 
-                            <td style={getCellStyle(person?.wertung?.bahrain)}>
+                            <td style={getCellStyle(person?.Bahrain)}>
                                 {person?.wertung?.bahrain ?? ''}
                             </td>
 
