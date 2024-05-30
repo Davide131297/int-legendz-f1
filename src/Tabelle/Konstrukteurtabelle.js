@@ -332,7 +332,7 @@ const Konstrukteurtabelle = () => {
                 </Table>
             </ScrollArea>
             <div className='chart-container'>
-               {/* <KonstrukteurLineChart teams={teams}/> */}
+               <KonstrukteurLineChart teams={teams}/>
             </div>
         </div>
         </>
