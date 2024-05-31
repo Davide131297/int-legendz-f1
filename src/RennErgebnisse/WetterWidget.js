@@ -1,7 +1,43 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Card } from '@mantine/core';
+import { Loader } from '@mantine/core';
 
 const WeatherWidget = ({WetterDaten}) => {
+
+    const [Lufttemperatur, setLufttemperatur] = useState(null);
+    const [ÄnderungDerLufttemperatur, setÄnderungDerLufttemperatur] = useState(null);
+    const [Regenwahrscheinlichkeit, setRegenwahrscheinlichkeit] = useState(null);
+    const [Sitzungstyp, setSitzungstyp] = useState(null);
+    const [Zeitversatz, setZeitversatz] = useState(null);
+    const [Streckentemperatur, setStreckentemperatur] = useState(null);
+    const [ÄnderungDerStreckentemperatur, setÄnderungDerStreckentemperatur] = useState(null);
+    const [Wetter, setWetter] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (WetterDaten.length > 0) {
+            const {
+                m_airTemperature,
+                m_airTemperatureChange,
+                m_rainPercentage,
+                m_sessionType,
+                m_timeOffset,
+                m_trackTemperature,
+                m_trackTemperatureChange,
+                m_weather
+            } = WetterDaten[0];
+
+            setLufttemperatur(m_airTemperature);
+            setÄnderungDerLufttemperatur(m_airTemperatureChange);
+            setRegenwahrscheinlichkeit(m_rainPercentage);
+            setSitzungstyp(m_sessionType);
+            setZeitversatz(m_timeOffset);
+            setStreckentemperatur(m_trackTemperature);
+            setÄnderungDerStreckentemperatur(m_trackTemperatureChange);
+            setWetter(m_weather);
+            setIsLoading(false);
+        }
+    }, [WetterDaten]);
 
     function renderWeatherImage(weather) {
         switch(weather) {
@@ -42,6 +78,8 @@ const WeatherWidget = ({WetterDaten}) => {
     }
 
     return (
+        <>
+        {isLoading ? <Loader  color="blue"/> : (
         <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '15px'}}>
             <Card 
                 shadow='sm' 
@@ -53,16 +91,20 @@ const WeatherWidget = ({WetterDaten}) => {
                     width: '400px'
                 }}
             >
-                <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
-                    <p>{renderWeatherImage(WetterDaten[WetterDaten.length - 3].m_weather)}</p>
-                    <h5>{WetterDaten[WetterDaten.length - 3].m_airTemperature} °C Lufttemperatur</h5>
-                </div>
-                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
-                    <h5>{WetterDaten[WetterDaten.length - 3].m_trackTemperature} °C Streckentemperatur</h5>
-                    <h5>{WetterDaten[WetterDaten.length - 3].m_rainPercentage}% Regen</h5>
-                </div>
+                <>
+                    <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
+                        <p>{renderWeatherImage(Wetter)}</p>
+                        <h5>{Lufttemperatur} °C Lufttemperatur</h5>
+                    </div>
+                    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
+                        <h5>{Streckentemperatur} °C Streckentemperatur</h5>
+                        <h5>{Regenwahrscheinlichkeit}% Regenwahrscheinlichkeit</h5>
+                    </div>
+                </>
             </Card>
         </div>
+        )}
+        </>
     );
-    }
+}
 export default WeatherWidget;
