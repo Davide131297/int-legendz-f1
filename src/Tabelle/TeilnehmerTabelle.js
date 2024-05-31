@@ -80,7 +80,7 @@ function TeilnehmerTabelle() {
             snapshot.forEach((doc) => {
                 let data = doc.data();
                 tempListe.push({
-                    id: doc.id,
+                    name: doc.id,
                     ansicht: data.Ansicht,
                     datum: data.Datum.toDate().toLocaleDateString('de-DE'),
                     flagge: data.Flagge
@@ -175,149 +175,39 @@ function TeilnehmerTabelle() {
                         </tr>
                     </thead>
                         <tbody>
-                        {personen.map((person, index) => (
-                        <tr key={index}>
-                            <td className='pos'>{index + 1}</td> {/* Pos */}
-                            
-                            <td className='fahrer' onClick={() => handleClick(person.id)}>{person.spielerID}</td> {/* Fahrer */}
-                            
-                            <td>
-                                <div>
-                                    <span className='teamname'>{person.team ? person.team : "Reservefahrer"}</span>
-                                    {person.team && renderTeamLogo(person.team)}
-                                </div>
-                            </td> {/* Konstrukteur */}
+                            {personen.map((person, index) => (
+                                <tr key={index}>
+                                    <td className='pos'>{index + 1}</td> {/* Pos */}
+                                    
+                                    <td className='fahrer' onClick={() => handleClick(person.id)}>{person.spielerID}</td> {/* Fahrer */}
+                                    
+                                    <td>
+                                        <div>
+                                            <span className='teamname'>{person.team ? person.team : "Reservefahrer"}</span>
+                                            {person.team && renderTeamLogo(person.team)}
+                                        </div>
+                                    </td> {/* Konstrukteur */}
 
-                            <td style={getCellStyle(person?.Bahrain)}>
-                                {person?.Bahrain ?? ''}
-                            </td>
+                                    {
+                                        Strecken.sort((a, b) => {
+                                            let datumA = a.datum.split(".").reverse().join("/");
+                                            let datumB = b.datum.split(".").reverse().join("/");
+                                            return new Date(datumA) - new Date(datumB);
+                                        })
+                                        .filter(strecke => strecke.ansicht)
+                                        .map((strecke, index) => 
+                                            <td key={index} style={getCellStyle(person?.wertung?.[strecke.name])}>
+                                                {person?.wertung?.[strecke.name] ?? ''}
+                                            </td>
+                                        )
+                                    }
 
-                            <td style={getCellStyle(person?.SaudiArabien)}>
-                                {person?.SaudiArabien ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Australien)}>
-                                {person?.Australien ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Japan)}>
-                                {person?.Japan ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.China_Sprint)}>
-                                {person?.China_Sprint ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.China_Rennen)}>
-                                {person?.China_Rennen ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Miami_Sprint)}>
-                                {person?.Miami_Sprint ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Miami_Rennen)}>
-                                {person?.Miami_Rennen ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Imola)}>
-                                {person?.Imola ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Monaco)}>
-                                {person?.Monaco ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Kanada)}>
-                                {person?.Kanada ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Spanien)}>
-                                {person?.Spanien ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Österreich_Sprint)}>
-                                {person?.Österreich_Sprint ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Österreich_Rennen)}>
-                                {person?.Österreich_Rennen ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Großbritannien)}>
-                                {person?.Großbritannien ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Ungarn)}>
-                                {person?.Ungarn ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Belgien)}>
-                                {person?.Belgien ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Niederlande)}>
-                                {person?.Niederlande ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Monza)}>
-                                {person?.Monza ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Aserbaidschan)}>
-                                {person?.Aserbaidschan ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Singapur)}>
-                                {person?.Singapur ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Austin_Sprint)}>
-                                {person?.Austin_Sprint ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Austin_Rennen)}>
-                                {person?.Austin_Rennen ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Mexiko)}>
-                                {person?.Mexiko ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Brasilien_Sprint)}>
-                                {person?.Brasilien_Sprint ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Brasilien_Rennen)}>
-                                {person?.Brasilien_Rennen ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.LasVegas)}>
-                                {person?.LasVegas ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Katar_Sprint)}>
-                                {person?.Katar_Sprint ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Katar_Rennen)}>
-                                {person?.Katar_Rennen ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.AbuDhabi)}>
-                                {person?.AbuDhabi ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.Portugal)}>
-                                {person?.Portugal ?? ''}
-                            </td>
-
-                            <td>
-                                {Object.values(person?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0)}
-                            </td> {/* Gesamtpunkte */} {/* Gesamtpunkte */}
-                        </tr>
-                        ))}
-                    </tbody>
+                                    <td>
+                                        {Object.values(person?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0)}
+                                    </td> {/* Gesamtpunkte */} {/* Gesamtpunkte */}
+                                </tr>
+                            ))}
+                        </tbody>
                 </Table>
             </ScrollArea>
             <Modal opened={selectedImage !== null} onClose={() => setSelectedImage(null)} title={clickedFlag} centered size={Array.isArray(selectedImage) && selectedImage.length > 1 ? "md" : "xl"}  closeOnClickOutside={false}>
