@@ -174,136 +174,38 @@ function TeilnehmerTabelle() {
                             <th>Gesamtpunkte</th>
                         </tr>
                     </thead>
-                        <tbody>
+                    <tbody>
                         {personen.map((person, index) => (
-                        <tr key={index}>
-                            <td className='pos'>{index + 1}</td> {/* Pos */}
-                            
-                            <td className='fahrer' onClick={() => handleClick(person.id)}>{person.spielerID}</td> {/* Fahrer */}
-                            
-                            <td>
-                                <div>
-                                    <span className='teamname'>{person.team ? person.team : "Reservefahrer"}</span>
-                                    {person.team && renderTeamLogo(person.team)}
-                                </div>
-                            </td> {/* Konstrukteur */}
+                            <tr key={index}>
+                                <td className='pos'>{index + 1}</td> {/* Pos */}
+                                
+                                <td className='fahrer' onClick={() => handleClick(person.id)}>{person.spielerID}</td> {/* Fahrer */}
+                                
+                                <td>
+                                    <div>
+                                        <span className='teamname'>{person.team ? person.team : "Reservefahrer"}</span>
+                                        {person.team && renderTeamLogo(person.team)}
+                                    </div>
+                                </td> {/* Konstrukteur */}
 
-                            <td style={getCellStyle(person?.wertung?.Bahrain)}>
-                                {person?.wertung?.Bahrain ?? ''}
-                            </td>
+                                {
+                                    Strecken.sort((a, b) => {
+                                        let datumA = a.datum.split(".").reverse().join("/");
+                                        let datumB = b.datum.split(".").reverse().join("/");
+                                        return new Date(datumA) - new Date(datumB);
+                                    })
+                                    .filter(strecke => strecke.ansicht)
+                                    .map((strecke, index) => 
+                                        <td key={index} style={getCellStyle(person[strecke.id])}>
+                                            {person[strecke.id] ?? ''}
+                                        </td>
+                                    )
+                                }
 
-                            <td style={getCellStyle(person?.wertung?.SaudiArabien)}>
-                                {person?.wertung?.SaudiArabien ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Australien)}>
-                                {person?.wertung?.Australien ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Japan)}>
-                                {person?.wertung?.Japan ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.China)}>
-                                {person?.wertung?.China ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Miami)}>
-                                {person?.wertung?.Miami ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Imola)}>
-                                {person?.wertung?.Imola ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Monaco)}>
-                                {person?.wertung?.Monaco ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Kanada)}>
-                                {person?.wertung?.Kanada ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Spanien)}>
-                                {person?.wertung?.Spanien ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Österreich_Sprint)}>
-                                {person?.wertung?.Österreich_Sprint ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Österreich_Rennen)}>
-                                {person?.wertung?.Österreich_Rennen ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Großbritannien)}>
-                                {person?.wertung?.Großbritannien ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Ungarn)}>
-                                {person?.wertung?.Ungarn ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Belgien)}>
-                                {person?.wertung?.Belgien ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Niederlande)}>
-                                {person?.wertung?.Niederlande ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Monza)}>
-                                {person?.wertung?.Monza ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Aserbaidschan)}>
-                                {person?.wertung?.Aserbaidschan ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Singapur)}>
-                                {person?.wertung?.Singapur ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Austin_Sprint)}>
-                                {person?.wertung?.Austin_Sprint ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Austin_Rennen)}>
-                                {person?.wertung?.Austin_Rennen ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Mexiko)}>
-                                {person?.wertung?.Mexiko ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Brasilien_Sprint)}>
-                                {person?.wertung?.Brasilien_Sprint ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Brasilien_Rennen)}>
-                                {person?.wertung?.Brasilien_Rennen ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.LasVegas)}>
-                                {person?.wertung?.LasVegas ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Katar_Sprint)}>
-                                {person?.wertung?.Katar_Sprint ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.Katar_Rennen)}>
-                                {person?.wertung?.Katar_Rennen ?? ''}
-                            </td>
-
-                            <td style={getCellStyle(person?.wertung?.AbuDhabi)}>
-                                {person?.wertung?.AbuDhabi ?? ''}
-                            </td>
-
-                            <td>
-                                {Object.values(person?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0)}
-                            </td> {/* Gesamtpunkte */} {/* Gesamtpunkte */}
-                        </tr>
+                                <td>
+                                    {Object.values(person?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0)}
+                                </td> {/* Gesamtpunkte */}
+                            </tr>
                         ))}
                     </tbody>
                 </Table>
