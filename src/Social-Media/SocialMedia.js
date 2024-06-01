@@ -1,9 +1,10 @@
 import React, {useContext, useState, useEffect} from 'react';
-import { Box, ScrollArea, Avatar, Paper, Text, Button, TextInput, Modal, Select } from '@mantine/core';
+import { Box, ScrollArea, Avatar, Paper, Text, Button, TextInput, Modal, Select, Timeline, Textarea} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { db } from './../utils/firebase';
-import { collection, onSnapshot, updateDoc, doc, addDoc } from 'firebase/firestore';
+import { collection, onSnapshot, updateDoc, doc, addDoc, arrayUnion } from 'firebase/firestore';
 import { CiHeart } from "react-icons/ci";
+import { IoChatbubbleOutline } from "react-icons/io5";
 import Cookies from 'js-cookie';
 import './SocialMedia.css';
 import RichText from '../RichTextComponent/RichTextEditor';
@@ -46,6 +47,10 @@ const SocialMedia = () => {
     const [Personen, setPersonen] = useState([]);
     const navigate = useNavigate();
     const { accessToken } = useContext(AccessTokenContext);
+    const [commentsOpen, setCommentsOpen] = useState(false);
+    const [selectedNachricht, setSelectedNachricht] = useState({});
+    const [commentText, setCommentText] = useState('');
+    const [showFeed, setShowFeed] = useState(false);
 
     useEffect(() => {
         const NachrichtenRef = collection(db, 'Nachrichten');
@@ -59,7 +64,8 @@ const SocialMedia = () => {
                     message: data.Nachricht,
                     zeit: data.Zeit.toDate(), // Speichern Sie das Datum direkt als Date-Objekt
                     like: data.Like,
-                    profil: data.ProfilName
+                    profil: data.ProfilName,
+                    Kommentar: data.Kommentar || []
                 });
             })
             tempListe.sort((a, b) => b.zeit - a.zeit); // Verwenden Sie das Date-Objekt für die Sortierung
@@ -289,8 +295,13 @@ const SocialMedia = () => {
     };
 
     const renderMessageWithMentions = (message) => {
+        if (!message) {
+            console.error('message ist undefined');
+            return '';
+        }
+
         return message.replace(/@(\w+)/g, (match, username) => {
-            const person = Personen.find(p => p.name === username);
+            const person = Personen.find(p => p.spielerID === username);
             if (person) {
                 return `<a href="#" class="mention-link" data-id="${person.id}">@${username}</a>`;
             }
@@ -313,6 +324,23 @@ const SocialMedia = () => {
             document.removeEventListener('click', handleLinkClick);
         };
     }, []);
+
+    const speicherKommentar = async () => {
+        console.log("Kommentar: ", commentText);
+        console.log("Nachricht: ", selectedNachricht);
+    
+        if (selectedNachricht && selectedNachricht.id && commentText) {
+            const nachrichtRef = doc(db, 'Nachrichten', selectedNachricht.id);
+    
+            const jetzt = new Date(); // Erzeugen Sie die aktuelle Zeit auf dem Client
+    
+            await updateDoc(nachrichtRef, {
+                Kommentar: arrayUnion({text: commentText, zeit: jetzt}),
+            });
+    
+            console.log("Dokument erfolgreich aktualisiert!");
+        }
+    };
 
     return (
         <>
@@ -351,24 +379,39 @@ const SocialMedia = () => {
                     </Paper>
                         {Nachrichten.map((nachricht) => (
                             <Paper key={nachricht.id} shadow="xs" padding="xl" className='paper'>
-                                <div className='paper-avatar'>
+                                <div className='paper-avatar' style={{cursor: 'pointer'}}>
                                     <Avatar
                                         size="md"
                                         src={Teamlogos.find(logo => logo.name === nachricht.profil)?.src || process.env.PUBLIC_URL + '/ligalogo.png'}
                                         radius="xl"
+                                        onClick={() => {setSelectedNachricht(nachricht); setShowFeed(true)}}
                                     />
                                 </div>
                                 <div className='paper-content'>
-                                    <div>
+                                    <div onClick={() => {setSelectedNachricht(nachricht); setShowFeed(true)}} style={{cursor: 'pointer'}}>
                                         <h4>{nachricht.profil}</h4>
                                     </div>
-                                    <div>
+                                    <div onClick={() => {setSelectedNachricht(nachricht); setShowFeed(true)}} style={{cursor: 'pointer'}}>
                                         <div dangerouslySetInnerHTML={{ __html: renderMessageWithMentions(nachricht.message) }} />
                                     </div>
-                                    <div className='paper-like-time'>
-                                        <Button leftSection={<CiHeart size={14}/>} variant="transparent" style={{marginLeft: '-12px'}} onClick={() => clickedLikeButton(nachricht.id)}>
-                                            {nachricht.like !== 0 ? nachricht.like : null}
-                                        </Button>
+                                    <div className='paper-like-time' style={{display: 'flex', justifyContent: 'space-between'}}>
+                                        <div>
+                                            <Button leftSection={<CiHeart size={14}/>} variant="transparent" style={{marginLeft: '-12px'}} onClick={() => clickedLikeButton(nachricht.id)}>
+                                                {nachricht.like !== 0 ? nachricht.like : null}
+                                            </Button>
+                                            <Button 
+                                                leftSection={<IoChatbubbleOutline size={14}/>} 
+                                                variant="transparent" 
+                                                style={{marginLeft: '-12px'}} 
+                                                onClick={() => {
+                                                    setCommentsOpen(true);
+                                                    setSelectedNachricht(nachricht);
+                                                    console.log("Nachricht: ", nachricht);
+                                                }}
+                                            >
+                                                {nachricht.Kommentar ? nachricht.Kommentar.length : null}
+                                            </Button>                                        
+                                        </div>
                                         <Text c="dimmed" size='12px'>{nachricht.zeit.toLocaleString()}</Text>
                                     </div>
                                 </div>
@@ -408,6 +451,101 @@ const SocialMedia = () => {
                 />
                 <div style={{ color: characterCount > 280 ? 'red' : 'black' }}>
                     Zeichen: {characterCount} von max. 280
+                </div>
+            </Modal>
+
+            <Modal 
+                opened={commentsOpen} 
+                onClose={() => setCommentsOpen(false)}
+                centered 
+                withCloseButton={true} 
+                radius={20} 
+                size="lg"
+            >
+                <Timeline bulletSize={28}>
+                    <Timeline.Item
+                        title={selectedNachricht.profil}
+                        bullet={
+                            <Avatar
+                                size={30}
+                                radius="xl"
+                                src={Teamlogos.find(logo => logo.name === selectedNachricht.profil)?.src || process.env.PUBLIC_URL + '/ligalogo.png'}
+                            />
+                        }
+                    >
+                        <div dangerouslySetInnerHTML={{ __html: renderMessageWithMentions(selectedNachricht.message) }} />
+                    </Timeline.Item>
+                    <Timeline.Item
+                        bullet={
+                            <Avatar
+                                size={30}
+                                radius="xl"
+                            />
+                        }
+                    >
+                        <Textarea
+                            placeholder="Schreiben Sie hier Ihren Kommentar..."
+                            variant='unstyled'
+                            onChange={(event) => setCommentText(event.target.value)}
+                        />
+                    </Timeline.Item>
+                </Timeline>
+                <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <Button variant="filled" radius="xl" onClick={speicherKommentar}>Antworten</Button>
+                </div>
+            </Modal>
+
+            <Modal
+                opened={showFeed}
+                onClose={() => setShowFeed(false)}
+                centered
+                withCloseButton={true}
+                radius={20}
+                size="lg"
+            >
+                <Timeline bulletSize={28}>
+                    <Timeline.Item
+                        title={selectedNachricht.profil}
+                        bullet={
+                            <Avatar
+                                size={30}
+                                radius="xl"
+                                src={Teamlogos.find(logo => logo.name === selectedNachricht.profil)?.src || process.env.PUBLIC_URL + '/ligalogo.png'}
+                            />
+                        }
+                    >
+                        <div dangerouslySetInnerHTML={{ __html: renderMessageWithMentions(selectedNachricht.message) }} />
+                    </Timeline.Item>
+                    {selectedNachricht?.Kommentar?.map((comment, index) => (
+                        <Timeline.Item
+                            key={index}
+                            bullet={
+                                <Avatar
+                                    size={30}
+                                    radius="xl"
+                                />
+                            }
+                        >
+                            <div dangerouslySetInnerHTML={{ __html: renderMessageWithMentions(comment.text) }} />
+                        </Timeline.Item>
+                    ))}
+                    <Timeline.Item
+                        bullet={
+                            <Avatar
+                                size={30}
+                                radius="xl"
+                            />
+                        }
+                    >
+                        <Textarea
+                            placeholder="Schreiben Sie hier Ihren Kommentar..."
+                            variant='unstyled'
+                            onChange={(event) => setCommentText(event.target.value)}
+                        />
+                    </Timeline.Item>
+                </Timeline>
+                <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <Button variant="filled" radius="xl" onClick={speicherKommentar}>Antworten</Button>
                 </div>
             </Modal>
         </>
