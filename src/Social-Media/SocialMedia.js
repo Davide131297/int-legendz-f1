@@ -25,7 +25,7 @@ import CharacterCount from '@tiptap/extension-character-count';
 
 import Ferrari from '../Teamlogos/Ferrari.png';
 import Merceds from '../Teamlogos/MercedesIcon.png';
-import RedBull from '../Teamlogos/RedBullIcon.svg';
+import RedBull from '../Teamlogos/RedBullIcon.png';
 import Williams from '../Teamlogos/Williams.png';
 import McLaren from '../Teamlogos/MclarenIcon.png';
 import Alpine from '../Teamlogos/Alpine.png';
@@ -125,7 +125,7 @@ const SocialMedia = () => {
         },
         {
             name: 'RedBull',
-            src: 'https://pbs.twimg.com/profile_images/1788139372723765248/Oqxg1aY7_400x400.jpg'
+            src: RedBull
         },
         {
             name: 'Williams',
