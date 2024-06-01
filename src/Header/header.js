@@ -171,7 +171,7 @@ const Header = () => {
                             style={{width: '100px', height: '30px', marginRight: '5px'}} 
                         />    
                     </div>
-                    {accessToken === "davide.chiffi@gmx.de" || accessToken === "frank.john1987@gmail.com" && (
+                    {(accessToken === "davide.chiffi@gmx.de" || accessToken === "frank.john1987@gmail.com") && (
                         <div className="tab-custom" onClick={navigateAdminDashboard}>Admin Dashboard</div>
                     )}
                     <div className="footer">
