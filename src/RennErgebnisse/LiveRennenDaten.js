@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { ScrollArea } from "@mantine/core";
 import Table from 'react-bootstrap/Table';
 import './Rennergebnise.css';
 
 const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
+
+    useEffect(() => {
+        console.log('Fahrerliste:', Fahrerliste);
+        console.log('Rundendaten:', Rundendaten);
+    }, [Fahrerliste, Rundendaten]);
 
     const [height, setHeight] = useState('90vh');
 
@@ -210,7 +215,7 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
                             {
                                 Fahrerliste && Rundendaten && Fahrerliste.slice(0, -2)
                                     .map((fahrer, index) => ({ fahrer, rundendaten: Rundendaten[index] }))
-                                    .filter(item => item.rundendaten.m_carPosition !== 0) // Filtert alle Elemente, bei denen m_carPosition nicht 0 ist
+                                    .filter(item => item.fahrer.m_aiControlled !== 1) // Filtert alle Elemente, bei denen m_carPosition nicht 0 ist
                                     .sort((a, b) => a.rundendaten.m_carPosition - b.rundendaten.m_carPosition)
                                     .map((item, index) => (
                                         <tr key={index}>
