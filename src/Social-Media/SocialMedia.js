@@ -484,14 +484,22 @@ const SocialMedia = () => {
                         }
                     >
                         <Textarea
-                            placeholder="Schreiben Sie hier Ihren Kommentar..."
+                            placeholder={accessToken === null ? "Zum Kommentieren anmelden" : "Schreiben Sie hier Ihren Kommentar..."}
                             variant='unstyled'
                             onChange={(event) => setCommentText(event.target.value)}
+                            disabled={accessToken === null}
                         />
                     </Timeline.Item>
                 </Timeline>
                 <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <Button variant="filled" radius="xl" onClick={speicherKommentar}>Antworten</Button>
+                    <Button 
+                        variant="filled"
+                        radius="xl" 
+                        onClick={speicherKommentar}
+                        disabled={accessToken === null}
+                    >
+                        {accessToken === null ? 'Zum Antworten anmelden' : 'Antworten'}
+                    </Button>
                 </div>
             </Modal>
 
@@ -538,14 +546,21 @@ const SocialMedia = () => {
                         }
                     >
                         <Textarea
-                            placeholder="Schreiben Sie hier Ihren Kommentar..."
+                            placeholder={accessToken === null ? "Zum Kommentieren anmelden" : "Schreiben Sie hier Ihren Kommentar..."}
                             variant='unstyled'
                             onChange={(event) => setCommentText(event.target.value)}
                         />
                     </Timeline.Item>
                 </Timeline>
                 <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <Button variant="filled" radius="xl" onClick={speicherKommentar}>Antworten</Button>
+                    <Button 
+                        variant="filled"
+                        radius="xl" 
+                        onClick={speicherKommentar}
+                        disabled={accessToken === null}
+                    >
+                        {accessToken === null ? 'Zum Antworten anmelden' : 'Antworten'}
+                    </Button>
                 </div>
             </Modal>
         </>
