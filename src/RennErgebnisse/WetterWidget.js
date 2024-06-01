@@ -80,7 +80,6 @@ const WeatherWidget = ({WetterDaten}) => {
     return (
         <>
         {isLoading ? <Loader  color="blue"/> : (
-        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '15px'}}>
             <Card 
                 shadow='sm' 
                 padding="lg" 
@@ -102,7 +101,6 @@ const WeatherWidget = ({WetterDaten}) => {
                     </div>
                 </>
             </Card>
-        </div>
         )}
         </>
     );
