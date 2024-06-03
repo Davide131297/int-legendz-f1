@@ -99,6 +99,11 @@ const Header = () => {
         navigate('/adminDashboard');
     }
 
+    const navigateTippSpiel = () => {
+        toggle();
+        navigate('/tippspiel');
+    }
+
     const logout = () => {
         toggle();
         signOut(auth).then(() => {
@@ -165,6 +170,7 @@ const Header = () => {
                     </div>
                    {/*} <div className="tab-custom" onClick={navigateRegeln}>Regeln</div> */}
                     <div className="tab-custom" onClick={handleRennergebnisse}>Rennergebnisse</div>
+                    <div className="tab-custom" onClick={navigateTippSpiel}>Tippspiel</div>
                     <div className="tab-custom" onClick={ArchivWeiterleitung}>Archiv</div>
                     <div className="tab-custom" onClick={DiscordWeiterleitung}>
                         <img src="https://i0.wp.com/peakofserenity.com/wp-content/uploads/2018/12/wZgPoYaVlU0gAAAABJRU5ErkJggg.png?fit=777%2C249&ssl=1" alt="Discord" 
