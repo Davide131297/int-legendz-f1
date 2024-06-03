@@ -9,6 +9,7 @@ import './Tippspiel.css';
 import moment from 'moment';
 import TippspielPC from './TippspielPC';
 import TippspielHandy from './TippspielHandy';
+import { set } from 'firebase/database';
 
 const Tippspiel = () => {
 
@@ -66,6 +67,8 @@ const Tippspiel = () => {
 
     }, [accessToken]);
 
+    {/*
+
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, 'Tippspiel'), (snapshot) => {
             setTippSpielTeilnehmer(snapshot.docs.map(doc => {
@@ -81,6 +84,39 @@ const Tippspiel = () => {
         });
         return () => unsubscribe();
     }, [accessToken, nextRace]); 
+
+    */}
+
+    useEffect(() => {
+        const unsubscribe = onSnapshot(collection(db, 'Tippspiel'), (snapshot) => {
+            let tippSpielBestätigt = false;
+            let bereitsGetippt = false;
+
+            const docs = snapshot.docs.map(doc => {
+                const data = doc.data();
+                if (doc.id === accessToken?.displayName) {
+                    tippSpielBestätigt = true;
+                    if (data[nextRace?.id] === true) {
+                        bereitsGetippt = true;
+                    }
+                    return data;
+                }
+                return null;
+            }).filter(Boolean);
+
+            setTippSpielBestätigt(tippSpielBestätigt);
+            setBereitsGetippt(bereitsGetippt);
+
+
+            const teilnehmer = snapshot.docs
+            .map(doc => doc.data())
+            .filter(data => data.displayName);
+            console.log("Teilnehmer:", teilnehmer);
+            setTippSpielTeilnehmer(teilnehmer);
+        });
+
+        return () => unsubscribe();
+    }, [accessToken, nextRace]);
 
     useEffect(() => {
         const streckenRef = collection(db, 'Strecken');

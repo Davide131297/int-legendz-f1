@@ -67,7 +67,6 @@ const TippspielHandy = ({
                                         <tr>
                                             <th>#</th>
                                             <th>Teilnehmer</th>
-                                            <th>Punkte</th>
                                             <th>Coins</th>
                                         </tr>
                                     </thead>
@@ -76,7 +75,6 @@ const TippspielHandy = ({
                                             <tr key={index}>
                                                 <td>{index + 1}</td>
                                                 <td>{teilnehmer.displayName}</td>
-                                                <td>{teilnehmer.punkte}</td>
                                                 <td>{teilnehmer.coins}</td>
                                             </tr>
                                         ))}
