@@ -14,7 +14,7 @@ import { FaUserEdit } from "react-icons/fa";
 import { useDisclosure } from '@mantine/hooks';
 import { Modal, Input, Button, Divider, Select } from '@mantine/core';
 
-import AlfaRomeo from './../Teamlogos/AlfaRomeoIcon.png';
+import KickSauber from './../Teamlogos/StakeSauber.png';
 import Alpine from './../Teamlogos/Alpine.png';
 import AstonMartin from './../Teamlogos/AstonMartin.png';
 import Ferrari from './../Teamlogos/Ferrari.png';
@@ -23,7 +23,7 @@ import McLaren from './../Teamlogos/Mclaren.png';
 import Mercedes from './../Teamlogos/Mercedes.png';
 import RedBull from './../Teamlogos/RedBull.png';
 import Williams from './../Teamlogos/Williams.png';
-import AlphaTauri from './../Teamlogos/AlphaTauri.png';
+import VisaRB from './../Teamlogos/VisaCashAppWithBackground.jpg';
 
 const Profil = () => {
     let { id } = useParams();
@@ -43,8 +43,8 @@ const Profil = () => {
         'Red Bull': RedBull,
         'Williams': Williams,
         'Alpine': Alpine,
-        'Alpha Tauri': AlphaTauri,
-        'Alfa Romeo': AlfaRomeo,
+        'Visa RB': VisaRB,
+        'Kick Sauber': KickSauber,
         'Haas': Haas
     };
 
@@ -91,9 +91,9 @@ const Profil = () => {
         'McLaren': '#fc8404',
         'Red Bull': 'darkblue',
         'Alpine': '#ff82ab',
-        'Alpha Tauri': '#040505',
+        'Visa RB': '#040505',
         'Aston Martin': '#008B00',
-        'Alfa Romeo': '#CD0000',
+        'Kick Sauber': '#006400',
         'Haas': 'red',
         'Williams': '#049cdc'
     };
@@ -196,10 +196,10 @@ const Profil = () => {
                             width: person.team === 'Ferrari' ? '200px' : 
                             (person.team === 'Williams' ? '150px' : 
                             (person.team === 'Alpine' ? '150px' : 
-                            (person.team === 'Alfa Romeo' ? '150px' : 
+                            (person.team === 'Kick Sauber' ? '150px' : 
                             (person.team === 'Haas' ? '150px' : 
-                            (person.team === 'Alpha Tauri' ? '150px' :
-                            (person.team === 'Alfa Romeo' ? '150px' : '300px')))))),
+                            (person.team === 'Visa RB' ? '350px' :
+                            (person.team === 'Kick Sauber' ? '150px' : '300px')))))),
                             height: person.team === 'Ferrari' ? '150px' : (person.team === 'Williams' ? '150px' : '300px'), 
                             marginTop: person.team === 'Ferrari' ? '40px' 
                                 : (person.team === 'Williams' ? '30px' 
@@ -208,9 +208,9 @@ const Profil = () => {
                                             : (person.team === 'Aston Martin' ? '-40px' 
                                                 : (person.team === 'Mercedes' ? '-35px'
                                                 : (person.team === 'Alpine' ? '-30px'
-                                                : (person.team === 'Alpha Tauri' ? '0px'
+                                                : (person.team === 'Visa RB' ? '0px'
                                                 : (person.team === 'Haas' ? '-30px'
-                                                : (person.team === 'Alfa Romeo' ? '-30px' : '0px'))))))))),
+                                                : (person.team === 'Kick Sauber' ? '-30px' : '0px'))))))))),
                             objectFit: 'contain'
                         }} 
                     />

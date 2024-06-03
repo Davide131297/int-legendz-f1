@@ -37,9 +37,9 @@ import RedBull from '../Teamlogos/RedBullIcon.svg';
 import Williams from '../Teamlogos/Williams.png';
 import McLaren from '../Teamlogos/MclarenIcon.png';
 import Alpine from '../Teamlogos/Alpine.png';
-import AlfaRomeo from '../Teamlogos/AlfaRomeoIcon.png';
-import AlphaTauri from '../Teamlogos/AlphaTauri.png';
 import Haas from '../Teamlogos/Haas.png';
+import RBVisa from '../Teamlogos/RBVisaCashApp.svg';
+import KickSauber from '../Teamlogos/StakeSauber.png';
 
 
 function TeilnehmerTabelle() {
@@ -120,11 +120,11 @@ function TeilnehmerTabelle() {
         if (team === 'Alpine') {
           return <img src={Alpine} alt="Alpine Logo" style={{ width: '20px', height: '20px', marginLeft: '8px' }} />;
         }
-        if (team === 'Alfa Romeo') {
-          return <img src={AlfaRomeo} alt="AlfaRomeo Logo" style={{ width: '20px', height: '20px', marginLeft: '8px' }} />;
+        if (team === 'Kick Sauber') {
+          return <img src={KickSauber} alt="KickSauber Logo" style={{ width: '20px', height: '20px', marginLeft: '8px' }} />;
         }
-        if (team === 'Alpha Tauri') {
-            return <img src={AlphaTauri} alt="Alpha Tauri Logo" style={{ width: '20px', height: '15px', marginLeft: '8px' }} />;
+        if (team === 'Visa RB') {
+            return <img src={RBVisa} alt="RB Visa Logo" style={{ width: '20px', height: '15px', marginLeft: '8px' }} />;
         }
         if (team === 'Haas') {
           return <img src={Haas} alt="Haas Logo" style={{ width: '40px', height: '15px', marginLeft: '8px' }} />;

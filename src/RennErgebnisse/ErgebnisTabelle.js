@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { ScrollArea } from '@mantine/core';
-import Stake from './../Teamlogos/Stake Sauber.png';
+import Stake from './../Teamlogos/StakeSauber.png';
 import RedBull from './../Teamlogos/RedBullIcon.png';
 import Table from 'react-bootstrap/Table';
 
