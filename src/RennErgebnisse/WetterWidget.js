@@ -67,7 +67,7 @@ const WeatherWidget = ({WetterDaten}) => {
             case 2:
                 return "https://img.freepik.com/free-photo/black-rain-abstract-dark-power_1127-2380.jpg?t=st=1716813273~exp=1716816873~hmac=5ab719acb6691fd1555d951f4a1a0f295aac5d9819ed5ba879dacf429ba47584&w=826";
             case 3:
-                return "https://cdn.pixabay.com/photo/2015/06/19/20/14/water-815271_1280.jpg";
+                return "https://media.istockphoto.com/id/503284599/de/foto/regen-wetter.jpg?s=1024x1024&w=is&k=20&c=6IzN5IYs7O5kbjH9m4rLxkZbOShkcfUEfna_x-v5Ocw=";
             case 4:
                 return "https://cdn.pixabay.com/animation/2023/02/15/02/20/02-20-04-915_512.gif";
             case 5:
@@ -86,14 +86,14 @@ const WeatherWidget = ({WetterDaten}) => {
                 radius="lg" 
                 withBorder 
                 style={{
-                    backgroundImage: `url(${getBackgroundImage(WetterDaten[WetterDaten.length - 1].m_weather)})`,
+                    backgroundImage: `url(${getBackgroundImage(Wetter)})`,
                     width: '400px'
                 }}
             >
                 <>
                     <div style={{display: 'flex', justifyContent: 'flex-start', alignItems: 'center'}}>
                         <p>{renderWeatherImage(Wetter)}</p>
-                        <h5>{Lufttemperatur} °C Lufttemperatur</h5>
+                        <h5 style={{marginLeft: '5px'}}>{Lufttemperatur} °C Lufttemperatur</h5>
                     </div>
                     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-end'}}>
                         <h5>{Streckentemperatur} °C Streckentemperatur</h5>
