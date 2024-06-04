@@ -8,7 +8,6 @@ import { Tabs, rem } from '@mantine/core';
 import { CiViewTable } from "react-icons/ci";
 import { MdLiveTv } from "react-icons/md";
 import WeatherWidget from './WetterWidget';
-import LiveRennStatus from './LiveRennStatus';
 
 
 const Rennergebnise = () => {
@@ -103,11 +102,6 @@ const Rennergebnise = () => {
                 <Tabs.Panel value="LiveRace">
                     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px'}}>
                         <WeatherWidget WetterDaten={WetterDaten} />
-                        {window.innerWidth > 1000 ?
-                        <div style={{marginLeft: '20px'}}>
-                            <LiveRennStatus SessionData={SessionData} />
-                        </div>
-                        : null}
                     </div>
                     <LiveRennenDaten SessionData={SessionData} Fahrerliste={Fahrerliste} Rundendaten={Rundendaten}/>
                 </Tabs.Panel>
