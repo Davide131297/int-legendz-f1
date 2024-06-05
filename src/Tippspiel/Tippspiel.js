@@ -211,6 +211,7 @@ const Tippspiel = () => {
                 color: 'green',
                 autoClose: 2000,
               })
+                close();
                 setFormData({
                     email: '',
                     password: '',
@@ -227,7 +228,7 @@ const Tippspiel = () => {
               })
             });
         } else {
-          // Registrieren
+          if (formData.displayName && formData.email && formData.password) {
           createUserWithEmailAndPassword(auth, formData.email, formData.password)
             .then((userCredential) => {
               // Hinzufügen des Anzeigenamens zum Benutzerprofil
@@ -257,6 +258,7 @@ const Tippspiel = () => {
                         password: '',
                         displayName: '',
                     });
+                    close();
                 })
                 .catch((error) => {
                   console.error("Fehler beim Senden der Authentifizierungs-E-Mail:", error.message);
@@ -271,6 +273,14 @@ const Tippspiel = () => {
                 autoClose: 4000,
               })
             });
+            } else {
+                notifications.show({
+                    title: 'Fehlende Daten! 😞',
+                    message: 'Bitte fülle alle Felder aus, um dich zu registrieren.',
+                    color: 'red',
+                    autoClose: 4000,
+                })
+            }
         };
     };
 
@@ -505,7 +515,7 @@ const Tippspiel = () => {
                                 style={{ width: '100%', padding: '10px', marginBottom: '10px' }} 
                                 onChange={e => setFormData({ ...formData, password: e.target.value })}
                             />
-                            <button onClick={close} type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#333', color: '#fff', border: 'none', borderRadius: '5px' }}>Registrieren</button>
+                            <button type="submit" style={{ width: '100%', padding: '10px', backgroundColor: '#333', color: '#fff', border: 'none', borderRadius: '5px' }}>Registrieren</button>
                         </form>
                         <div style={{marginTop: '10px', marginBottom: '10px'}}>
                         <Divider color='black' size="sm"/>
