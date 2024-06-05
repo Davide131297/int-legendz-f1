@@ -6,7 +6,7 @@ import Table from 'react-bootstrap/Table';
 
 const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
 
-    const [height, setHeight] = useState('90vh');
+    const [height, setHeight] = useState('80vh');
     let fastestLap;
     if (RennErgebnis) {
         fastestLap = Math.min(...RennErgebnis.filter(ergebnis => ergebnis.m_bestLapTimeInMS !== 0).map(ergebnis => ergebnis.m_bestLapTimeInMS));
@@ -17,7 +17,7 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
             if (window.innerWidth < 767) {
                 setHeight('74vh');
             } else {
-                setHeight('90vh');
+                setHeight('80vh');
             }
         }
 

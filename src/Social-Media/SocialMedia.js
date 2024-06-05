@@ -301,7 +301,7 @@ const SocialMedia = () => {
         }
 
         return message.replace(/@(\w+)/g, (match, username) => {
-            const person = Personen.find(p => p.spielerID === username);
+            const person = Personen.find(p => p.name === username);
             if (person) {
                 return `<a href="#" class="mention-link" data-id="${person.id}">@${username}</a>`;
             }
