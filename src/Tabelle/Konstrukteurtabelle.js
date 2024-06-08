@@ -169,6 +169,9 @@ const Konstrukteurtabelle = () => {
                             {shouldRenderImage(Strecken, 'Großbritannien') &&
                             <th><img src={Großbritannien} alt="Großbritannien" className='img-size'/></th>
                             }
+
+                            {/*
+
                             {shouldRenderImage(Strecken, 'Ungarn') &&
                             <th><img src={Ungarn} alt="Ungarn" className='img-size'/></th>
                             }
@@ -204,7 +207,8 @@ const Konstrukteurtabelle = () => {
                             }
                             {shouldRenderImage(Strecken, 'AbuDhabi') &&
                             <th><img src={AbuDhabi} alt="AbuDhabi" className='img-size'/></th>
-                            }
+                            } 
+                            */}
                             <th>Gesamtpunkte</th>
                         </tr>
                     </thead>
@@ -259,6 +263,8 @@ const Konstrukteurtabelle = () => {
                                 {shouldRenderImage(Strecken, 'Großbritannien') &&
                                 <td>{team?.wertung?.Großbritannien}</td>
                                 }
+
+                                {/*
 
                                 {shouldRenderImage(Strecken, 'Ungarn') &&
                                 <td>{team?.wertung?.Ungarn}</td>
@@ -325,6 +331,8 @@ const Konstrukteurtabelle = () => {
                                 {shouldRenderImage(Strecken, 'AbuDhabi') &&
                                 <td>{team?.wertung?.AbuDhabi}</td>
                                 }
+                                */}
+                                <td></td> {/* Platzhalter für die Gesamtpunkte */}
                                 <td>{team.gesamtPunkte}</td>
                             </tr>
                         ))}
