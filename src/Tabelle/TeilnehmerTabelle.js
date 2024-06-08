@@ -94,6 +94,10 @@ function TeilnehmerTabelle() {
         return () => unsubscribe();
     }, []);
 
+    useEffect(() => {
+        console.log("Bilder: ", selectedImage);
+    }, [selectedImage]);
+
     const handleClick = (id) => {
         navigate(`/profil/${id}`);
     }
@@ -148,6 +152,25 @@ function TeilnehmerTabelle() {
         return { backgroundColor: 'transparent' };
     }
 
+   function modalFunction(strecke) {
+        console.log("Streckenname:", strecke.name);
+        const listRef = ref(storage, 'gs://f1-liga-int-legendz.appspot.com');
+        listAll(listRef)
+            .then((res) => {
+                const promises = res.items
+                    .filter(itemRef => itemRef.name.includes(strecke.name))
+                    .map(itemRef => getDownloadURL(itemRef));
+
+                return Promise.all(promises);
+            })
+            .then((urls) => {
+                setSelectedImage(urls);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        setClickedFlag(strecke.name);
+    };
 
     return (
         <div className='table-container'>
@@ -167,7 +190,7 @@ function TeilnehmerTabelle() {
                                 .filter(strecke => strecke.ansicht)
                                 .map((strecke, index) => 
                                     <th key={index}>
-                                        <img src={strecke.flagge} alt="Flagge" height="10px" width="20px" />
+                                        <img src={strecke.flagge} alt="Flagge" height="10px" width="20px" onClick={() => modalFunction(strecke)}/>
                                     </th>
                                 )
                             }
@@ -210,10 +233,16 @@ function TeilnehmerTabelle() {
                         </tbody>
                 </Table>
             </ScrollArea>
-            <Modal opened={selectedImage !== null} onClose={() => setSelectedImage(null)} title={clickedFlag} centered size={Array.isArray(selectedImage) && selectedImage.length > 1 ? "md" : "xl"}  closeOnClickOutside={false}>
-                {Array.isArray(selectedImage) ? selectedImage.map((image, index) => (
-                    <Image key={index} src={image} alt="Selected" fit="cover" />
-                )) : <Image src={selectedImage} alt="Selected" fit="cover" />}
+            <Modal opened={selectedImage !== null} onClose={() => setSelectedImage(null)} title={clickedFlag} centered size="lg"  closeOnClickOutside={false}>
+                {
+                    Array.isArray(selectedImage) && selectedImage.length > 1 ? 
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-around', alignItems: 'center' }}>
+                        {selectedImage.map((url, index) => (
+                            <Image key={index} src={url} alt="Streckenbild" width="100%" height="100%" style={{ marginTop: '5px' }} />
+                        ))}
+                    </div> :
+                    <Image src={selectedImage} alt="Streckenbild" width="100%" height="100%" />
+                }
             </Modal>
         </div>
     );
