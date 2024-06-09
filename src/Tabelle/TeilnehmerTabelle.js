@@ -38,7 +38,7 @@ import Williams from '../Teamlogos/Williams.png';
 import McLaren from '../Teamlogos/MclarenIcon.png';
 import Alpine from '../Teamlogos/Alpine.png';
 import Haas from '../Teamlogos/Haas.png';
-import RBVisa from '../Teamlogos/RBVisaCashApp.svg';
+import RBVisa from '../Teamlogos/VisaCashAppWithBackground.jpg';
 import KickSauber from '../Teamlogos/StakeSauber.png';
 
 
