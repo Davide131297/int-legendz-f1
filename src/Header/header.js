@@ -37,6 +37,15 @@ const Header = () => {
     const [openLogin, setOpenLogin] = useState(false);
     const { accessToken, setAccessToken } = useContext(AccessTokenContext);
     const auth = getAuth();
+    const [logoWidth, setLogoWidth] = useState(70);
+    const [logoHeight, setLogoHeight] = useState(70);
+
+    useEffect(() => {
+        if (window.innerWidth < 767) {
+            setLogoWidth(50);
+            setLogoHeight(50);
+        }
+    }, []);
 
     const navigateKonstrukteurstabelle = () => {
         toggle();
@@ -121,8 +130,8 @@ const Header = () => {
                         <img
                             alt=""
                             src={LigaLogo}
-                            width="50px"
-                            height="50px"
+                            width={logoWidth}
+                            height={logoHeight}
                             className="d-inline-block align-top logo"
                             style={{marginRight: '5px'}}
                             onClick={() => navigate('/')}
