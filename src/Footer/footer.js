@@ -1,4 +1,4 @@
-import react, { useState } from 'react';
+import react, { useState, useEffect } from 'react';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
@@ -8,10 +8,35 @@ import { GiFullMotorcycleHelmet } from "react-icons/gi";
 import { FaChartBar } from "react-icons/fa";
 import { FaArchive } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { VscFeedback } from "react-icons/vsc";
 
 const Footer = () => {
     const [value, setValue] = useState(0);
     const navigate = useNavigate();
+    const location = useLocation();
+
+    useEffect(() => {
+        switch (location.pathname) {
+            case '/':
+                setValue(0);
+                break;
+            case '/teilnehmertabelle':
+                setValue(1);
+                break;
+            case '/konstrukteurtabelle':
+                setValue(2);
+                break;
+            case '/statistiken':
+                setValue(3);
+                break;
+            case '/archiv':
+                setValue(4);
+                break;
+            default:
+                break;
+        }
+    }, [location.pathname]);
 
     function navigateto(page) {
         setValue(page);
@@ -47,8 +72,8 @@ const Footer = () => {
                 }}
             >
                 <BottomNavigationAction label="Home" icon={<MdHome style={value === 0 ? { color: 'blue' } : {}} />} />
-                <BottomNavigationAction label="Fahrer" icon={<FaFlagCheckered style={value === 1 ? { color: 'blue' } : {}} />} />
-                <BottomNavigationAction label="Konstrukteur" icon={<GiFullMotorcycleHelmet style={value === 2 ? { color: 'blue' } : {}} />} />
+                <BottomNavigationAction label="Fahrer" icon={<GiFullMotorcycleHelmet style={value === 1 ? { color: 'blue' } : {}} />} />
+                <BottomNavigationAction label="Konstrukteur" icon={<FaFlagCheckered style={value === 2 ? { color: 'blue' } : {}} />} />
                 <BottomNavigationAction label="Statistiken" icon={<FaChartBar style={value === 3 ? { color: 'blue' } : {}} />} />
                 <BottomNavigationAction label="Archiv" icon={<FaArchive style={value === 4 ? { color: 'blue' } : {}} />} />
             </BottomNavigation>

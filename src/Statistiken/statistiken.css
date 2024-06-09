@@ -9,6 +9,7 @@
     .statistiken-container {
         display: flex;
         justify-content: center;
+        padding: 30px 20px 80px 20px;
     }
     
 }
