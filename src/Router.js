@@ -10,11 +10,13 @@ import AdminDashboard from './AdminDashboard/AdminDashboard';
 import Archiv from './Archiv/Archiv';
 import SocialMedia from './Social-Media/SocialMedia';
 import Rennergebnise from './RennErgebnisse/Rennergebnise';
+import Footer from './Footer/footer'
 
 export function Router() {
     return (
         <BrowserRouter>
             <Header />
+            {window.innerWidth < 768 ? <Footer /> : null}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/teilnehmertabelle" element={<Teilnehmertabelle />} />

@@ -3,21 +3,24 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import LigaLogo from './LigaLogo.png';
 import './header.css';
-import { redirect, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { Burger } from '@mantine/core';
 import { Button } from '@mantine/core';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import { ActionIcon, Drawer, Modal } from '@mantine/core';
+import { Drawer, Modal } from '@mantine/core';
 import { GrAdd } from "react-icons/gr";
 import ErgebnisEintragen from "../ErgebnisEintragen/ErgebnisEintragen";
 import ZusatzKompoennte from "./ZusatzKompoennte";
-import { CiLogin, CiSettings, CiLogout } from "react-icons/ci";
 import LoginKomponente from "./LoginKomponente";
 import { signOut, getAuth } from "firebase/auth";
 import { notifications } from "@mantine/notifications";
 import { AccessTokenContext } from "../utils/AccesTokenContext";
-import { LuSmartphone } from "react-icons/lu";
+import SideNavBar from "./SideNavBar";
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { set } from "firebase/database";
 
 const getCookie = (name) => {
     const value = "; " + document.cookie;
@@ -39,10 +42,46 @@ const Header = () => {
     const [openLogin, setOpenLogin] = useState(false);
     const { accessToken, setAccessToken } = useContext(AccessTokenContext);
     const auth = getAuth();
+    const [logoWidth, setLogoWidth] = useState(70);
+    const [logoHeight, setLogoHeight] = useState(70);
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const ITEM_HEIGHT = 48;
+    
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleCloseMenu = (option) => {
+        setAnchorEl(null);
+        if (option === 'Admin Dashboard') {
+            setOpenLogin(true);
+        }
+        if (option === 'Eintragen') {
+            setDrawerOpen(true);
+        }
+        if (option === 'Archiv') {
+            navigate('/archiv');
+        }
+        if (option === 'Rennergebnisse') {
+            navigate('/rennergebnisse');
+        }
+    };
+
+    const options = [
+        'Eintragen',
+        'Archiv',
+        'Rennergebnisse',
+        'Admin Dashboard',
+    ];
 
     useEffect(() => {
-        console.log("accessToken:", accessToken);
-    }, [accessToken]);
+        if (window.innerWidth < 767) {
+            setLogoWidth(50);
+            setLogoHeight(50);
+        }
+    }, []);
 
     const navigateKonstrukteurstabelle = () => {
         toggle();
@@ -120,13 +159,15 @@ const Header = () => {
         <>
             <Navbar className="navbar">
                 <Container>
+                    {window.innerWidth > 767 && (
                     <Burger opened={opened} onClick={toggle} color="white" />
+                    )}
                     <Navbar.Brand className="navbar-brand">
                         <img
                             alt=""
                             src={LigaLogo}
-                            width="60"
-                            height="60"
+                            width={logoWidth}
+                            height={logoHeight}
                             className="d-inline-block align-top logo"
                             style={{marginRight: '5px'}}
                             onClick={() => navigate('/')}
@@ -134,55 +175,77 @@ const Header = () => {
                         <span className="title" onClick={() => navigate('/f1league')}>Int-Legendz F1 Liga</span>
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
-                        <Button 
-                            leftSection={<GrAdd size={20} color="white" />} 
-                            variant="transparent"
-                            color="white"
-                            onClick={() => {
-                                setDrawerOpen(Prev => !Prev);
-                                console.log("+ Gedrückt");
-                            }}
-                        >
-                            Eintragen
-                        </Button>
+                        {window.innerWidth < 767 && (
+                        <div>
+                            <IconButton
+                                aria-label="more"
+                                id="long-button"
+                                aria-controls={open ? 'long-menu' : undefined}
+                                aria-expanded={open ? 'true' : undefined}
+                                aria-haspopup="true"
+                                onClick={handleClick}
+                            >
+                                <MoreVertIcon style={{ color: 'white'}}/>
+                            </IconButton>
+                            <Menu
+                                id="long-menu"
+                                MenuListProps={{
+                                'aria-labelledby': 'long-button',
+                                }}
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleCloseMenu}
+                                PaperProps={{
+                                style: {
+                                    maxHeight: ITEM_HEIGHT * 4.5,
+                                    width: '20ch',
+                                },
+                                }}
+                            >
+                                {options.map((option) => (
+                                <MenuItem key={option} selected={option === 'Pyxis'} onClick={() => handleCloseMenu(option)}>
+                                    {option}
+                                </MenuItem>
+                                ))}
+                            </Menu>
+                        </div>
+                        )}
+                        {window.innerWidth > 767 && (
+                            <Button 
+                                leftSection={<GrAdd size={20} color="white" />} 
+                                variant="transparent"
+                                color="white"
+                                onClick={() => {
+                                    setDrawerOpen(Prev => !Prev);
+                                    console.log("+ Gedrückt");
+                                }}
+                            >
+                                Eintragen
+                            </Button>
+                        )}
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
 
-            <Offcanvas show={opened} onHide={toggle} className="offcanvas-custom">
-                <Offcanvas.Body className="offcanvas-body">
-                    <div className="tab-custom" onClick={navigateHome}>Home</div>
-                    <div className="tab-custom" onClick={navigateFahrertabelle}>Fahrertabelle</div>
-                    <div className="tab-custom" onClick={navigateKonstrukteurstabelle}>Konstrukteurstabelle</div>
-                    <div className="tab-custom" onClick={navigateStatistiken}>Statistiken</div>
-                    <div className="tab-custom" onClick={navigateSocialMedia} style={{display: 'flex', alignItems: 'center'}}>
-                        <LuSmartphone />
-                        Social Media
-                    </div>
-                   {/*} <div className="tab-custom" onClick={navigateRegeln}>Regeln</div> */}
-                    <div className="tab-custom" onClick={handleRennergebnisse}>Rennergebnisse</div>
-                    <div className="tab-custom" onClick={ArchivWeiterleitung}>Archiv</div>
-                    {(accessToken === "davide.chiffi@gmx.de" || accessToken === "frank.john1987@gmail.com") && (
-                        <div className="tab-custom" onClick={navigateAdminDashboard}>Admin Dashboard</div>
-                    )}
-                    <div className="footer">
-                    <ActionIcon variant='transparent' size="xs" onClick={openTheSettings}>
-                        <CiSettings color="black" size={20} />
-                    </ActionIcon>
-                    {accessToken === null ? (
-                    <ActionIcon variant='transparent' size="xs" onClick={openTheLogin}>
-                        <CiLogin color="black" size={20} />
-                    </ActionIcon>
-                    ) :(
-                        <ActionIcon variant='transparent' size="xs" onClick={logout}>
-                            <CiLogout color="black" size={20} />
-                        </ActionIcon>
-                    )}
-                        <div>Int.League V1.5</div>
-                        <div>Releasedatum 25.04.2024</div>
-                    </div>
-                </Offcanvas.Body>
-            </Offcanvas>
+            {window.innerWidth > 767 && (
+            <SideNavBar
+                opened={opened}
+                toggle={toggle}
+                navigateHome={navigateHome}
+                navigateFahrertabelle={navigateFahrertabelle}
+                navigateKonstrukteurstabelle={navigateKonstrukteurstabelle}
+                navigateStatistiken={navigateStatistiken}
+                navigateSocialMedia={navigateSocialMedia}
+                navigateRegeln={navigateRegeln}
+                handleRennergebnisse={handleRennergebnisse}
+                ArchivWeiterleitung={ArchivWeiterleitung}
+                navigateAdminDashboard={navigateAdminDashboard}
+                openTheSettings={openTheSettings}
+                openTheLogin={openTheLogin}
+                logout={logout}
+                accessToken={accessToken}
+            />
+            )}
 
             {window.innerWidth < 767 && (
                 <Drawer 
