@@ -54,7 +54,7 @@ const Footer = () => {
                 navigate('/statistiken');
                 break;
             case 4:
-                navigate('/archiv');
+                navigate('/socialmedia');
                 break;
             default:
                 break;
@@ -75,7 +75,7 @@ const Footer = () => {
                 <BottomNavigationAction label="Fahrer" icon={<GiFullMotorcycleHelmet style={value === 1 ? { color: 'blue' } : {}} />} />
                 <BottomNavigationAction label="Konstrukteur" icon={<FaFlagCheckered style={value === 2 ? { color: 'blue' } : {}} />} />
                 <BottomNavigationAction label="Statistiken" icon={<FaChartBar style={value === 3 ? { color: 'blue' } : {}} />} />
-                <BottomNavigationAction label="Archiv" icon={<FaArchive style={value === 4 ? { color: 'blue' } : {}} />} />
+                <BottomNavigationAction label="Feed" icon={<VscFeedback style={value === 4 ? { color: 'blue' } : {}} />} />
             </BottomNavigation>
         </Paper>
     )
