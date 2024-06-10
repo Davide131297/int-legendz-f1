@@ -21,7 +21,7 @@ function App() {
   return (
     <AccessTokenContext.Provider value={{ accessToken, setAccessToken }}>
       <MantineProvider>
-        <Notifications />
+        <Notifications position="top-right" zIndex={1000}/>
           <Router>
           </Router>
       </MantineProvider>
