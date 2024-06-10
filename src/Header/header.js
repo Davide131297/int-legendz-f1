@@ -16,6 +16,11 @@ import { signOut, getAuth } from "firebase/auth";
 import { notifications } from "@mantine/notifications";
 import { AccessTokenContext } from "../utils/AccesTokenContext";
 import SideNavBar from "./SideNavBar";
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { set } from "firebase/database";
 
 const getCookie = (name) => {
     const value = "; " + document.cookie;
@@ -39,6 +44,37 @@ const Header = () => {
     const auth = getAuth();
     const [logoWidth, setLogoWidth] = useState(70);
     const [logoHeight, setLogoHeight] = useState(70);
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const ITEM_HEIGHT = 48;
+    
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleCloseMenu = (option) => {
+        setAnchorEl(null);
+        if (option === 'Admin Dashboard') {
+            setOpenLogin(true);
+        }
+        if (option === 'Eintragen') {
+            setDrawerOpen(true);
+        }
+        if (option === 'Archiv') {
+            navigate('/archiv');
+        }
+        if (option === 'Rennergebnisse') {
+            navigate('/rennergebnisse');
+        }
+    };
+
+    const options = [
+        'Eintragen',
+        'Archiv',
+        'Rennergebnisse',
+        'Admin Dashboard',
+    ];
 
     useEffect(() => {
         if (window.innerWidth < 767) {
@@ -139,17 +175,54 @@ const Header = () => {
                         <span className="title" onClick={() => navigate('/f1league')}>Int-Legendz F1 Liga</span>
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
-                        <Button 
-                            leftSection={<GrAdd size={20} color="white" />} 
-                            variant="transparent"
-                            color="white"
-                            onClick={() => {
-                                setDrawerOpen(Prev => !Prev);
-                                console.log("+ Gedrückt");
-                            }}
-                        >
-                            Eintragen
-                        </Button>
+                        {window.innerWidth < 767 && (
+                        <div>
+                            <IconButton
+                                aria-label="more"
+                                id="long-button"
+                                aria-controls={open ? 'long-menu' : undefined}
+                                aria-expanded={open ? 'true' : undefined}
+                                aria-haspopup="true"
+                                onClick={handleClick}
+                            >
+                                <MoreVertIcon style={{ color: 'white'}}/>
+                            </IconButton>
+                            <Menu
+                                id="long-menu"
+                                MenuListProps={{
+                                'aria-labelledby': 'long-button',
+                                }}
+                                anchorEl={anchorEl}
+                                open={open}
+                                onClose={handleCloseMenu}
+                                PaperProps={{
+                                style: {
+                                    maxHeight: ITEM_HEIGHT * 4.5,
+                                    width: '20ch',
+                                },
+                                }}
+                            >
+                                {options.map((option) => (
+                                <MenuItem key={option} selected={option === 'Pyxis'} onClick={() => handleCloseMenu(option)}>
+                                    {option}
+                                </MenuItem>
+                                ))}
+                            </Menu>
+                        </div>
+                        )}
+                        {window.innerWidth > 767 && (
+                            <Button 
+                                leftSection={<GrAdd size={20} color="white" />} 
+                                variant="transparent"
+                                color="white"
+                                onClick={() => {
+                                    setDrawerOpen(Prev => !Prev);
+                                    console.log("+ Gedrückt");
+                                }}
+                            >
+                                Eintragen
+                            </Button>
+                        )}
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
