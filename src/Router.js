@@ -10,10 +10,6 @@ import AdminDashboard from './AdminDashboard/AdminDashboard';
 import Archiv from './Archiv/Archiv';
 import SocialMedia from './Social-Media/SocialMedia';
 import Rennergebnise from './RennErgebnisse/Rennergebnise';
-<<<<<<< HEAD
-import Footer from './Footer/footer'
-=======
->>>>>>> parent of f8054bd (Footer, noch ohne funktion)
 
 export function Router() {
     return (
