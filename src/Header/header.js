@@ -136,7 +136,7 @@ const Header = () => {
                             style={{marginRight: '5px'}}
                             onClick={() => navigate('/')}
                         />{' '}
-                        <span className="title" onClick={() => navigate('/f1league')}>Int-Legendz F1 Liga</span>
+                        <span className="title" onClick={() => navigate('/f1league')}>Legendz Gaming</span>
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                             <Button 
@@ -183,8 +183,8 @@ const Header = () => {
                             <CiLogout color="black" size={20} />
                         </ActionIcon>
                     )}
-                        <div>Int.League V1.5</div>
-                        <div>Releasedatum 25.04.2024</div>
+                        <div>Int.League V1.6</div>
+                        <div>Releasedatum 12.06.2024</div>
                     </div>
                 </Offcanvas.Body>
             </Offcanvas>
