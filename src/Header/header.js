@@ -139,42 +139,6 @@ const Header = () => {
                         <span className="title" onClick={() => navigate('/f1league')}>Int-Legendz F1 Liga</span>
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
-                        {window.innerWidth < 767 && (
-                        <div>
-                            <IconButton
-                                aria-label="more"
-                                id="long-button"
-                                aria-controls={open ? 'long-menu' : undefined}
-                                aria-expanded={open ? 'true' : undefined}
-                                aria-haspopup="true"
-                                onClick={handleClick}
-                            >
-                                <MoreVertIcon style={{ color: 'white'}}/>
-                            </IconButton>
-                            <Menu
-                                id="long-menu"
-                                MenuListProps={{
-                                'aria-labelledby': 'long-button',
-                                }}
-                                anchorEl={anchorEl}
-                                open={open}
-                                onClose={handleCloseMenu}
-                                PaperProps={{
-                                style: {
-                                    maxHeight: ITEM_HEIGHT * 4.5,
-                                    width: '20ch',
-                                },
-                                }}
-                            >
-                                {options.map((option) => (
-                                <MenuItem key={option} selected={option === 'Pyxis'} onClick={() => handleCloseMenu(option)}>
-                                    {option}
-                                </MenuItem>
-                                ))}
-                            </Menu>
-                        </div>
-                        )}
-                        {window.innerWidth > 767 && (
                             <Button 
                                 leftSection={<GrAdd size={20} color="white" />} 
                                 variant="transparent"
@@ -186,7 +150,6 @@ const Header = () => {
                             >
                                 Eintragen
                             </Button>
-                        )}
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
@@ -204,7 +167,7 @@ const Header = () => {
                    {/*} <div className="tab-custom" onClick={navigateRegeln}>Regeln</div> */}
                     <div className="tab-custom" onClick={handleRennergebnisse}>Rennergebnisse</div>
                     <div className="tab-custom" onClick={ArchivWeiterleitung}>Archiv</div>
-                    {(accessToken === "davide.chiffi@gmx.de" || accessToken === "frank.john1987@gmail.com") && (
+                    {(accessToken === "davide.chiffi@gmx.de") && (
                         <div className="tab-custom" onClick={navigateAdminDashboard}>Admin Dashboard</div>
                     )}
                     <div className="footer">
