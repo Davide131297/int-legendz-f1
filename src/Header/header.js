@@ -48,6 +48,7 @@ const Header = () => {
     const [openLogin, setOpenLogin] = useState(false);
     const { accessToken, setAccessToken } = useContext(AccessTokenContext);
     const auth = getAuth();
+<<<<<<< HEAD
     const [logoWidth, setLogoWidth] = useState(70);
     const [logoHeight, setLogoHeight] = useState(70);
 
@@ -88,6 +89,8 @@ const Header = () => {
             setLogoHeight(50);
         }
     }, []);
+=======
+>>>>>>> parent of ffed835 (Footer funktioniert)
 
     useEffect(() => {
         console.log("accessToken:", accessToken);
@@ -175,12 +178,17 @@ const Header = () => {
                             alt=""
                             src={LigaLogo}
 <<<<<<< HEAD
+<<<<<<< HEAD
                             width={logoWidth}
                             height={logoHeight}
 =======
                             width="60"
                             height="60"
 >>>>>>> parent of c9ab994 (Neuer Header)
+=======
+                            width="50px"
+                            height="50px"
+>>>>>>> parent of ffed835 (Footer funktioniert)
                             className="d-inline-block align-top logo"
                             style={{marginRight: '5px'}}
                             onClick={() => navigate('/')}
