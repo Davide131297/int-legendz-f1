@@ -17,16 +17,7 @@ import LoginKomponente from "./LoginKomponente";
 import { signOut, getAuth } from "firebase/auth";
 import { notifications } from "@mantine/notifications";
 import { AccessTokenContext } from "../utils/AccesTokenContext";
-<<<<<<< HEAD
-import SideNavBar from "./SideNavBar";
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { set } from "firebase/database";
-=======
 import { LuSmartphone } from "react-icons/lu";
->>>>>>> parent of c9ab994 (Neuer Header)
 
 const getCookie = (name) => {
     const value = "; " + document.cookie;
@@ -48,40 +39,8 @@ const Header = () => {
     const [openLogin, setOpenLogin] = useState(false);
     const { accessToken, setAccessToken } = useContext(AccessTokenContext);
     const auth = getAuth();
-<<<<<<< HEAD
     const [logoWidth, setLogoWidth] = useState(70);
     const [logoHeight, setLogoHeight] = useState(70);
-
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const open = Boolean(anchorEl);
-    const ITEM_HEIGHT = 48;
-    
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleCloseMenu = (option) => {
-        setAnchorEl(null);
-        if (option === 'Admin Dashboard') {
-            setOpenLogin(true);
-        }
-        if (option === 'Eintragen') {
-            setDrawerOpen(true);
-        }
-        if (option === 'Archiv') {
-            navigate('/archiv');
-        }
-        if (option === 'Rennergebnisse') {
-            navigate('/rennergebnisse');
-        }
-    };
-
-    const options = [
-        'Eintragen',
-        'Archiv',
-        'Rennergebnisse',
-        'Admin Dashboard',
-    ];
 
     useEffect(() => {
         if (window.innerWidth < 767) {
@@ -89,12 +48,6 @@ const Header = () => {
             setLogoHeight(50);
         }
     }, []);
-=======
->>>>>>> parent of ffed835 (Footer funktioniert)
-
-    useEffect(() => {
-        console.log("accessToken:", accessToken);
-    }, [accessToken]);
 
     const navigateKonstrukteurstabelle = () => {
         toggle();
@@ -177,18 +130,8 @@ const Header = () => {
                         <img
                             alt=""
                             src={LigaLogo}
-<<<<<<< HEAD
-<<<<<<< HEAD
                             width={logoWidth}
                             height={logoHeight}
-=======
-                            width="60"
-                            height="60"
->>>>>>> parent of c9ab994 (Neuer Header)
-=======
-                            width="50px"
-                            height="50px"
->>>>>>> parent of ffed835 (Footer funktioniert)
                             className="d-inline-block align-top logo"
                             style={{marginRight: '5px'}}
                             onClick={() => navigate('/')}
