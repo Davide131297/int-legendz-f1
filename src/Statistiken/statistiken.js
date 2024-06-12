@@ -4,7 +4,6 @@ import { collection, onSnapshot } from 'firebase/firestore';
 import { DonutChart } from '@mantine/charts';
 import './statistiken.css';
 import { Table } from 'react-bootstrap';
-import { ScrollArea } from '@mantine/core';
 
 const Statistiken = () => {
     const [personen, setPersonen] = useState([]);

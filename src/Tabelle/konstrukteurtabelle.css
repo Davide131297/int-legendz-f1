@@ -26,13 +26,5 @@
         transform: scale(0.9);
         width: 100%;
     }
-
-    .table-container {
-        width: 100%;
-    }
-
-    .konstrukteur-chart {
-        margin-top: 15px;
-    }
     
 }

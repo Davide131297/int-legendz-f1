@@ -5,11 +5,6 @@ import Table from 'react-bootstrap/Table';
 import { ScrollArea } from '@mantine/core';
 import './konstrukteurtabelle.css';
 import KonstrukteurLineChart from '../Charts/LineChart_Konstrukteur';
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
 // Flaggen
 import Bahrain from './../Flaggen/bahrain.png';
 import SaudiArabien from './../Flaggen/saudiarabien.png';
@@ -48,11 +43,6 @@ import VisaRB from '../Teamlogos/VisaCashAppWithBackground.jpg';
 const Konstrukteurtabelle = () => {
     const [teams, setTeams] = useState([]);
     const [Strecken, setStrecken] = useState([]);
-    const [value, setValue] = React.useState('1');
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
 
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, 'teams'), (snapshot) => {
@@ -137,459 +127,222 @@ const Konstrukteurtabelle = () => {
 
     return (
         <>
-            {window.innerWidth < 768 && (
-                <Box sx={{ width: '100%', typography: 'body1', bgcolor: 'black'}}>
-                    <TabContext value={value}>
-                        <Box>
-                            <TabList onChange={handleChange} aria-label="lab API tabs example" centered>
-                                <Tab label="Tabelle" value="1" sx={{ color: value === "1" ? '#31dafe' : 'white' }} />
-                                <Tab label="Verlauf" value="2" sx={{ color: value === "2" ? '#31dafe' : 'white' }} />
-                            </TabList>
-                        </Box>
-                        <TabPanel value="1" sx={{ bgcolor: 'white' }}>
-                        <div className='table-container'>
-                            <ScrollArea type='never' h={380}>
-                                <Table striped bordered hover>
-                                    <thead className='thead-sticky'>
-                                        <tr>
-                                            <th id='sticky-konstrukteur'>Konstrukteur</th>
-                                            {shouldRenderImage(Strecken, 'Bahrain') && 
-                                            <th><img src={Bahrain} alt="Bahrain" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Saudi Arabien') &&
-                                            <th><img src={SaudiArabien} alt="SaudiArabien" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Australien') &&
-                                            <th><img src={Australien} alt="Australien" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Japan') &&
-                                            <th><img src={Japan} alt="Japan" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'China') &&
-                                            <th><img src={China} alt="China" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Miami') &&
-                                            <th><img src={USA} alt="Miami" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Imola') &&
-                                            <th><img src={Italien} alt="Imola" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Monaco') &&
-                                            <th><img src={Monaco} alt="Monaco" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Kanada') &&
-                                            <th><img src={Kanada} alt="Kanada" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Spanien') &&
-                                            <th><img src={Spanien} alt="Spanien" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Österreich') &&
-                                            <th><img src={Österreich} alt="Österreich" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Großbritannien') &&
-                                            <th><img src={Großbritannien} alt="Großbritannien" className='img-size'/></th>
-                                            }
+        <div className='table-container'>
+            <ScrollArea type='never' className='scrollarea' h={380}>
+                <Table striped bordered hover>
+                    <thead className='thead-sticky'>
+                        <tr>
+                            <th id='sticky-konstrukteur'>Konstrukteur</th>
+                            {shouldRenderImage(Strecken, 'Bahrain') && 
+                            <th><img src={Bahrain} alt="Bahrain" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Saudi Arabien') &&
+                            <th><img src={SaudiArabien} alt="SaudiArabien" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Australien') &&
+                            <th><img src={Australien} alt="Australien" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Japan') &&
+                            <th><img src={Japan} alt="Japan" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'China') &&
+                            <th><img src={China} alt="China" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Miami') &&
+                            <th><img src={USA} alt="Miami" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Imola') &&
+                            <th><img src={Italien} alt="Imola" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Monaco') &&
+                            <th><img src={Monaco} alt="Monaco" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Kanada') &&
+                            <th><img src={Kanada} alt="Kanada" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Spanien') &&
+                            <th><img src={Spanien} alt="Spanien" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Österreich') &&
+                            <th><img src={Österreich} alt="Österreich" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Großbritannien') &&
+                            <th><img src={Großbritannien} alt="Großbritannien" className='img-size'/></th>
+                            }
 
-                                            {/*
+                            {/*
 
-                                            {shouldRenderImage(Strecken, 'Ungarn') &&
-                                            <th><img src={Ungarn} alt="Ungarn" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Belgien') &&
-                                            <th><img src={Belgien} alt="Belgien" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Niederlande') &&
-                                            <th><img src={Niederlande} alt="Niederlande" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Monza') &&
-                                            <th><img src={Italien} alt="Monza" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Aserbaidschan') &&
-                                            <th><img src={Aserbaidschan} alt="Aserbaidschan" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Singapur') &&
-                                            <th><img src={Singapur} alt="Singapur" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Austin') &&
-                                            <th><img src={USA} alt="Austin" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Mexiko') &&
-                                            <th><img src={Mexiko} alt="Mexiko" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Brasilien') &&
-                                            <th><img src={Brasilien} alt="Brasilien" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'LasVegas') &&
-                                            <th><img src={USA} alt="LasVegas" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'Katar') &&
-                                            <th><img src={Katar} alt="Katar" className='img-size'/></th>
-                                            }
-                                            {shouldRenderImage(Strecken, 'AbuDhabi') &&
-                                            <th><img src={AbuDhabi} alt="AbuDhabi" className='img-size'/></th>
-                                            } 
-                                            */}
-                                            <th>Gesamtpunkte</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {teams.filter(team => team.gesamtPunkte !== undefined).map((team) => (
-                                            <tr key={team.id}>
-                                                <td  className='sticky-konstrukteur-body'>
-                                                    <div>
-                                                        <span>{team.id}</span>
-                                                        {renderTeamLogo(team.id)}
-                                                    </div>
-                                                </td>
-                                                {shouldRenderImage(Strecken, 'Bahrain') && 
-                                                <td>{team?.wertung?.Bahrain}</td>
-                                                }
-                                                {shouldRenderImage(Strecken, 'SaudiArabien') &&
-                                                <td>{team?.wertung?.SaudiArabien}</td>
-                                                }
-                                                {shouldRenderImage(Strecken, 'Australien') &&
-                                                <td>{team?.wertung?.Australien}</td>
-                                                }
-                                                {shouldRenderImage(Strecken, 'Japan') &&
-                                                <td>{team?.wertung?.Japan}</td>
-                                                }
-                                                {shouldRenderImage(Strecken, 'China') &&
-                                                <td>{team?.wertung?.China}</td>
-                                                }                              
-                                                {shouldRenderImage(Strecken, 'Miami') && 
-                                                <td>{team?.wertung?.Miami}</td>
-                                                }
-                                                {shouldRenderImage(Strecken, 'Imola') &&
-                                                <td>{team?.wertung?.Imola}</td>
-                                                }
-                                                {shouldRenderImage(Strecken, 'Monaco') &&
-                                                <td>{team?.wertung?.Monaco}</td>
-                                                }
-                                                {shouldRenderImage(Strecken, 'Kanada') &&
-                                                <td>{team?.wertung?.Kanada}</td>
-                                                }
-                                                {shouldRenderImage(Strecken, 'Spanien') &&
-                                                <td>{team?.wertung?.Spanien}</td>
-                                                }
-                                                {shouldRenderImage(Strecken, 'Österreich') &&
-                                                <>
-                                                <td>
-                                                    {(team?.wertung?.Österreich_Sprint !== undefined || team?.wertung?.Österreich_Rennen !== undefined) 
-                                                        ? (team?.wertung?.Österreich_Sprint || 0) + (team?.wertung?.Österreich_Rennen || 0)
-                                                        : ''}
-                                                </td>
-                                                </>
-                                                }
-                                                {shouldRenderImage(Strecken, 'Großbritannien') &&
-                                                <td>{team?.wertung?.Großbritannien}</td>
-                                                }
-
-                                                {/*
-
-                                                {shouldRenderImage(Strecken, 'Ungarn') &&
-                                                <td>{team?.wertung?.Ungarn}</td>
-                                                }
-
-                                                {shouldRenderImage(Strecken, 'Belgien') &&
-                                                <td>{team?.wertung?.Belgien}</td>
-                                                }
-
-                                                {shouldRenderImage(Strecken, 'Niederlande') &&
-                                                <td>{team?.wertung?.Niederlande}</td>
-                                                }
-
-                                                {shouldRenderImage(Strecken, 'Monza') &&
-                                                <td>{team?.wertung?.Monza}</td>
-                                                }
-                                                
-                                                {shouldRenderImage(Strecken, 'Aserbaidschan') &&
-                                                <td>{team?.wertung?.Aserbaidschan}</td>
-                                                }
-
-                                                {shouldRenderImage(Strecken, 'Singapur') &&
-                                                <td>{team?.wertung?.Singapur}</td>
-                                                }
-
-                                                {shouldRenderImage(Strecken, 'Austin') &&
-                                                <>
-                                                <td>
-                                                    {(team?.wertung?.Austin_Sprint !== undefined || team?.wertung?.Austin_Rennen !== undefined)
-                                                        ? (team?.wertung?.Austin_Sprint || 0) + (team?.wertung?.Austin_Rennen || 0)
-                                                        : ''}
-                                                </td>
-                                                </>
-                                                }
-
-                                                {shouldRenderImage(Strecken, 'Mexiko') &&
-                                                <td>{team?.wertung?.Mexiko}</td>
-                                                }
-
-                                                {shouldRenderImage(Strecken, 'Brasilien') &&
-                                                <>
-                                                    <td>
-                                                        {(team?.wertung?.Brasilien_Sprint !== undefined || team?.wertung?.Brasilien_Rennen !== undefined)
-                                                            ? (team?.wertung?.Brasilien_Sprint || 0) + (team?.wertung?.Brasilien_Rennen || 0)
-                                                            : ''}
-                                                    </td>
-                                                </>
-                                                }
-
-                                                {shouldRenderImage(Strecken, 'LasVegas') &&
-                                                <td>{team?.wertung?.LasVegas}</td>
-                                                }
-
-                                                {shouldRenderImage(Strecken, 'Katar') &&
-                                                <>
-                                                    <td>
-                                                        {(team?.wertung?.Katar_Sprint !== undefined || team?.wertung?.Katar_Rennen !== undefined)
-                                                            ? (team?.wertung?.Katar_Sprint || 0) + (team?.wertung?.Katar_Rennen || 0)
-                                                            : ''}
-                                                    </td>
-                                                </>
-                                                }
-
-                                                {shouldRenderImage(Strecken, 'AbuDhabi') &&
-                                                <td>{team?.wertung?.AbuDhabi}</td>
-                                                }
-                                                */}
-                                                <td></td> {/* Platzhalter für die Gesamtpunkte */}
-                                                <td>{team.gesamtPunkte}</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </Table>
-                            </ScrollArea>
-                        </div>
-                        </TabPanel>
-                        <TabPanel value="2" sx={{ bgcolor: 'white' }}>
-                            <div className='konstrukteur-chart'>
-                                <KonstrukteurLineChart teams={teams}/>
-                            </div>
-                        </TabPanel>
-                    </TabContext>
-                </Box>
-            )}
-
-            {window.innerWidth > 768 && (
-            <div className='table-container'>
-                <ScrollArea type='never' className='scrollarea' h={380}>
-                    <Table striped bordered hover>
-                        <thead className='thead-sticky'>
-                            <tr>
-                                <th id='sticky-konstrukteur'>Konstrukteur</th>
+                            {shouldRenderImage(Strecken, 'Ungarn') &&
+                            <th><img src={Ungarn} alt="Ungarn" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Belgien') &&
+                            <th><img src={Belgien} alt="Belgien" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Niederlande') &&
+                            <th><img src={Niederlande} alt="Niederlande" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Monza') &&
+                            <th><img src={Italien} alt="Monza" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Aserbaidschan') &&
+                            <th><img src={Aserbaidschan} alt="Aserbaidschan" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Singapur') &&
+                            <th><img src={Singapur} alt="Singapur" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Austin') &&
+                            <th><img src={USA} alt="Austin" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Mexiko') &&
+                            <th><img src={Mexiko} alt="Mexiko" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Brasilien') &&
+                            <th><img src={Brasilien} alt="Brasilien" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'LasVegas') &&
+                            <th><img src={USA} alt="LasVegas" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'Katar') &&
+                            <th><img src={Katar} alt="Katar" className='img-size'/></th>
+                            }
+                            {shouldRenderImage(Strecken, 'AbuDhabi') &&
+                            <th><img src={AbuDhabi} alt="AbuDhabi" className='img-size'/></th>
+                            } 
+                            */}
+                            <th>Gesamtpunkte</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {teams.filter(team => team.gesamtPunkte !== undefined).map((team) => (
+                            <tr key={team.id}>
+                                <td  className='sticky-konstrukteur-body'>
+                                    <div>
+                                        <span>{team.id}</span>
+                                        {renderTeamLogo(team.id)}
+                                    </div>
+                                </td>
                                 {shouldRenderImage(Strecken, 'Bahrain') && 
-                                <th><img src={Bahrain} alt="Bahrain" className='img-size'/></th>
+                                <td>{team?.wertung?.Bahrain}</td>
                                 }
-                                {shouldRenderImage(Strecken, 'Saudi Arabien') &&
-                                <th><img src={SaudiArabien} alt="SaudiArabien" className='img-size'/></th>
+                                {shouldRenderImage(Strecken, 'SaudiArabien') &&
+                                <td>{team?.wertung?.SaudiArabien}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'Australien') &&
-                                <th><img src={Australien} alt="Australien" className='img-size'/></th>
+                                <td>{team?.wertung?.Australien}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'Japan') &&
-                                <th><img src={Japan} alt="Japan" className='img-size'/></th>
+                                <td>{team?.wertung?.Japan}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'China') &&
-                                <th><img src={China} alt="China" className='img-size'/></th>
-                                }
-                                {shouldRenderImage(Strecken, 'Miami') &&
-                                <th><img src={USA} alt="Miami" className='img-size'/></th>
+                                <td>{team?.wertung?.China}</td>
+                                }                              
+                                {shouldRenderImage(Strecken, 'Miami') && 
+                                <td>{team?.wertung?.Miami}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'Imola') &&
-                                <th><img src={Italien} alt="Imola" className='img-size'/></th>
+                                <td>{team?.wertung?.Imola}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'Monaco') &&
-                                <th><img src={Monaco} alt="Monaco" className='img-size'/></th>
+                                <td>{team?.wertung?.Monaco}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'Kanada') &&
-                                <th><img src={Kanada} alt="Kanada" className='img-size'/></th>
+                                <td>{team?.wertung?.Kanada}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'Spanien') &&
-                                <th><img src={Spanien} alt="Spanien" className='img-size'/></th>
+                                <td>{team?.wertung?.Spanien}</td>
                                 }
                                 {shouldRenderImage(Strecken, 'Österreich') &&
-                                <th><img src={Österreich} alt="Österreich" className='img-size'/></th>
+                                <>
+                                <td>
+                                    {(team?.wertung?.Österreich_Sprint !== undefined || team?.wertung?.Österreich_Rennen !== undefined) 
+                                        ? (team?.wertung?.Österreich_Sprint || 0) + (team?.wertung?.Österreich_Rennen || 0)
+                                        : ''}
+                                </td>
+                                </>
                                 }
                                 {shouldRenderImage(Strecken, 'Großbritannien') &&
-                                <th><img src={Großbritannien} alt="Großbritannien" className='img-size'/></th>
+                                <td>{team?.wertung?.Großbritannien}</td>
                                 }
 
                                 {/*
 
                                 {shouldRenderImage(Strecken, 'Ungarn') &&
-                                <th><img src={Ungarn} alt="Ungarn" className='img-size'/></th>
+                                <td>{team?.wertung?.Ungarn}</td>
                                 }
+
                                 {shouldRenderImage(Strecken, 'Belgien') &&
-                                <th><img src={Belgien} alt="Belgien" className='img-size'/></th>
+                                <td>{team?.wertung?.Belgien}</td>
                                 }
+
                                 {shouldRenderImage(Strecken, 'Niederlande') &&
-                                <th><img src={Niederlande} alt="Niederlande" className='img-size'/></th>
+                                <td>{team?.wertung?.Niederlande}</td>
                                 }
+
                                 {shouldRenderImage(Strecken, 'Monza') &&
-                                <th><img src={Italien} alt="Monza" className='img-size'/></th>
+                                <td>{team?.wertung?.Monza}</td>
                                 }
+                                
                                 {shouldRenderImage(Strecken, 'Aserbaidschan') &&
-                                <th><img src={Aserbaidschan} alt="Aserbaidschan" className='img-size'/></th>
+                                <td>{team?.wertung?.Aserbaidschan}</td>
                                 }
+
                                 {shouldRenderImage(Strecken, 'Singapur') &&
-                                <th><img src={Singapur} alt="Singapur" className='img-size'/></th>
+                                <td>{team?.wertung?.Singapur}</td>
                                 }
+
                                 {shouldRenderImage(Strecken, 'Austin') &&
-                                <th><img src={USA} alt="Austin" className='img-size'/></th>
+                                <>
+                                <td>
+                                    {(team?.wertung?.Austin_Sprint !== undefined || team?.wertung?.Austin_Rennen !== undefined)
+                                        ? (team?.wertung?.Austin_Sprint || 0) + (team?.wertung?.Austin_Rennen || 0)
+                                        : ''}
+                                </td>
+                                </>
                                 }
+
                                 {shouldRenderImage(Strecken, 'Mexiko') &&
-                                <th><img src={Mexiko} alt="Mexiko" className='img-size'/></th>
+                                <td>{team?.wertung?.Mexiko}</td>
                                 }
+
                                 {shouldRenderImage(Strecken, 'Brasilien') &&
-                                <th><img src={Brasilien} alt="Brasilien" className='img-size'/></th>
+                                <>
+                                    <td>
+                                        {(team?.wertung?.Brasilien_Sprint !== undefined || team?.wertung?.Brasilien_Rennen !== undefined)
+                                            ? (team?.wertung?.Brasilien_Sprint || 0) + (team?.wertung?.Brasilien_Rennen || 0)
+                                            : ''}
+                                    </td>
+                                </>
                                 }
+
                                 {shouldRenderImage(Strecken, 'LasVegas') &&
-                                <th><img src={USA} alt="LasVegas" className='img-size'/></th>
+                                <td>{team?.wertung?.LasVegas}</td>
                                 }
+
                                 {shouldRenderImage(Strecken, 'Katar') &&
-                                <th><img src={Katar} alt="Katar" className='img-size'/></th>
+                                <>
+                                    <td>
+                                        {(team?.wertung?.Katar_Sprint !== undefined || team?.wertung?.Katar_Rennen !== undefined)
+                                            ? (team?.wertung?.Katar_Sprint || 0) + (team?.wertung?.Katar_Rennen || 0)
+                                            : ''}
+                                    </td>
+                                </>
                                 }
+
                                 {shouldRenderImage(Strecken, 'AbuDhabi') &&
-                                <th><img src={AbuDhabi} alt="AbuDhabi" className='img-size'/></th>
-                                } 
+                                <td>{team?.wertung?.AbuDhabi}</td>
+                                }
                                 */}
-                                <th>Gesamtpunkte</th>
+                                <td></td> {/* Platzhalter für die Gesamtpunkte */}
+                                <td>{team.gesamtPunkte}</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {teams.filter(team => team.gesamtPunkte !== undefined).map((team) => (
-                                <tr key={team.id}>
-                                    <td  className='sticky-konstrukteur-body'>
-                                        <div>
-                                            <span>{team.id}</span>
-                                            {renderTeamLogo(team.id)}
-                                        </div>
-                                    </td>
-                                    {shouldRenderImage(Strecken, 'Bahrain') && 
-                                    <td>{team?.wertung?.Bahrain}</td>
-                                    }
-                                    {shouldRenderImage(Strecken, 'SaudiArabien') &&
-                                    <td>{team?.wertung?.SaudiArabien}</td>
-                                    }
-                                    {shouldRenderImage(Strecken, 'Australien') &&
-                                    <td>{team?.wertung?.Australien}</td>
-                                    }
-                                    {shouldRenderImage(Strecken, 'Japan') &&
-                                    <td>{team?.wertung?.Japan}</td>
-                                    }
-                                    {shouldRenderImage(Strecken, 'China') &&
-                                    <td>{team?.wertung?.China}</td>
-                                    }                              
-                                    {shouldRenderImage(Strecken, 'Miami') && 
-                                    <td>{team?.wertung?.Miami}</td>
-                                    }
-                                    {shouldRenderImage(Strecken, 'Imola') &&
-                                    <td>{team?.wertung?.Imola}</td>
-                                    }
-                                    {shouldRenderImage(Strecken, 'Monaco') &&
-                                    <td>{team?.wertung?.Monaco}</td>
-                                    }
-                                    {shouldRenderImage(Strecken, 'Kanada') &&
-                                    <td>{team?.wertung?.Kanada}</td>
-                                    }
-                                    {shouldRenderImage(Strecken, 'Spanien') &&
-                                    <td>{team?.wertung?.Spanien}</td>
-                                    }
-                                    {shouldRenderImage(Strecken, 'Österreich') &&
-                                    <>
-                                    <td>
-                                        {(team?.wertung?.Österreich_Sprint !== undefined || team?.wertung?.Österreich_Rennen !== undefined) 
-                                            ? (team?.wertung?.Österreich_Sprint || 0) + (team?.wertung?.Österreich_Rennen || 0)
-                                            : ''}
-                                    </td>
-                                    </>
-                                    }
-                                    {shouldRenderImage(Strecken, 'Großbritannien') &&
-                                    <td>{team?.wertung?.Großbritannien}</td>
-                                    }
-
-                                    {/*
-
-                                    {shouldRenderImage(Strecken, 'Ungarn') &&
-                                    <td>{team?.wertung?.Ungarn}</td>
-                                    }
-
-                                    {shouldRenderImage(Strecken, 'Belgien') &&
-                                    <td>{team?.wertung?.Belgien}</td>
-                                    }
-
-                                    {shouldRenderImage(Strecken, 'Niederlande') &&
-                                    <td>{team?.wertung?.Niederlande}</td>
-                                    }
-
-                                    {shouldRenderImage(Strecken, 'Monza') &&
-                                    <td>{team?.wertung?.Monza}</td>
-                                    }
-                                    
-                                    {shouldRenderImage(Strecken, 'Aserbaidschan') &&
-                                    <td>{team?.wertung?.Aserbaidschan}</td>
-                                    }
-
-                                    {shouldRenderImage(Strecken, 'Singapur') &&
-                                    <td>{team?.wertung?.Singapur}</td>
-                                    }
-
-                                    {shouldRenderImage(Strecken, 'Austin') &&
-                                    <>
-                                    <td>
-                                        {(team?.wertung?.Austin_Sprint !== undefined || team?.wertung?.Austin_Rennen !== undefined)
-                                            ? (team?.wertung?.Austin_Sprint || 0) + (team?.wertung?.Austin_Rennen || 0)
-                                            : ''}
-                                    </td>
-                                    </>
-                                    }
-
-                                    {shouldRenderImage(Strecken, 'Mexiko') &&
-                                    <td>{team?.wertung?.Mexiko}</td>
-                                    }
-
-                                    {shouldRenderImage(Strecken, 'Brasilien') &&
-                                    <>
-                                        <td>
-                                            {(team?.wertung?.Brasilien_Sprint !== undefined || team?.wertung?.Brasilien_Rennen !== undefined)
-                                                ? (team?.wertung?.Brasilien_Sprint || 0) + (team?.wertung?.Brasilien_Rennen || 0)
-                                                : ''}
-                                        </td>
-                                    </>
-                                    }
-
-                                    {shouldRenderImage(Strecken, 'LasVegas') &&
-                                    <td>{team?.wertung?.LasVegas}</td>
-                                    }
-
-                                    {shouldRenderImage(Strecken, 'Katar') &&
-                                    <>
-                                        <td>
-                                            {(team?.wertung?.Katar_Sprint !== undefined || team?.wertung?.Katar_Rennen !== undefined)
-                                                ? (team?.wertung?.Katar_Sprint || 0) + (team?.wertung?.Katar_Rennen || 0)
-                                                : ''}
-                                        </td>
-                                    </>
-                                    }
-
-                                    {shouldRenderImage(Strecken, 'AbuDhabi') &&
-                                    <td>{team?.wertung?.AbuDhabi}</td>
-                                    }
-                                    */}
-                                    <td></td> {/* Platzhalter für die Gesamtpunkte */}
-                                    <td>{team.gesamtPunkte}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </ScrollArea>
-                {window.innerWidth > 768 && (
-                    <div className='chart-container'>
-                    <KonstrukteurLineChart teams={teams}/>
-                    </div>
-                )}
+                        ))}
+                    </tbody>
+                </Table>
+            </ScrollArea>
+            <div className='chart-container'>
+               <KonstrukteurLineChart teams={teams}/>
             </div>
-            )}
+        </div>
         </>
     );
 };
