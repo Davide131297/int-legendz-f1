@@ -3,24 +3,30 @@ import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import LigaLogo from './LigaLogo.png';
 import './header.css';
-import { useNavigate } from 'react-router-dom';
+import { redirect, useNavigate } from 'react-router-dom';
 import { useDisclosure } from '@mantine/hooks';
 import { Burger } from '@mantine/core';
 import { Button } from '@mantine/core';
-import { Drawer, Modal } from '@mantine/core';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import { ActionIcon, Drawer, Modal } from '@mantine/core';
 import { GrAdd } from "react-icons/gr";
 import ErgebnisEintragen from "../ErgebnisEintragen/ErgebnisEintragen";
 import ZusatzKompoennte from "./ZusatzKompoennte";
+import { CiLogin, CiSettings, CiLogout } from "react-icons/ci";
 import LoginKomponente from "./LoginKomponente";
 import { signOut, getAuth } from "firebase/auth";
 import { notifications } from "@mantine/notifications";
 import { AccessTokenContext } from "../utils/AccesTokenContext";
+<<<<<<< HEAD
 import SideNavBar from "./SideNavBar";
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { set } from "firebase/database";
+=======
+import { LuSmartphone } from "react-icons/lu";
+>>>>>>> parent of c9ab994 (Neuer Header)
 
 const getCookie = (name) => {
     const value = "; " + document.cookie;
@@ -82,6 +88,10 @@ const Header = () => {
             setLogoHeight(50);
         }
     }, []);
+
+    useEffect(() => {
+        console.log("accessToken:", accessToken);
+    }, [accessToken]);
 
     const navigateKonstrukteurstabelle = () => {
         toggle();
@@ -159,15 +169,18 @@ const Header = () => {
         <>
             <Navbar className="navbar">
                 <Container>
-                    {window.innerWidth > 767 && (
                     <Burger opened={opened} onClick={toggle} color="white" />
-                    )}
                     <Navbar.Brand className="navbar-brand">
                         <img
                             alt=""
                             src={LigaLogo}
+<<<<<<< HEAD
                             width={logoWidth}
                             height={logoHeight}
+=======
+                            width="60"
+                            height="60"
+>>>>>>> parent of c9ab994 (Neuer Header)
                             className="d-inline-block align-top logo"
                             style={{marginRight: '5px'}}
                             onClick={() => navigate('/')}
@@ -227,25 +240,40 @@ const Header = () => {
                 </Container>
             </Navbar>
 
-            {window.innerWidth > 767 && (
-            <SideNavBar
-                opened={opened}
-                toggle={toggle}
-                navigateHome={navigateHome}
-                navigateFahrertabelle={navigateFahrertabelle}
-                navigateKonstrukteurstabelle={navigateKonstrukteurstabelle}
-                navigateStatistiken={navigateStatistiken}
-                navigateSocialMedia={navigateSocialMedia}
-                navigateRegeln={navigateRegeln}
-                handleRennergebnisse={handleRennergebnisse}
-                ArchivWeiterleitung={ArchivWeiterleitung}
-                navigateAdminDashboard={navigateAdminDashboard}
-                openTheSettings={openTheSettings}
-                openTheLogin={openTheLogin}
-                logout={logout}
-                accessToken={accessToken}
-            />
-            )}
+            <Offcanvas show={opened} onHide={toggle} className="offcanvas-custom">
+                <Offcanvas.Body className="offcanvas-body">
+                    <div className="tab-custom" onClick={navigateHome}>Home</div>
+                    <div className="tab-custom" onClick={navigateFahrertabelle}>Fahrertabelle</div>
+                    <div className="tab-custom" onClick={navigateKonstrukteurstabelle}>Konstrukteurstabelle</div>
+                    <div className="tab-custom" onClick={navigateStatistiken}>Statistiken</div>
+                    <div className="tab-custom" onClick={navigateSocialMedia} style={{display: 'flex', alignItems: 'center'}}>
+                        <LuSmartphone />
+                        Social Media
+                    </div>
+                   {/*} <div className="tab-custom" onClick={navigateRegeln}>Regeln</div> */}
+                    <div className="tab-custom" onClick={handleRennergebnisse}>Rennergebnisse</div>
+                    <div className="tab-custom" onClick={ArchivWeiterleitung}>Archiv</div>
+                    {(accessToken === "davide.chiffi@gmx.de" || accessToken === "frank.john1987@gmail.com") && (
+                        <div className="tab-custom" onClick={navigateAdminDashboard}>Admin Dashboard</div>
+                    )}
+                    <div className="footer">
+                    <ActionIcon variant='transparent' size="xs" onClick={openTheSettings}>
+                        <CiSettings color="black" size={20} />
+                    </ActionIcon>
+                    {accessToken === null ? (
+                    <ActionIcon variant='transparent' size="xs" onClick={openTheLogin}>
+                        <CiLogin color="black" size={20} />
+                    </ActionIcon>
+                    ) :(
+                        <ActionIcon variant='transparent' size="xs" onClick={logout}>
+                            <CiLogout color="black" size={20} />
+                        </ActionIcon>
+                    )}
+                        <div>Int.League V1.5</div>
+                        <div>Releasedatum 25.04.2024</div>
+                    </div>
+                </Offcanvas.Body>
+            </Offcanvas>
 
             {window.innerWidth < 767 && (
                 <Drawer 
