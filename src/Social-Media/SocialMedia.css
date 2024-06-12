@@ -60,6 +60,11 @@
     .paper-like-time {
         margin-right: 20px;
     }
+
+    .nachricht-message {
+        font-size: small;
+        padding-right: 10px;
+    }
 }
 
 /* Media Query für Bildschirme mit einer Breite von bis zu 480px */

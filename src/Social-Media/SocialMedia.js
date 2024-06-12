@@ -391,7 +391,7 @@ const SocialMedia = () => {
                                     <div onClick={() => {setSelectedNachricht(nachricht); setShowFeed(true)}} style={{cursor: 'pointer'}}>
                                         <h4>{nachricht.profil}</h4>
                                     </div>
-                                    <div onClick={() => {setSelectedNachricht(nachricht); setShowFeed(true)}} style={{cursor: 'pointer'}}>
+                                    <div onClick={() => {setSelectedNachricht(nachricht); setShowFeed(true)}} style={{cursor: 'pointer'}} className='nachricht-message'>
                                         <div dangerouslySetInnerHTML={{ __html: renderMessageWithMentions(nachricht.message) }} />
                                     </div>
                                     <div className='paper-like-time' style={{display: 'flex', justifyContent: 'space-between'}}>
