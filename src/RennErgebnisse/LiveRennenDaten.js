@@ -215,7 +215,7 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
                             {
                                 Fahrerliste && Rundendaten && Fahrerliste.slice(0, -2)
                                     .map((fahrer, index) => ({ fahrer, rundendaten: Rundendaten[index] }))
-                                    .filter(item => item.fahrer.m_aiControlled !== 1) // Filtert alle Elemente, bei denen m_carPosition nicht 0 ist
+                                    .filter(item => item.fahrer.m_name !== "") // Filtert alle Elemente, bei denen m_carPosition nicht 0 ist
                                     .sort((a, b) => a.rundendaten.m_carPosition - b.rundendaten.m_carPosition)
                                     .map((item, index) => (
                                         <tr key={index}>
