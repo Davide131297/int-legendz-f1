@@ -22,7 +22,7 @@ const KonstrukteurLineChart = (props) => {
 
     const strecken = [
         { value: 'Bahrain', label: 'Bahrain' },
-        { value: 'Saudiarabien', label: 'Saudi Arabien' },
+        { value: 'SaudiArabien', label: 'Saudi Arabien' },
         { value: 'Australien', label: 'Australien' },
         { value: 'Japan', label: 'Japan' },
         { value: 'China', label: 'China' },
