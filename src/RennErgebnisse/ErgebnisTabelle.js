@@ -43,6 +43,7 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
             28: 'https://cdn.countryflags.com/thumbs/france/flag-square-250.png',
             29: 'https://cdn.countryflags.com/thumbs/germany/flag-square-250.png',
             31: 'https://cdn.countryflags.com/thumbs/greece/flag-square-250.png',
+            40: 'https://www.countryflags.com/wp-content/uploads/israel-flag-png-large.png',
             41: 'https://cdn.countryflags.com/thumbs/italy/flag-square-250.png',
             42: 'https://cdn.countryflags.com/thumbs/jamaica/flag-square-500.png',
             43: 'https://cdn.countryflags.com/thumbs/japan/flag-square-250.png',
