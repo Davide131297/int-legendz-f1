@@ -142,7 +142,7 @@ const Rennergebnise = () => {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="settings">
-                    <DokumentErstellung RennErgebnis={RennErgebnis} Fahrerliste={Fahrerliste} Rundendaten={Rundendaten}/>
+                    <DokumentErstellung RennErgebnis={RennErgebnis} Fahrerliste={Fahrerliste} Rundendaten={Rundendaten} SessionData={SessionData}/>
                 </Tabs.Panel>
             </Tabs>
         </div>
