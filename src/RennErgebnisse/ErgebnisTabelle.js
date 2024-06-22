@@ -4,7 +4,7 @@ import Stake from './../Teamlogos/StakeSauber.png';
 import RedBull from './../Teamlogos/RedBullIcon.png';
 import Table from 'react-bootstrap/Table';
 
-const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
+const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste, Rundendaten }) => {
 
     const [height, setHeight] = useState('80vh');
     let fastestLap;
@@ -114,26 +114,33 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
             <ScrollArea h={height}>
             <Table striped bordered hover className='Rennergebnis-Tabelle'>
                 <thead>
-                    <tr>
+                    <tr>          
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Position</th>
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Nationalität</th>
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Fahrername</th>
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Team</th>
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Grid Position</th>
-                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Position</th>
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Beste Persönliche Runde</th>
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Rennzeit</th>
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Punkte</th>
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>{/* Ereigniss*/}</th>
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Anzahl Boxenstopps</th>
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Strafen (s)</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        RennErgebnis && Fahrerliste && RennErgebnis.slice(0, -2)
-                            .map((ergebnis, index) => ({ fahrer: Fahrerliste[index], ergebnis }))
+                        RennErgebnis && Fahrerliste && Rundendaten && RennErgebnis.slice(0, -2)
+                            .map((ergebnis, index) => ({
+                                fahrer: Fahrerliste[index],
+                                ergebnis,
+                                rundendaten: Rundendaten[index]
+                            }))
                             .filter(item => item.ergebnis.m_position !== 0) // Filtert alle Elemente, bei denen m_position nicht 0 ist
                             .sort((a, b) => a.ergebnis.m_position - b.ergebnis.m_position)
                             .map((item, index) => (
                                 <tr key={index}>
+                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.ergebnis.m_position}</td>
                                     <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                                         <img src={getNationality(item.fahrer.m_nationality)} alt="Nationalität" width="15" height="15" />
                                     </td>
@@ -147,7 +154,6 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
                                         />
                                     </td>
                                     <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.ergebnis.m_gridPosition}</td>
-                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.ergebnis.m_position}</td>
                                     <td style={{ textAlign: 'center', verticalAlign: 'middle', color: item.ergebnis.m_bestLapTimeInMS === fastestLap ? 'purple' : 'black' }}>
                                         {formatBestRaceTime(item.ergebnis.m_bestLapTimeInMS)}
                                     </td>
@@ -156,6 +162,8 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste }) => {
                                     { item.ergebnis.m_resultStatus !== 3 && 
                                         <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{formatResultStatus(item.ergebnis.m_resultStatus)}</td>
                                     }
+                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.rundendaten ? item.rundendaten.m_penalties : 'N/A'}</td>
+                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.rundendaten ? item.rundendaten.m_numPitStops : 'N/A'}</td>
                                 </tr>
                             ))
                     }
