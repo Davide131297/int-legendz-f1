@@ -15,47 +15,47 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
     function getTrackName(id) {
         switch(id) {
             case 0:
-                return "Melbourne";
+                return "Australien";
             case 1:
                 return "Paul Ricard";
             case 2:
-                return "Shanghai";
+                return "China";
             case 3:
                 return "Bahrain";
             case 4:
-                return "Catalunya";
+                return "Spanien";
             case 5:
                 return "Monaco";
             case 6:
-                return "Montreal";
+                return "Kanda";
             case 7:
-                return "Silverstone";
+                return "Großbritannien";
             case 8:
                 return "Hockenheim";
             case 9:
-                return "Hungaroring";
+                return "Ungarn";
             case 10:
-                return "Spa";
+                return "Belgien";
             case 11:
                 return "Monza";
             case 12:
-                return "Singapore";
+                return "Singapur";
             case 13:
-                return "Suzuka";
+                return "Japan";
             case 14:
                 return "Abu Dhabi";
             case 15:
                 return "Texas";
             case 16:
-                return "Brazil";
+                return "Brasilien";
             case 17:
-                return "Austria";
+                return "Österreich";
             case 18:
-                return "Sochi";
+                return "Russland";
             case 19:
-                return "Mexico";
+                return "Mexiko";
             case 20:
-                return "Baku";
+                return "Aserbaidschan";
             case 21:
                 return "Sakhir Short";
             case 22:
@@ -71,15 +71,15 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
             case 27:
                 return "Imola";
             case 28:
-                return "Portimão";
+                return "Portugal";
             case 29:
-                return "Jeddah";
+                return "Saudi Arabien";
             case 30:
                 return "Miami";
             case 31:
                 return "Las Vegas";
             case 32:
-                return "Losail";
+                return "Katar";
             default:
                 return "Unbekannte Strecke"; // Rückgabe eines Standardnamens, wenn die ID nicht erkannt wird
         }
