@@ -8,7 +8,7 @@ import { Tabs, rem } from '@mantine/core';
 import { CiViewTable } from "react-icons/ci";
 import { MdLiveTv } from "react-icons/md";
 import WeatherWidget from './WetterWidget';
-
+import DokumentErstellung from './DokumentErstellung';
 
 const Rennergebnise = () => {
 
@@ -142,7 +142,7 @@ const Rennergebnise = () => {
                 </Tabs.Panel>
 
                 <Tabs.Panel value="settings">
-                    <button onClick={downloadJSON}>Download JSON</button>
+                    <DokumentErstellung RennErgebnis={RennErgebnis} Fahrerliste={Fahrerliste} Rundendaten={Rundendaten}/>
                 </Tabs.Panel>
             </Tabs>
         </div>
