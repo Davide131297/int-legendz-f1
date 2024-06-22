@@ -77,4 +77,11 @@ td {
         height: calc(100vh - 220px);
     }
     
+    #theadRaceResult {
+        font-size: 0.6em;
+    }
+
+    #tbodyRaceResult {
+        font-size: 0.6em;
+    }
 }
