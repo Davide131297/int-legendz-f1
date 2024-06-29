@@ -75,7 +75,7 @@ const Profiltabelle = () => {
 
     const data = [
         shouldRenderImage(Strecken, 'Bahrain') && {header: <img src={Bahrain} alt="Bahrain" className='img-size'/>, value: person?.wertung?.Bahrain || 0},
-        shouldRenderImage(Strecken, 'Saudi Arabien') && {header: <img src={SaudiArabien} alt="SaudiArabien" className='img-size'/>, value: person?.wertung?.SaudiArabien || 0},
+        shouldRenderImage(Strecken, 'SaudiArabien') && {header: <img src={SaudiArabien} alt="SaudiArabien" className='img-size'/>, value: person?.wertung?.SaudiArabien || 0},
         shouldRenderImage(Strecken, 'Australien') && {header: <img src={Australien} alt="Australien" className='img-size'/>, value: person?.wertung?.Australien || 0},
         shouldRenderImage(Strecken, 'Japan') && {header: <img src={Japan} alt="Japan" className='img-size'/>, value: person?.wertung?.Japan || 0},
         shouldRenderImage(Strecken, 'China') && {header: <img src={China} alt="China" className='img-size'/>, value: person?.wertung?.China || 0},
