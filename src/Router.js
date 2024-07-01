@@ -6,7 +6,6 @@ import Statistiken from './Statistiken/statistiken';
 import Profil from './Profil/Profil';
 import Home from './Home/Home';
 import Regeln from './Regeln/Regeln';
-import AdminDashboard from './AdminDashboard/AdminDashboard';
 import Archiv from './Archiv/Archiv';
 import SocialMedia from './Social-Media/SocialMedia';
 import Rennergebnise from './RennErgebnisse/Rennergebnise';
@@ -22,7 +21,6 @@ export function Router() {
                 <Route path="/statistiken" element={<Statistiken />} />
                 <Route path="/profil/:id" element={<Profil />} />
                 <Route path="/regeln" element={<Regeln />} />
-                <Route path="/adminDashboard" element={<AdminDashboard />} />
                 <Route path="/archiv" element={<Archiv />} />
                 <Route path="/socialmedia" element={<SocialMedia />} />
                 <Route path="/rennergebnisse" element={<Rennergebnise />} />
