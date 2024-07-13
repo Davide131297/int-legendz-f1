@@ -99,10 +99,6 @@ const Header = () => {
         setOpenLogin(true);
     }
 
-    const navigateAdminDashboard = () => {
-        toggle();
-        navigate('/adminDashboard');
-    }
 
     const logout = () => {
         toggle();
@@ -169,9 +165,6 @@ const Header = () => {
                    {/*} <div className="tab-custom" onClick={navigateRegeln}>Regeln</div> */}
                     <div className="tab-custom" onClick={handleRennergebnisse}>Rennergebnisse</div>
                     <div className="tab-custom" onClick={ArchivWeiterleitung}>Archiv</div>
-                    {(accessToken === "davide.chiffi@gmx.de") && (
-                        <div className="tab-custom" onClick={navigateAdminDashboard}>Admin Dashboard</div>
-                    )}
                     <div className="footer">
                     <ActionIcon variant='transparent' size="xs" onClick={openTheSettings}>
                         <CiSettings color="black" size={20} />
