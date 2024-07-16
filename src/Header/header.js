@@ -132,7 +132,7 @@ const Header = () => {
                             style={{marginRight: '5px'}}
                             onClick={() => navigate('/')}
                         />{' '}
-                        <span className="title" onClick={() => navigate('/f1league')}>Legendz Gaming</span>
+                        <span className="title" onClick={() => navigate('/f1league')}>Virtual Racing League</span>
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                             <Button 
@@ -164,7 +164,11 @@ const Header = () => {
                     */}
                    {/*} <div className="tab-custom" onClick={navigateRegeln}>Regeln</div> */}
                     <div className="tab-custom" onClick={handleRennergebnisse}>Rennergebnisse</div>
+
+                    {/*
                     <div className="tab-custom" onClick={ArchivWeiterleitung}>Archiv</div>
+                    */}
+
                     <div className="footer">
                     <ActionIcon variant='transparent' size="xs" onClick={openTheSettings}>
                         <CiSettings color="black" size={20} />
@@ -178,8 +182,8 @@ const Header = () => {
                             <CiLogout color="black" size={20} />
                         </ActionIcon>
                     )}
-                        <div>Int.League V1.6</div>
-                        <div>Releasedatum 12.06.2024</div>
+                        <div>VRL V2.0</div>
+                        <div>Releasedatum 16.07.2024</div>
                     </div>
                 </Offcanvas.Body>
             </Offcanvas>
