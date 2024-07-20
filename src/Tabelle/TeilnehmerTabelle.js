@@ -11,28 +11,6 @@ import Stake from '../Teamlogos/StakeSauber.png';
 import RedBullIcon from './../Teamlogos/RedBullIcon.png';
 import FastestLap from './FastestLap.png';
 
-// Flaggen
-import Bahrain from './../Flaggen/bahrain.png';
-import SaudiArabien from './../Flaggen/saudiarabien.png';
-import Australien from './../Flaggen/australien.png';
-import Aserbaidschan from './../Flaggen/azerbeidschan.png';
-import USA from './../Flaggen/usa.png';
-import Italien from './../Flaggen/italien.png';
-import Monaco from './../Flaggen/monaco.png';
-import Spanien from './../Flaggen/spanien.png';
-import Kanada from './../Flaggen/kanada.png';
-import Österreich from './../Flaggen/österreich.png';
-import England from './../Flaggen/england.png';
-import Ungarn from './../Flaggen/ungarn.png';
-import Belgien from './../Flaggen/belgien.png';
-import Niederlande from './../Flaggen/niederlande.png';
-import Singapur from './../Flaggen/singapur.png';
-import Japan from './../Flaggen/japan.png';
-import Katar from './../Flaggen/katar.png';
-import Mexiko from './../Flaggen/mexico.png';
-import Brasilien from './../Flaggen/brasilien.png';
-import AbuDhabi from './../Flaggen/abudhabi.png';
-
 import Ferrari from '../Teamlogos/Ferrari.png';
 import AstonMartin from '../Teamlogos/AstonMartin.png';
 import Merceds from '../Teamlogos/MercedesIcon.png';
