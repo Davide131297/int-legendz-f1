@@ -76,52 +76,38 @@ const Statistiken = () => {
         'McLaren': '#fc8404',
         'Red Bull': 'darkblue',
         'Alpine': '#ff82ab',
-        'AlphaTauri': '#040505',
+        'Visa RB': '#4682B4',
         'Aston Martin': '#008B00',
-        'Alfa Romeo': '#CD0000',
+        'Kick Sauber': '#006400',
         'Haas': 'red',
         'Williams': '#049cdc'
     };
 
     const myDataPole = personen
-        .filter(person => {
-            const poleCount = Object.entries(person.wertung || {})
-                .filter(([key, value]) => key.startsWith('pole_') && value === true)
-                .length;
-            return poleCount > 0;
-        })
-        .map((person, index) => {
-            const poleCount = Object.entries(person.wertung || {})
-                .filter(([key, value]) => key.startsWith('pole_') && value === true)
-                .length;
-            return {
-                name: person.spielerID,
-                value: poleCount,
-                color: teamColors[person.team] || farben[index % farben.length], // Verwenden Sie die Farbe des Teams, wenn sie vorhanden ist, sonst verwenden Sie die Farbe aus der Liste
-                // Fügen Sie hier weitere Attribute hinzu, wenn Sie möchten
-            };
-        }
-    );
+    .map((person, index) => { // Hinzufügen des Index-Parameters hier
+        // Zählen der `true` Werte im `pole` Objekt
+        const poleCount = Object.entries(person.pole || {})
+            .filter(([key, value]) => value === true)
+            .length;
+        return {
+            name: person.spielerID,
+            value: poleCount,
+            color: teamColors[person.team] || farben[index % farben.length], // Verwenden des Index hier
+        };
+    });
 
     const myDataDriverOfTheDay = personen
-        .filter(person => {
-            const driverOfTheDayCount = Object.entries(person.wertung || {})
-                .filter(([key, value]) => key.startsWith('driverOfTheDay_') && value === true)
-                .length;
-            return driverOfTheDayCount > 0;
-        })
-        .map((person, index) => {
-            const driverOfTheDayCount = Object.entries(person.wertung || {})
-                .filter(([key, value]) => key.startsWith('driverOfTheDay_') && value === true)
-                .length;
-            return {
-                name: person.spielerID,
-                value: driverOfTheDayCount,
-                color: teamColors[person.team] || farben[index % farben.length], // Verwenden Sie die Farbe des Teams, wenn sie vorhanden ist, sonst verwenden Sie die Farbe aus der Liste
-                // Fügen Sie hier weitere Attribute hinzu, wenn Sie möchten
-            };
-        }
-    );
+    .map((person, index) => { // Hinzufügen des Index-Parameters hier
+        // Zählen der `true` Werte im `pole` Objekt
+        const driverOfTheDayCount = Object.entries(person.driverOfTheDay || {})
+            .filter(([key, value]) => value === true)
+            .length;
+        return {
+            name: person.spielerID,
+            value: driverOfTheDayCount,
+            color: teamColors[person.team] || farben[index % farben.length], // Verwenden des Index hier
+        };
+    });
 
     const gesuchteWerte = [26, 19, 16, 13, 11, 9, 7, 5, 3];
     const myDataFastetLap = personen
