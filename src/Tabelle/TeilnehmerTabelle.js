@@ -86,12 +86,18 @@ function TeilnehmerTabelle() {
                 tempListe.push({
                     name: doc.id,
                     ansicht: data.Ansicht,
-                    datum: data.Datum.toDate().toLocaleDateString('de-DE'),
-                    flagge: data.Flagge
+                    datum: data.Datum.toDate(), // Speichere das Date-Objekt
+                    flagge: data.Flagge,
+                    sprint: data.Sprint
                 });
             });
-            // Sortiere die tempListe basierend auf dem Datum
-            tempListe.sort((a, b) => new Date(a.datum) - new Date(b.datum));
+            // Sortiere die tempListe basierend auf dem Datum (Date-Objekte)
+            tempListe.sort((a, b) => a.datum - b.datum);
+            // Konvertiere das Datum in den lokalisierten String nach der Sortierung
+            tempListe = tempListe.map(item => ({
+                ...item,
+                datum: item.datum.toLocaleDateString('de-DE')
+            }));
             console.log("StreckenArray:", tempListe);
             setStrecken(tempListe);
         });
@@ -261,56 +267,66 @@ function TeilnehmerTabelle() {
         <div className='table-container'>
             <ScrollArea type='never' className='scrollarea'>
                 <Table striped bordered hover>
-                   <thead className='thead-sticky'>
+                    <thead className='thead-sticky'>
                         <tr>
                             <th>Pos</th>
                             <th id='fahrer'>Fahrer</th>
                             <th style={{zIndex: '10'}}>Konstrukteur</th>
                             {
-                                Strecken.sort((a, b) => {
-                                    let datumA = a.datum.split(".").reverse().join("/");
-                                    let datumB = b.datum.split(".").reverse().join("/");
-                                    return new Date(datumA) - new Date(datumB);
-                                })
-                                .filter(strecke => strecke.ansicht)
+                                Strecken.filter(strecke => strecke.ansicht)
                                 .map((strecke, index) => 
-                                    <th key={index}>
-                                        <img src={strecke.flagge} alt="Flagge" height="10px" width="20px" onClick={() => { modalFunction(strecke); setNameClickedFlag(strecke.name); }} />
-                                    </th>
+                                    strecke.sprint ? (
+                                        <th key={index} colSpan="2">
+                                            <img src={strecke.flagge} alt="Flagge" height="10px" width="20px" onClick={() => { modalFunction(strecke); setNameClickedFlag(strecke.name); }} />
+                                        </th>
+                                    ) : (
+                                        <th key={index}>
+                                            <img src={strecke.flagge} alt="Flagge" height="10px" width="20px" onClick={() => { modalFunction(strecke); setNameClickedFlag(strecke.name); }} />
+                                        </th>
+                                    )
                                 )
                             }
                             <th>Gesamtpunkte</th>
                         </tr>
                     </thead>
-                        <tbody>
-                            {personen.map((person, index) => (
-                                <tr key={index}>
-                                    <td className='pos'>{index + 1}</td> {/* Pos */}
-                                    
-                                    <td className='fahrer' onClick={() => handleClick(person.id)}>{person.spielerID}</td> {/* Fahrer */}
-                                    
-                                    <td>
-                                        <div>
-                                            <span className='teamname'>{person.team ? person.team : "Reservefahrer"}</span>
-                                            {person.team && renderTeamLogo(person.team)}
-                                        </div>
-                                    </td> {/* Konstrukteur */}
+                    <tbody>
+                        {personen.map((person, index) => (
+                            <tr key={index}>
+                                <td className='pos'>{index + 1}</td>
+                                
+                                <td className='fahrer' onClick={() => handleClick(person.id)}>{person.spielerID}</td>
+                                
+                                <td>
+                                    <div>
+                                        <span className='teamname'>{person.team ? person.team : "Reservefahrer"}</span>
+                                        {person.team && renderTeamLogo(person.team)}
+                                    </div>
+                                </td>
 
-                                    {
-                                        Strecken.filter(strecke => strecke.ansicht)
-                                        .map((strecke, index) => 
+                                {
+                                    Strecken.filter(strecke => strecke.ansicht)
+                                    .flatMap((strecke, index) => 
+                                        strecke.sprint ? [
+                                            <td key={`${index}_sprint`} style={getCellStyle(person?.wertung?.[`${strecke.name}_Sprint`])}>
+                                                {person?.wertung?.[`${strecke.name}_Sprint`] ?? ''}
+                                            </td>,
+                                            <td key={`${index}_rennen`} style={getCellStyle(person?.wertung?.[`${strecke.name}_Rennen`])}>
+                                                {person?.wertung?.[`${strecke.name}_Rennen`] ?? ''}
+                                            </td>
+                                        ] : [
                                             <td key={index} style={getCellStyle(person?.wertung?.[strecke.name])}>
                                                 {person?.wertung?.[strecke.name] ?? ''}
                                             </td>
-                                        )
-                                    }
+                                        ]
+                                    )
+                                }
 
-                                    <td>
-                                        {Object.values(person?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0)}
-                                    </td> {/* Gesamtpunkte */} {/* Gesamtpunkte */}
-                                </tr>
-                            ))}
-                        </tbody>
+                                <td>
+                                    {Object.values(person?.wertung || {}).reduce((a, b) => a + (Number.isInteger(b) ? b : 0), 0)}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
                 </Table>
             </ScrollArea>
             <Modal opened={selectedFlag} onClose={() => setSelectedFlag(false)} title={nameClickedFlag} size="100%" closeOnClickOutside={false} zIndex={9999}>
