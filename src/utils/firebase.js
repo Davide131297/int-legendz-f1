@@ -10,15 +10,13 @@ import { getStorage } from "firebase/storage";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyB6yEC7PhCjtMFjecgrQngETcBEuqfMeO0",
-  authDomain: "f1-liga-int-legendz.firebaseapp.com",
-  projectId: "f1-liga-int-legendz",
-  storageBucket: "f1-liga-int-legendz.appspot.com",
-  messagingSenderId: "517140205326",
-  appId: "1:517140205326:web:400230f480f5db349cd15f",
-  measurementId: "G-09JFYGPLLY",
-  storageBucket: "gs://f1-liga-int-legendz.appspot.com",
-  databaseURL: "https://f1-liga-int-legendz-default-rtdb.europe-west1.firebasedatabase.app",
+  apiKey: "AIzaSyDsVmnRbZmDaJ4lv6vJEqVd4Q9IvxTF_v8",
+  authDomain: "virtual-racing-league.firebaseapp.com",
+  databaseURL: "https://virtual-racing-league-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "virtual-racing-league",
+  storageBucket: "virtual-racing-league.appspot.com",
+  messagingSenderId: "779165086251",
+  appId: "1:779165086251:web:671967280e392e4efd306e"
 };
 
 // Initialize Firebase
