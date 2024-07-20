@@ -74,7 +74,6 @@ const Home = () => {
     useEffect(() => {
         const handleResize = () => setWindowWidth(window.innerWidth);
         window.addEventListener('resize', handleResize);
-        console.log("Zeige Zeit", timeLeft);
         return () => {
             window.removeEventListener('resize', handleResize);
         };

@@ -90,10 +90,12 @@ function TeilnehmerTabelle() {
                     flagge: data.Flagge
                 });
             });
-            setStrecken(tempListe);
+            // Sortiere die tempListe basierend auf dem Datum
+            tempListe.sort((a, b) => new Date(a.datum) - new Date(b.datum));
             console.log("StreckenArray:", tempListe);
+            setStrecken(tempListe);
         });
-
+    
         // Aufräumen bei Unmount
         return () => unsubscribe();
     }, []);
@@ -295,12 +297,7 @@ function TeilnehmerTabelle() {
                                     </td> {/* Konstrukteur */}
 
                                     {
-                                        Strecken.sort((a, b) => {
-                                            let datumA = a.datum.split(".").reverse().join("/");
-                                            let datumB = b.datum.split(".").reverse().join("/");
-                                            return new Date(datumA) - new Date(datumB);
-                                        })
-                                        .filter(strecke => strecke.ansicht)
+                                        Strecken.filter(strecke => strecke.ansicht)
                                         .map((strecke, index) => 
                                             <td key={index} style={getCellStyle(person?.wertung?.[strecke.name])}>
                                                 {person?.wertung?.[strecke.name] ?? ''}
