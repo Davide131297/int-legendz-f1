@@ -35,10 +35,10 @@ const ErgebnisEintragen = (props) => {
             let tempListe = [];
             snapshot.forEach((doc) => {
                 tempListe.push({ 
-                    id: doc.id, 
                     ...doc.data() // Hier werden alle Attribute des Dokuments abgerufen
                 });
             });
+            console.log("Personenliste", tempListe);
             tempListe.sort((a, b) => b.gesamtPunkte - a.gesamtPunkte);
             setPersonen(tempListe);
         });
@@ -174,76 +174,25 @@ const ErgebnisEintragen = (props) => {
             const person = personen.find(person => person.spielerID === selectedData.spielerID);
             console.log("Gib gesuchte person wieder",person);
 
-            if (person && selectedData.punkte !== "DNF") {
-                // Wenn der Fahrer existiert, aktualisieren Sie das Dokument
-                const personenRef = doc(db, 'personen', person.id);
-                const poleKey = `pole_${selectedData.strecke}`; // Dynamische Erstellung des Schlüssels für Pole-Position
-                const driverOfTheDayKey = `driverOfTheDay_${selectedData.strecke}`; // Dynamische Erstellung des Schlüssels für Fahrer des Tages
-                const updateData = {
-                    wertung: {
-                        ...person.wertung,
-                        [selectedData.strecke]: parseInt(selectedData.punkte)
-                    }
-                };
-    
-                // Fügen Sie das Pole-Position-Attribut nur hinzu, wenn selectedData.pole true ist
-                if (selectedData.pole) {
-                    updateData.wertung[poleKey] = true;
+            const newData = {
+                ...person,
+                wertung: {
+                    ...person.wertung,
+                    [selectedData.strecke]: selectedData.punkte === "DNF" ? 0 : parseInt(selectedData.punkte)
+                },
+                pole: {
+                    ...person.pole,
+                    ...(selectedData.pole ? { [selectedData.strecke]: selectedData.pole } : {})
+                },
+                driverOfTheDay: {
+                    ...person.driverOfTheDay,
+                    ...(selectedData.driverOfTheDay ? { [selectedData.strecke]: selectedData.driverOfTheDay } : {})
                 }
-
-                // Fügen Sie das Fahrer-des-Tages-Attribut nur hinzu, wenn selectedData.driverOfTheDay true ist
-                if (selectedData.driverOfTheDay) {
-                    updateData.wertung[driverOfTheDayKey] = true;
-                }
-    
-                await setDoc(personenRef, updateData, { merge: true });
-            } else if (person && selectedData.punkte === "DNF") {
-                // Wenn der Fahrer existiert und DNF ist
-                const personenRef = doc(db, 'personen', person.id);
-                const poleKey = `pole_${selectedData.strecke}`; // Dynamische Erstellung des Schlüssels
-                const driverOfTheDayKey = `driverOfTheDay_${selectedData.strecke}`; // Dynamische Erstellung des Schlüssels
-                const updateData = {
-                    wertung: {
-                        ...person.wertung,
-                        [selectedData.strecke]: selectedData.punkte
-                    }
-                };
-    
-                // Fügen Sie das Pole-Position-Attribut nur hinzu, wenn selectedData.pole true ist
-                if (selectedData.pole) {
-                    updateData.wertung[poleKey] = true;
-                }
-
-                // Fügen Sie das Fahrer-des-Tages-Attribut nur hinzu, wenn selectedData.driverOfTheDay true ist
-                if (selectedData.driverOfTheDay) {
-                    updateData.wertung[driverOfTheDayKey] = true;
-                }
-    
-                await setDoc(personenRef, updateData, { merge: true });
-            } else {
-                // Wenn der Fahrer nicht existiert, erstellen Sie ein neues Dokument
-                const personenRef = doc(db, 'personen');
-                const poleKey = `pole_${selectedData.strecke}`; // Dynamische Erstellung des Schlüssels
-                const driverOfTheDayKey = `driverOfTheDay_${selectedData.strecke}`; // Dynamische Erstellung des Schlüssels
-                const newPersonData = {
-                    spielerID: selectedData.spielerID,
-                    wertung: {
-                        [selectedData.strecke]: parseInt(selectedData.punkte)
-                    }
-                };
-    
-                // Fügen Sie das Pole-Position-Attribut nur hinzu, wenn selectedData.pole true ist
-                if (selectedData.pole) {
-                    newPersonData.wertung[poleKey] = true;
-                }
-                
-                // Fügen Sie das Fahrer-des-Tages-Attribut nur hinzu, wenn selectedData.driverOfTheDay true ist
-                if (selectedData.driverOfTheDay) {
-                    newPersonData.wertung[driverOfTheDayKey] = true;
-                }
-    
-                await setDoc(personenRef, newPersonData);
             }
+
+            console.log("Update Fahrer",newData);
+            // Aktualisieren Sie das Dokument
+            await setDoc(doc(db, 'personen', person.id), newData);
 
             // Finden Sie das Teamdokument, das dem ausgewählten Team entspricht
             const teamRef = doc(db, 'teams', person?.team || selectedData.team);
