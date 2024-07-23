@@ -84,17 +84,18 @@ const Statistiken = () => {
     };
 
     const myDataPole = personen
-    .map((person, index) => { // Hinzufügen des Index-Parameters hier
-        // Zählen der `true` Werte im `pole` Objekt
+    .map((person, index) => {
         const poleCount = Object.entries(person.pole || {})
             .filter(([key, value]) => value === true)
             .length;
         return {
+            ...person,
             name: person.spielerID,
             value: poleCount,
-            color: teamColors[person.team] || farben[index % farben.length], // Verwenden des Index hier
+            color: teamColors[person.team] || farben[index % farben.length],
         };
-    });
+    })
+    .filter(person => person.value > 0); // Filtern von Personen mit poleCount > 0
 
     const myDataDriverOfTheDay = personen
     .map((person, index) => { // Hinzufügen des Index-Parameters hier
@@ -107,7 +108,8 @@ const Statistiken = () => {
             value: driverOfTheDayCount,
             color: teamColors[person.team] || farben[index % farben.length], // Verwenden des Index hier
         };
-    });
+    })
+    .filter(person => person.value > 0); // Filtern von Personen mit driverOfTheDayCount > 0
 
     const gesuchteWerte = [26, 19, 16, 13, 11, 9, 7, 5, 3];
     const myDataFastetLap = personen
