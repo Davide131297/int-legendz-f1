@@ -7,7 +7,7 @@ import './Rennergebnise.css';
 const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry}) => {
 
     const [opened, { open, close }] = useDisclosure(false);
-    const [TelemetrieData, setTelemetrieData] = useState(null);
+    const [TelemetrieIndex, setTelemetrieIndex] = useState(null);
 
     useEffect(() => {
         console.log('Fahrerliste:', Fahrerliste);
@@ -279,7 +279,7 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry}) 
 
     const handleZeilenKlick = (item) => {
         console.log("Item:", item);
-        setTelemetrieData(item);
+        setTelemetrieIndex(item);
         open();
     };
 
@@ -315,12 +315,13 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry}) 
                                     .map((fahrer, index) => ({ 
                                         fahrer, 
                                         rundendaten: Rundendaten[index],
-                                        carTelemetry: CarTelemetry[index]
+                                        carTelemetry: CarTelemetry[index],
+                                        originalIndex: index
                                     }))
                                     .filter(item => item.fahrer.m_name !== "") // Filtert alle Elemente, bei denen m_carPosition nicht 0 ist
                                     .sort((a, b) => a.rundendaten.m_carPosition - b.rundendaten.m_carPosition)
                                     .map((item, index) => (
-                                        <tr key={index} onClick={() => handleZeilenKlick(item)}>
+                                        <tr key={index} onClick={() => handleZeilenKlick(item.originalIndex)}>
                                             <td>{item.rundendaten ? item.rundendaten.m_carPosition : 'N/A'}</td>
                                             <td>{item.fahrer.m_name}</td>
                                             <td>{item.rundendaten ? (item.rundendaten.m_gridPosition  + 1): 'N/A'}</td>
@@ -343,28 +344,28 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry}) 
             <Modal opened={opened} onClose={close} centered title="Live Telemetrie">
                 <div>
                     <Center>
-                        <Title order={2}>Live Telemetrie von {TelemetrieData?.fahrer?.m_name}</Title>
+                        <Title order={2}>Live Telemetrie von {Fahrerliste[TelemetrieIndex]?.m_name}</Title>
                     </Center>
                 </div>
 
                 <Space h="md" />
                 
                 <div>
-                    <Progress value={getEngineRPM(TelemetrieData?.carTelemetry?.m_engineRPM)} />
+                    <Progress value={getEngineRPM(CarTelemetry[TelemetrieIndex]?.m_engineRPM)} />
                 </div>
 
                 <Space h="md" />
 
                 <div>
                     <Center>
-                        <Title order={1} size="h1">{TelemetrieData?.carTelemetry?.m_gear}</Title>
+                        <Title order={1} size="h1">{CarTelemetry[TelemetrieIndex]?.m_gear}</Title>
                     </Center>
                     <Center>
-                        <Text size="sm">{TelemetrieData?.carTelemetry?.m_speed} KM/H</Text>
+                        <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_speed} KM/H</Text>
                     </Center>
                     <Space h="md" />
-                    <Progress color="green" value={getThrottle(TelemetrieData?.carTelemetry?.m_throttle)} size={5}/>
-                    <Progress color="red" value={getBrake(TelemetrieData?.carTelemetry?.m_brake)} size={5}/>
+                    <Progress color="green" value={getThrottle(CarTelemetry[TelemetrieIndex]?.m_throttle)} size={5}/>
+                    <Progress color="red" value={getBrake(CarTelemetry[TelemetrieIndex]?.m_brake)} size={5}/>
                 </div>
             </Modal>
         </>
