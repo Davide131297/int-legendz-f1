@@ -350,21 +350,21 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry}) 
                 <Space h="md" />
                 
                 <div>
-                    <Progress value={getEngineRPM(TelemetrieData.carTelemetry.m_engineRPM)} />
+                    <Progress value={getEngineRPM(TelemetrieData?.carTelemetry?.m_engineRPM)} />
                 </div>
 
                 <Space h="md" />
 
                 <div>
                     <Center>
-                        <Title order={1} size="h1">{TelemetrieData.carTelemetry.m_gear}</Title>
+                        <Title order={1} size="h1">{TelemetrieData?.carTelemetry?.m_gear}</Title>
                     </Center>
                     <Center>
-                        <Text size="sm">{TelemetrieData.carTelemetry.m_speed} KM/H</Text>
+                        <Text size="sm">{TelemetrieData?.carTelemetry?.m_speed} KM/H</Text>
                     </Center>
                     <Space h="md" />
-                    <Progress color="green" value={getThrottle(TelemetrieData.carTelemetry.m_throttle)} size={5}/>
-                    <Progress color="red" value={getBrake(TelemetrieData.carTelemetry.m_brake)} size={5}/>
+                    <Progress color="green" value={getThrottle(TelemetrieData?.carTelemetry?.m_throttle)} size={5}/>
+                    <Progress color="red" value={getBrake(TelemetrieData?.carTelemetry?.m_brake)} size={5}/>
                 </div>
             </Modal>
         </>
