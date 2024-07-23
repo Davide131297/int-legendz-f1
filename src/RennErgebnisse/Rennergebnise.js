@@ -19,18 +19,18 @@ const Rennergebnise = () => {
     const [SessionData, setSessionData] = useState(null);
     const [Rundendaten, setRundendaten] = useState(null);
     const [CarTelemetry, setCarTelemetry] = useState(null);
+    const [CarStatus, setCarStatus] = useState(null);
 
     useEffect(() => {
         const rennergebniseRef = ref(realtimeDatabase, 'finalClassification');
         onValue(rennergebniseRef, (snapshot) => {
             const data = snapshot.val();
-            const Cdata = data.m_classificationData;
-
-            // Umwandlung des Cdata Objekts in ein Array
-            const rennergebnisArray = Object.values(Cdata);
-
-            console.log("Eingegangene Rennergebnisee:" ,rennergebnisArray);
-            setRennergebnis(rennergebnisArray);
+            if (data) {
+                const Cdata = data.m_classificationData;
+                const rennergebnisArray = Object.values(Cdata);
+                console.log("Eingegangene Rennergebnisee:" ,rennergebnisArray);
+                setRennergebnis(rennergebnisArray);
+            }
         });
     }, []);
 
@@ -88,6 +88,19 @@ const Rennergebnise = () => {
             setCarTelemetry(carTelemetryArray);
         });
     }, []);
+
+    useEffect(() => {
+        const carStatus = ref(realtimeDatabase, 'carStatus');
+        onValue(carStatus, (snapshot) => {
+            const data = snapshot.val();
+            const Cdata = data.m_carStatusData;
+    
+            const carStatusArray = Object.values(Cdata)
+            const filteredCarStatusArray = carStatusArray.filter(obj => obj.m_actualTyreCompound !== 0);
+            console.log("Eingegangene CarStatus:", filteredCarStatusArray);
+            setCarStatus(filteredCarStatusArray);
+        }
+    )}, []);
 
     const downloadJSON = () => {
         const data = RennErgebnis.slice(0, -2)
@@ -152,7 +165,15 @@ const Rennergebnise = () => {
                     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px'}}>
                         <WeatherWidget WetterDaten={WetterDaten} />
                     </div>
-                    <LiveRennenDaten SessionData={SessionData} Fahrerliste={Fahrerliste} Rundendaten={Rundendaten} CarTelemetry={CarTelemetry} />
+                    {CarTelemetry && (
+                    <LiveRennenDaten 
+                        SessionData={SessionData} 
+                        Fahrerliste={Fahrerliste} 
+                        Rundendaten={Rundendaten} 
+                        CarTelemetry={CarTelemetry} 
+                        CarStatus={CarStatus}
+                    />
+                    )}
                 </Tabs.Panel>
 
                 <Tabs.Panel value="settings">

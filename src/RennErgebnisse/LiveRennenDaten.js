@@ -1,10 +1,10 @@
 import React, { useState, useEffect} from "react";
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, ScrollArea, Center, Title, Space, Progress, Box, Text } from '@mantine/core';
+import { Modal, ScrollArea, Center, Title, Space, Progress, Text, Switch, SimpleGrid } from '@mantine/core';
 import Table from 'react-bootstrap/Table';
 import './Rennergebnise.css';
 
-const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry}) => {
+const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, CarStatus}) => {
 
     const [opened, { open, close }] = useDisclosure(false);
     const [TelemetrieIndex, setTelemetrieIndex] = useState(null);
@@ -13,7 +13,8 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry}) 
         console.log('Fahrerliste:', Fahrerliste);
         console.log('Rundendaten:', Rundendaten);
         console.log('CarTelemetry:', CarTelemetry);
-    }, [Fahrerliste, Rundendaten, CarTelemetry]);
+        console.log('CarStatus:', CarStatus);
+    }, [Fahrerliste, Rundendaten, CarTelemetry, CarStatus]);
 
     const [height, setHeight] = useState('90vh');
 
@@ -228,23 +229,23 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry}) 
     function getThrottle(throttle) {
         if (throttle === 0) {
             return 0;
-        } else if (throttle === 0.1) {
+        } else if (throttle >= 0.1 && throttle <= 0.2) {
             return 10;
-        } else if (throttle === 0.2) {
+        } else if (throttle >= 0.21 && throttle <= 0.3) {
             return 20;
-        } else if (throttle === 0.3) {
+        }  else if (throttle >= 0.31 && throttle <= 0.4) {
             return 30;
-        } else if (throttle === 0.4) {
+        } else if (throttle >= 0.41 && throttle <= 0.5) {
             return 40;
-        } else if (throttle === 0.5) {
+        } else if (throttle >= 0.51 && throttle <= 0.6) {
             return 50;
-        } else if (throttle === 0.6) {
+        } else if (throttle >= 0.61 && throttle <= 0.7) {
             return 60;
-        } else if (throttle === 0.7) {
+        } else if (throttle >= 0.71 && throttle <= 0.8) {
             return 70;
-        } else if (throttle === 0.8) {
+        } else if (throttle >= 0.81 && throttle <= 0.9) {
             return 80;
-        } else if (throttle === 0.9) {
+        } else if (throttle >= 0.91 && throttle <= 0.99) {
             return 90;
         } else if (throttle === 1) {
             return 100;
@@ -254,26 +255,70 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry}) 
     function getBrake(brake) {
         if (brake === 0) {
             return 0;
-        } else if (brake === 0.1) {
+        } else if (brake >= 0.1 && brake <= 0.2) {
             return 10;
-        } else if (brake === 0.2) {
+        } else if (brake >= 0.21 && brake <= 0.3) {
             return 20;
-        } else if (brake === 0.3) {
+        }  else if (brake >= 0.31 && brake <= 0.4) {
             return 30;
-        } else if (brake === 0.4) {
+        } else if (brake >= 0.41 && brake <= 0.5) {
             return 40;
-        } else if (brake === 0.5) {
+        } else if (brake >= 0.51 && brake <= 0.6) {
             return 50;
-        } else if (brake === 0.6) {
+        } else if (brake >= 0.61 && brake <= 0.7) {
             return 60;
-        } else if (brake === 0.7) {
+        } else if (brake >= 0.71 && brake <= 0.8) {
             return 70;
-        } else if (brake === 0.8) {
+        } else if (brake >= 0.81 && brake <= 0.9) {
             return 80;
-        } else if (brake === 0.9) {
+        } else if (brake >= 0.91 && brake <= 0.99) {
             return 90;
         } else if (brake === 1) {
             return 100;
+        }
+    }
+
+    function getDRS(drs) {
+        if (drs === 0) {
+            return false;
+        } else if (drs === 1) { 
+            return true;
+        }
+    }
+
+    function getERSMode(ers) {
+        if (ers === 0) {
+            return false;
+        } else if (ers >= 1) {
+            return true;
+        }
+    }
+
+    function getERSDescription(ers) {
+        if (ers === 0) {
+            return "ERS Aus";
+        } else if (ers === 1) {
+            return "Mittel";
+        } else if (ers === 2) {
+            return "Hotlap";
+        } else if (ers === 3) {
+            return "Überholen";
+        } else {
+            return "Unbekannt";
+        }
+    }
+
+    function getVisualTyre(tyre) {
+        if (tyre === 16) {
+            return "http://tyre-assets.pirelli.com/staticfolder/Tyre/resources/img/red-parentesi.png";
+        } else if (tyre === 17) {
+            return "http://tyre-assets.pirelli.com/staticfolder/Tyre/resources/img/yellow-parentesi.png";
+        } else if (tyre === 18) {
+            return "http://tyre-assets.pirelli.com/staticfolder/Tyre/resources/img/white-parentesi.png";
+        } else if (tyre === 7) {
+            return "https://tyre-assets.pirelli.com/images/global/380/862/cinturato-green-intermediate-4505508953587.png";
+        } else if (tyre === 8) {
+            return "https://tyre-assets.pirelli.com/images/global/968/233/cinturato-blue-wet-4505508953865.png";
         }
     }
 
@@ -311,11 +356,12 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry}) 
                         </thead>
                         <tbody>
                             {
-                                Fahrerliste && Rundendaten && CarTelemetry && Fahrerliste.slice(0, -2)
+                                Fahrerliste && Rundendaten && CarTelemetry && CarStatus && Fahrerliste.slice(0, -2)
                                     .map((fahrer, index) => ({ 
                                         fahrer, 
                                         rundendaten: Rundendaten[index],
                                         carTelemetry: CarTelemetry[index],
+                                        carStatus: CarStatus[index],
                                         originalIndex: index
                                     }))
                                     .filter(item => item.fahrer.m_name !== "") // Filtert alle Elemente, bei denen m_carPosition nicht 0 ist
@@ -349,24 +395,54 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry}) 
                 </div>
 
                 <Space h="md" />
-                
-                <div>
-                    <Progress value={getEngineRPM(CarTelemetry[TelemetrieIndex]?.m_engineRPM)} />
-                </div>
 
-                <Space h="md" />
+                {CarTelemetry[TelemetrieIndex] && (
+                    <>
+                        <div>
+                            <Progress value={getEngineRPM(CarTelemetry[TelemetrieIndex]?.m_engineRPM)} />
+                            <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_engineRPM} RPM</Text>
+                        </div>
 
-                <div>
-                    <Center>
-                        <Title order={1} size="h1">{CarTelemetry[TelemetrieIndex]?.m_gear}</Title>
-                    </Center>
-                    <Center>
-                        <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_speed} KM/H</Text>
-                    </Center>
-                    <Space h="md" />
-                    <Progress color="green" value={getThrottle(CarTelemetry[TelemetrieIndex]?.m_throttle)} size={5}/>
-                    <Progress color="red" value={getBrake(CarTelemetry[TelemetrieIndex]?.m_brake)} size={5}/>
-                </div>
+                        <Space h="md" />
+
+                        <div>
+                            <SimpleGrid cols={2}>
+                                <div>
+                                    <Center>
+                                        <Title order={1} size="h1">{CarTelemetry[TelemetrieIndex]?.m_gear}</Title>
+                                    </Center>
+                                    <Center>
+                                        <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_speed} KM/H</Text>
+                                    </Center>
+                                </div>
+                                <div>
+                                    <Center>
+                                        <img src={getVisualTyre(CarStatus[TelemetrieIndex]?.m_visualTyreCompound)} alt="Reifen" height={60} width={60} />
+                                    </Center>
+                                    <Center>
+                                        <Text size="sm">{CarStatus[TelemetrieIndex]?.m_tyresAgeLaps} Runde(n)</Text>
+                                    </Center>
+                                </div>
+                            </SimpleGrid>
+                            <Space h="md" />
+                            <Progress color="green" value={getThrottle(CarTelemetry[TelemetrieIndex]?.m_throttle)} size={5}/>
+                            <Progress color="red" value={getBrake(CarTelemetry[TelemetrieIndex]?.m_brake)} size={5}/>
+                        </div>
+                        <div style={{marginTop: '10px'}}>
+                            <Center>
+                                <Switch 
+                                    checked={getDRS(CarTelemetry[TelemetrieIndex]?.m_drs)} 
+                                    label="DRS"
+                                    style={{marginRight: '20px'}}
+                                />
+                                <Switch
+                                    checked={getERSMode(CarStatus[TelemetrieIndex]?.m_ersDeployMode)}
+                                    label={getERSDescription(CarStatus[TelemetrieIndex]?.m_ersDeployMode)}
+                                />
+                            </Center>
+                        </div>
+                    </>
+                )}
             </Modal>
         </>
     );
