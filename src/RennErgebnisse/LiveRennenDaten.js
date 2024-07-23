@@ -221,7 +221,7 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
                                         <tr key={index}>
                                             <td>{item.rundendaten ? item.rundendaten.m_carPosition : 'N/A'}</td>
                                             <td>{item.fahrer.m_name}</td>
-                                            <td>{item.rundendaten ? item.rundendaten.m_gridPosition : 'N/A'}</td>
+                                            <td>{item.rundendaten ? (item.rundendaten.m_gridPosition  + 1): 'N/A'}</td>
                                             <td>{item.rundendaten && item.rundendaten.m_sector1TimeInMS && !isNaN(item.rundendaten.m_sector1TimeInMS) ? formatLapTime(item.rundendaten.m_sector1TimeInMS) : ''}</td>
                                             <td>{item.rundendaten && item.rundendaten.m_sector2TimeInMS && !isNaN(item.rundendaten.m_sector2TimeInMS) ? formatLapTime(item.rundendaten.m_sector2TimeInMS) : ''}</td>
                                             <td>{item.rundendaten && item.rundendaten.lastLapTimeInMS && !isNaN(item.rundendaten.lastLapTimeInMS - (item.rundendaten.m_sector1TimeInMS + item.rundendaten.m_sector2TimeInMS)) ? formatLapTime(item.rundendaten.lastLapTimeInMS - (item.rundendaten.m_sector1TimeInMS + item.rundendaten.m_sector2TimeInMS)) : ''}</td>
