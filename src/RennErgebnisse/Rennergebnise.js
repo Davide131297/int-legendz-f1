@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { realtimeDatabase } from './../utils/firebase';
-import { ref, onValue } from 'firebase/database'; // Importieren Sie die ref und onValue Funktionen
+import { ref, onValue, set } from 'firebase/database'; // Importieren Sie die ref und onValue Funktionen
 import './Rennergebnise.css';
 import ErgebnisTabelle from './ErgebnisTabelle';
 import LiveRennenDaten from './LiveRennenDaten';
@@ -18,6 +18,7 @@ const Rennergebnise = () => {
     const [WetterDaten, setWetterDaten] = useState(null);
     const [SessionData, setSessionData] = useState(null);
     const [Rundendaten, setRundendaten] = useState(null);
+    const [CarTelemetry, setCarTelemetry] = useState(null);
 
     useEffect(() => {
         const rennergebniseRef = ref(realtimeDatabase, 'finalClassification');
@@ -72,6 +73,19 @@ const Rennergebnise = () => {
             console.log("Eingegangene Rundendaten:" ,RundendatenGespeichert);
             setRundendaten(RundendatenGespeichert);
 
+        });
+    }, []);
+
+    useEffect(() => {
+        const carTelemetry = ref(realtimeDatabase, 'carTelemetry');
+        onValue(carTelemetry, (snapshot) => {
+            const data = snapshot.val();
+            const Cdata = data.m_carTelemetryData;
+    
+            const carTelemetryArray = Object.values(Cdata)
+            .filter(car => !car.m_tyresPressure.every(pressure => pressure === 0));
+            console.log("Eingegangene CarTelemetry:", carTelemetryArray);
+            setCarTelemetry(carTelemetryArray);
         });
     }, []);
 
@@ -138,7 +152,7 @@ const Rennergebnise = () => {
                     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px'}}>
                         <WeatherWidget WetterDaten={WetterDaten} />
                     </div>
-                    <LiveRennenDaten SessionData={SessionData} Fahrerliste={Fahrerliste} Rundendaten={Rundendaten}/>
+                    <LiveRennenDaten SessionData={SessionData} Fahrerliste={Fahrerliste} Rundendaten={Rundendaten} CarTelemetry={CarTelemetry} />
                 </Tabs.Panel>
 
                 <Tabs.Panel value="settings">

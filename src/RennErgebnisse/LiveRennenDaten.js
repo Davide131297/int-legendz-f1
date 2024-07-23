@@ -1,14 +1,19 @@
 import React, { useState, useEffect} from "react";
-import { ScrollArea } from "@mantine/core";
+import { useDisclosure } from '@mantine/hooks';
+import { Modal, ScrollArea, Center, Title, Space, Progress, Box, Text } from '@mantine/core';
 import Table from 'react-bootstrap/Table';
 import './Rennergebnise.css';
 
-const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
+const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry}) => {
+
+    const [opened, { open, close }] = useDisclosure(false);
+    const [TelemetrieData, setTelemetrieData] = useState(null);
 
     useEffect(() => {
         console.log('Fahrerliste:', Fahrerliste);
         console.log('Rundendaten:', Rundendaten);
-    }, [Fahrerliste, Rundendaten]);
+        console.log('CarTelemetry:', CarTelemetry);
+    }, [Fahrerliste, Rundendaten, CarTelemetry]);
 
     const [height, setHeight] = useState('90vh');
 
@@ -184,6 +189,99 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
         }
     }
 
+    function getEngineRPM(engineRPM) {
+        if (engineRPM === 0) {
+            return 0;
+        } else if (engineRPM >= 3500 && engineRPM <= 10075) {
+            return 6; 
+        } else if (engineRPM >= 10076 && engineRPM <= 10210) {
+            return 13;
+        } else if (engineRPM >= 10211 && engineRPM <= 10350) {
+            return 19;
+        } else if (engineRPM >= 10351 && engineRPM <= 10490) {
+            return 25;
+        } else if (engineRPM >= 10491 && engineRPM <= 10630) {
+            return 33; //Grün bis hier hin
+        } else if (engineRPM >= 10631 && engineRPM <= 10800) {
+            return 40;
+        } else if (engineRPM >= 10801 && engineRPM <= 11000) {
+            return 46;
+        } else if (engineRPM >= 11001 && engineRPM <= 11150) {
+            return 52;
+        } else if (engineRPM >= 11151 && engineRPM <= 11300) {
+            return 58;
+        } else if (engineRPM >= 11301 && engineRPM <= 11470) {
+            return 65; //Rot bis hier hin
+        } else if (engineRPM >= 11471 && engineRPM <= 11615) {
+            return 70;
+        } else if (engineRPM >= 11616 && engineRPM <= 11750) {
+            return 78;
+        } else if (engineRPM >= 11751 && engineRPM <= 11900) {
+            return 85;
+        } else if (engineRPM >= 11901 && engineRPM <= 12050) {
+            return 95;
+        } else if (engineRPM >= 12051) {
+            return 100; //Lila bis hier hin
+        }
+    }
+
+    function getThrottle(throttle) {
+        if (throttle === 0) {
+            return 0;
+        } else if (throttle === 0.1) {
+            return 10;
+        } else if (throttle === 0.2) {
+            return 20;
+        } else if (throttle === 0.3) {
+            return 30;
+        } else if (throttle === 0.4) {
+            return 40;
+        } else if (throttle === 0.5) {
+            return 50;
+        } else if (throttle === 0.6) {
+            return 60;
+        } else if (throttle === 0.7) {
+            return 70;
+        } else if (throttle === 0.8) {
+            return 80;
+        } else if (throttle === 0.9) {
+            return 90;
+        } else if (throttle === 1) {
+            return 100;
+        }
+    }
+
+    function getBrake(brake) {
+        if (brake === 0) {
+            return 0;
+        } else if (brake === 0.1) {
+            return 10;
+        } else if (brake === 0.2) {
+            return 20;
+        } else if (brake === 0.3) {
+            return 30;
+        } else if (brake === 0.4) {
+            return 40;
+        } else if (brake === 0.5) {
+            return 50;
+        } else if (brake === 0.6) {
+            return 60;
+        } else if (brake === 0.7) {
+            return 70;
+        } else if (brake === 0.8) {
+            return 80;
+        } else if (brake === 0.9) {
+            return 90;
+        } else if (brake === 1) {
+            return 100;
+        }
+    }
+
+    const handleZeilenKlick = (item) => {
+        console.log("Item:", item);
+        setTelemetrieData(item);
+        open();
+    };
 
     return (
         <>  
@@ -213,12 +311,16 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
                         </thead>
                         <tbody>
                             {
-                                Fahrerliste && Rundendaten && Fahrerliste.slice(0, -2)
-                                    .map((fahrer, index) => ({ fahrer, rundendaten: Rundendaten[index] }))
+                                Fahrerliste && Rundendaten && CarTelemetry && Fahrerliste.slice(0, -2)
+                                    .map((fahrer, index) => ({ 
+                                        fahrer, 
+                                        rundendaten: Rundendaten[index],
+                                        carTelemetry: CarTelemetry[index]
+                                    }))
                                     .filter(item => item.fahrer.m_name !== "") // Filtert alle Elemente, bei denen m_carPosition nicht 0 ist
                                     .sort((a, b) => a.rundendaten.m_carPosition - b.rundendaten.m_carPosition)
                                     .map((item, index) => (
-                                        <tr key={index}>
+                                        <tr key={index} onClick={() => handleZeilenKlick(item)}>
                                             <td>{item.rundendaten ? item.rundendaten.m_carPosition : 'N/A'}</td>
                                             <td>{item.fahrer.m_name}</td>
                                             <td>{item.rundendaten ? (item.rundendaten.m_gridPosition  + 1): 'N/A'}</td>
@@ -237,6 +339,34 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten}) => {
                     </Table>
                 </ScrollArea>
             </div>
+
+            <Modal opened={opened} onClose={close} centered title="Live Telemetrie">
+                <div>
+                    <Center>
+                        <Title order={2}>Live Telemetrie von {TelemetrieData?.fahrer?.m_name}</Title>
+                    </Center>
+                </div>
+
+                <Space h="md" />
+                
+                <div>
+                    <Progress value={getEngineRPM(TelemetrieData.carTelemetry.m_engineRPM)} />
+                </div>
+
+                <Space h="md" />
+
+                <div>
+                    <Center>
+                        <Title order={1} size="h1">{TelemetrieData.carTelemetry.m_gear}</Title>
+                    </Center>
+                    <Center>
+                        <Text size="sm">{TelemetrieData.carTelemetry.m_speed} KM/H</Text>
+                    </Center>
+                    <Space h="md" />
+                    <Progress color="green" value={getThrottle(TelemetrieData.carTelemetry.m_throttle)} size={5}/>
+                    <Progress color="red" value={getBrake(TelemetrieData.carTelemetry.m_brake)} size={5}/>
+                </div>
+            </Modal>
         </>
     );
 }
