@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "f1-liga-int-legendz"
-  }
+    "default": "f1-liga-int-legendz",
+    "vrl": "virtual-racing-league"
+  },
+  "targets": {},
+  "etags": {}
 }
