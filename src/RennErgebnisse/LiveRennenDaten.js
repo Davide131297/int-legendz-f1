@@ -6,7 +6,7 @@ import './Rennergebnise.css';
 import { IoIosSave } from "react-icons/io";
 import { realtimeDatabase, db } from './../utils/firebase';
 import { ref, set } from 'firebase/database';
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { notifications } from '@mantine/notifications';
 
 const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, CarStatus}) => {
@@ -387,7 +387,7 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
         }
     }
 
-    const handleUploadfinalClassification = () => {
+    async function handleUploadfinalClassification() {
         const classificationData = {};
     
         Fahrerliste.forEach((fahrer, index) => {
@@ -409,21 +409,32 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
     
         console.log('finalData:', finalData);
         
-        const uploadToRealtimeDatabase = set(ref(realtimeDatabase, 'finalClassification'), finalData);
-        const uploadToFirestore = setDoc(doc(db, "Ergebnisse", Strecke), finalData);
-
-        Promise.all([uploadToRealtimeDatabase, uploadToFirestore])
-            .then(() => {
+        try {
+            const docRef = doc(db, "Ergebnisse", Strecke);
+            const docSnap = await getDoc(docRef);
+    
+            if (docSnap.exists()) {
+                notifications.show({
+                    title: 'Bereits hochgeladen',
+                    message: 'Dokument existiert bereits, Daten werden nicht erneut hochgeladen',
+                    color: 'red'
+                });
+            } else {
+                const uploadToRealtimeDatabase = set(ref(realtimeDatabase, 'finalClassification'), finalData);
+                const uploadToFirestore = setDoc(doc(db, "Ergebnisse", Strecke), finalData);
+    
+                await Promise.all([uploadToRealtimeDatabase, uploadToFirestore]);
+    
                 console.log('Both uploads were successful');
                 notifications.show({
                     title: 'Erfolgreich',
                     message: 'Endklassifizierung erfolgreich hochgeladen',
                     color: 'green'
                 });
-            })
-            .catch((error) => {
-                console.error('Error uploading data:', error);
-            });
+            }
+        } catch (error) {
+            console.error('Error uploading data:', error);
+        }
     };
 
     return (
