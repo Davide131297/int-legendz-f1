@@ -1,8 +1,11 @@
 import React, { useState, useEffect} from "react";
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, ScrollArea, Center, Title, Space, Progress, Text, Switch, SimpleGrid } from '@mantine/core';
+import { Modal, ScrollArea, Center, Title, Space, Progress, Text, Switch, SimpleGrid, ActionIcon, Tooltip } from '@mantine/core';
 import Table from 'react-bootstrap/Table';
 import './Rennergebnise.css';
+import { IoIosSave } from "react-icons/io";
+import { realtimeDatabase } from './../utils/firebase';
+import { ref, onValue } from 'firebase/database'; // Importieren Sie die ref und onValue Funktionen
 
 const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, CarStatus}) => {
 
@@ -170,13 +173,21 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
         return `${minutes}:${seconds}:${milliseconds}`;
     }
 
-    function getPitStatus(status) {
-        switch(status) {
-            case 0: return "";
-            case 1: return "In der Box";
-            case 2: return "In der Pitlane"; 
-        break;
-            default: return "Unbekannter Status";
+    function getStatus(PitStatus, resultStatus) {
+        if (resultStatus === 2) {
+            switch (PitStatus) {
+                case 0: return "";
+                case 1: return "In der Box";
+                case 2: return "In der Pitlane";
+                default: return "Unbekannter Status";
+            }
+        } else if ([3, 4, 5].includes(resultStatus)) {
+            switch (resultStatus) {
+                case 3: return "🏁";
+                case 4: return "DNF";
+                case 5: return "DSQ";
+                default: return "Unbekannter Status";
+            }
         }
     }
 
@@ -328,6 +339,35 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
         open();
     };
 
+    {/*
+    const handleUploadfinalClassification = () => {
+        const classificationData = {};
+    
+        // Annahme: 'Fahrerliste' enthält die Daten der Fahrer in einer Liste
+        Fahrerliste.forEach((fahrer, index) => {
+            classificationData[index] = {
+                m_position: "",
+                m_gridPosition: "",
+                m_points: "",
+                m_numPitStops: "",
+                m_resultStatus: "",
+                m_bestLapTimeInMS: "",
+                m_totalRaceTime: "",
+                m_penaltiesTime: ""
+                // Hier alle weiteren notwendigen Felder hinzufügen
+            };
+        });
+    
+        set(ref(realtimeDatabase, 'finalClassification'), classificationData)
+            .then(() => {
+                console.log('Data successfully uploaded');
+            })
+            .catch((error) => {
+                console.error('Error uploading data:', error);
+            });
+    };
+    */}
+
     return (
         <>  
             <div style={{marginLeft: '20px', marginTop: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
@@ -335,6 +375,18 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
                 <p>Sessionlänge: {SessionLänge}</p>
                 <p>Sessiontyp: {SessionTyp}</p>
             </div>
+
+            {/*}
+            <div>
+                <Center>
+                    <Tooltip label="Ergebnis Speichern">
+                        <ActionIcon variant="transparent" aria-label="Settings" color="black" onClick={handleUploadfinalClassification}>
+                            <IoIosSave size={20} stroke={1.5}/>
+                        </ActionIcon>
+                    </Tooltip>
+                </Center>
+            </div>
+            */}
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
                 <ScrollArea h={height} w={getCardWidth()}>
@@ -351,10 +403,10 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
                                 <th>Delta zum nächsten Fahrer</th>
                                 <th>Anzahl der Boxenstopps</th>
                                 <th>Strafen (s)</th>
-                                <th>Boxenstopp Status</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style={{cursor: 'pointer'}}>
                             {
                                 Fahrerliste && Rundendaten && CarTelemetry && CarStatus && Fahrerliste.slice(0, -2)
                                     .map((fahrer, index) => ({ 
@@ -378,7 +430,7 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
                                             <td>{item.rundendaten && item.rundendaten.m_deltaToCarInFrontInMS && !isNaN(item.rundendaten.m_deltaToCarInFrontInMS) ? '+' + formatLapTime(item.rundendaten.m_deltaToCarInFrontInMS) : ''}</td>
                                             <td>{item.rundendaten ? item.rundendaten.m_numPitStops : 'N/A'}</td>
                                             <td>{item.rundendaten ? item.rundendaten.m_penalties : 'N/A'}</td>
-                                            <td>{item.rundendaten ? getPitStatus(item.rundendaten.m_pitStatus) : 'N/A'}</td>
+                                            <td>{item.rundendaten ? getStatus(item.rundendaten.m_pitStatus, item.rundendaten.m_resultStatus) : 'N/A'}</td>
                                         </tr>
                                     ))
                             }

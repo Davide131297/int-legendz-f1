@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { realtimeDatabase } from './../utils/firebase';
-import { ref, onValue, set } from 'firebase/database'; // Importieren Sie die ref und onValue Funktionen
+import { ref, onValue } from 'firebase/database'; // Importieren Sie die ref und onValue Funktionen
 import './Rennergebnise.css';
 import ErgebnisTabelle from './ErgebnisTabelle';
 import LiveRennenDaten from './LiveRennenDaten';
@@ -142,7 +142,7 @@ const Rennergebnise = () => {
         <>
         {WetterDaten && (
         <div> 
-            <Tabs defaultValue="Ergebnistabelle">
+            <Tabs defaultValue="LiveRace">
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
                 <Tabs.List>
                     <Tabs.Tab value="Ergebnistabelle" leftSection={<CiViewTable style={iconStyle} />}>
@@ -151,9 +151,11 @@ const Rennergebnise = () => {
                     <Tabs.Tab value="LiveRace" leftSection={<MdLiveTv  style={iconStyle} />}>
                         Aktuelles Rennen
                     </Tabs.Tab>
+                    {/*
                     <Tabs.Tab value="settings">
                         Settings
                     </Tabs.Tab>
+                    */}
                 </Tabs.List>
             </div>
 
@@ -176,9 +178,11 @@ const Rennergebnise = () => {
                     )}
                 </Tabs.Panel>
 
+                {/*
                 <Tabs.Panel value="settings">
                     <DokumentErstellung RennErgebnis={RennErgebnis} Fahrerliste={Fahrerliste} Rundendaten={Rundendaten} SessionData={SessionData}/>
                 </Tabs.Panel>
+                */}
             </Tabs>
         </div>
         )}

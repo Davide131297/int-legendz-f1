@@ -124,15 +124,15 @@ const Header = () => {
                     <Burger opened={opened} onClick={toggle} color="white" />
                     <Navbar.Brand className="navbar-brand">
                         <img
-                            alt=""
-                            src={LigaLogo}
+                            alt="Hier Logo"
+                            //src={LigaLogo}
                             width={logoWidth}
                             height={logoHeight}
                             className="d-inline-block align-top logo"
                             style={{marginRight: '5px'}}
                             onClick={() => navigate('/')}
                         />{' '}
-                        <span className="title" onClick={() => navigate('/f1league')}>Virtual Racing League</span>
+                        <span className="title" onClick={() => navigate('/f1league')}>Virtual Racing</span>
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                             <Button 
