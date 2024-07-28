@@ -8,7 +8,7 @@ import { Tabs, rem } from '@mantine/core';
 import { CiViewTable } from "react-icons/ci";
 import { MdLiveTv } from "react-icons/md";
 import WeatherWidget from './WetterWidget';
-import DokumentErstellung from './DokumentErstellung';
+import DokumentErstellung from './DokumentErstellung'; //JSON Download
 
 const Rennergebnise = () => {
 
@@ -151,11 +151,6 @@ const Rennergebnise = () => {
                     <Tabs.Tab value="LiveRace" leftSection={<MdLiveTv  style={iconStyle} />}>
                         Aktuelles Rennen
                     </Tabs.Tab>
-                    {/*
-                    <Tabs.Tab value="settings">
-                        Settings
-                    </Tabs.Tab>
-                    */}
                 </Tabs.List>
             </div>
 
@@ -177,12 +172,6 @@ const Rennergebnise = () => {
                     />
                     )}
                 </Tabs.Panel>
-
-                {/*
-                <Tabs.Panel value="settings">
-                    <DokumentErstellung RennErgebnis={RennErgebnis} Fahrerliste={Fahrerliste} Rundendaten={Rundendaten} SessionData={SessionData}/>
-                </Tabs.Panel>
-                */}
             </Tabs>
         </div>
         )}
