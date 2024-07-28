@@ -3,6 +3,7 @@ import { ScrollArea } from '@mantine/core';
 import Stake from './../Teamlogos/StakeSauber.png';
 import RedBull from './../Teamlogos/RedBullIcon.png';
 import Table from 'react-bootstrap/Table';
+import VisaRB from './../Teamlogos/VisaCashAppWithBackground.jpg';
 
 const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste, Rundendaten }) => {
 
@@ -11,6 +12,7 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste, Rundendaten }) => {
     if (RennErgebnis) {
         fastestLap = Math.min(...RennErgebnis.filter(ergebnis => ergebnis.m_bestLapTimeInMS !== 0).map(ergebnis => ergebnis.m_bestLapTimeInMS));
     }
+    const hasBestLapTime = RennErgebnis?.some(item => item.ergebnis && item.ergebnis.m_bestLapTimeInMS !== undefined);
 
     useEffect(() => {
         function handleResize() {
@@ -29,6 +31,7 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste, Rundendaten }) => {
 
     function getNationality(nationalityId) {
         const nationalities = {
+            0: 'https://upload.wikimedia.org/wikipedia/commons/1/1e/Earth.png',
             1: 'https://cdn.countryflags.com/thumbs/united-states-of-america/flag-square-250.png',
             3: 'https://cdn.countryflags.com/thumbs/australia/flag-square-250.png',
             4: 'https://cdn.countryflags.com/thumbs/austria/flag-square-250.png',
@@ -50,7 +53,9 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste, Rundendaten }) => {
             49: 'https://cdn.countryflags.com/thumbs/luxembourg/flag-square-500.png',
             52: 'https://cdn.countryflags.com/thumbs/mexico/flag-square-250.png',
             53: 'https://cdn.countryflags.com/thumbs/monaco/flag-square-250.png',
+            62: 'https://www.worldometers.info/img/flags/small/tn_pe-flag.gif',
             64: 'https://cdn.countryflags.com/thumbs/portugal/flag-square-500.png',
+            66: 'https://www.worldometers.info/img/flags/small/tn_ro-flag.gif',
             77: 'https://cdn.countryflags.com/thumbs/spain/flag-square-250.png',
             80: 'https://cdn.countryflags.com/thumbs/thailand/flag-square-250.png',
             89: 'https://cdn.countryflags.com/thumbs/bosnia-and-herzegovina/flag-square-250.png'
@@ -68,7 +73,7 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste, Rundendaten }) => {
             3: { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Logo_Williams_F1.png/300px-Logo_Williams_F1.png', width: '25', height: '20' }, // Williams
             4: { url: 'https://upload.wikimedia.org/wikipedia/en/thumb/b/bd/Aston_Martin_Lagonda_brand_logo.png/220px-Aston_Martin_Lagonda_brand_logo.png', width: '40', height: '20' }, // Aston Martin
             5: { url: 'https://upload.wikimedia.org/wikipedia/commons/3/32/Alpine_logo.png', width: '35', height: '25' }, // Alpine
-            6: { url: 'https://www.visacashapprb.com/wp-content/uploads/2024/01/logo-f1-1.svg', width: '30', height: '30' }, // Visa RB
+            6: { url: VisaRB, width: '30', height: '25' }, // Visa RB
             7: { url: 'https://logos-world.net/wp-content/uploads/2022/07/Haas-Symbol-700x394.png', width: '45', height: '25' }, // Haas
             8: { url: 'https://cdn3.emoji.gg/emojis/9807_McLaren_Logo.png', width: '35', height: '35' }, // McLaren
             9: { url:  Stake, width: '30', height: '30' }  // Stake F1
@@ -90,11 +95,14 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste, Rundendaten }) => {
             0: 'invcalid',
             1: 'inactive',
             2: 'active',
-            3: 'finished',
+            3: '🏁',
             4: 'DNF',
             5: 'Disqualifziert',
             6: 'Nicht gestartet',
             7: 'Zurückgezogen',
+            "Finished": '🏁',
+            "Active": '🏁', 
+            "Unbekannt": '🏁'
         }
 
         return statuses[status] || 'Status unbekannt';
@@ -120,10 +128,14 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste, Rundendaten }) => {
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Fahrername</th>
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Team</th>
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Grid Position</th>
-                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Beste Persönliche Runde</th>
-                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Rennzeit</th>
+                        {hasBestLapTime && (
+                            <>
+                                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Beste Persönliche Runde</th>
+                                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Rennzeit</th>
+                            </>
+                        )}
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Punkte</th>
-                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>{/* Ereigniss*/}</th>
+                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Status</th>
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Anzahl Boxenstopps</th>
                         <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Strafen (s)</th>
                     </tr>
@@ -154,16 +166,22 @@ const ErgebnisTabelle = ({ RennErgebnis, Fahrerliste, Rundendaten }) => {
                                         />
                                     </td>
                                     <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.ergebnis.m_gridPosition}</td>
-                                    <td style={{ textAlign: 'center', verticalAlign: 'middle', color: item.ergebnis.m_bestLapTimeInMS === fastestLap ? 'purple' : 'black' }}>
-                                        {formatBestRaceTime(item.ergebnis.m_bestLapTimeInMS)}
-                                    </td>
-                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{formatRaceTime(item.ergebnis.m_totalRaceTime)}</td>
+                                    {hasBestLapTime && (
+                                        <>
+                                            <td style={{ textAlign: 'center', verticalAlign: 'middle', color: item.ergebnis.m_bestLapTimeInMS === fastestLap ? 'purple' : 'black' }}>
+                                                {isNaN(item.ergebnis.m_bestLapTimeInMS) ? '' : formatBestRaceTime(item.ergebnis.m_bestLapTimeInMS)}
+                                            </td>
+                                            <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                                                {isNaN(item.ergebnis.m_totalRaceTime) ? '' : formatRaceTime(item.ergebnis.m_totalRaceTime)}
+                                            </td>
+                                        </>
+                                    )}
                                     <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.ergebnis.m_points}</td>
                                     { item.ergebnis.m_resultStatus !== 3 && 
                                         <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{formatResultStatus(item.ergebnis.m_resultStatus)}</td>
                                     }
-                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.rundendaten ? item.rundendaten.m_penalties : 'N/A'}</td>
                                     <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.rundendaten ? item.rundendaten.m_numPitStops : 'N/A'}</td>
+                                    <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>{item.rundendaten ? item.rundendaten.m_penalties : 'N/A'}</td>
                                 </tr>
                             ))
                     }

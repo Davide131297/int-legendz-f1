@@ -4,8 +4,10 @@ import { Modal, ScrollArea, Center, Title, Space, Progress, Text, Switch, Simple
 import Table from 'react-bootstrap/Table';
 import './Rennergebnise.css';
 import { IoIosSave } from "react-icons/io";
-import { realtimeDatabase } from './../utils/firebase';
-import { ref, onValue } from 'firebase/database'; // Importieren Sie die ref und onValue Funktionen
+import { realtimeDatabase, db } from './../utils/firebase';
+import { ref, set } from 'firebase/database';
+import { doc, setDoc } from "firebase/firestore";
+import { notifications } from '@mantine/notifications';
 
 const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, CarStatus}) => {
 
@@ -339,34 +341,90 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
         open();
     };
 
-    {/*
+    function handlePointsforPosition(position) {
+        switch (position) {
+            case 1:
+                return 25;
+            case 2:
+                return 18;
+            case 3:
+                return 15;
+            case 4:
+                return 12;
+            case 5:
+                return 10;
+            case 6:
+                return 8;
+            case 7:
+                return 6;
+            case 8:
+                return 4;
+            case 9:
+                return 2;
+            case 10:
+                return 1;
+            default:
+                return 0;
+        }
+    };
+
+    function getResultStatus(status) {
+        switch (status) {
+            case 0:
+                return "Invalid";
+            case 1:
+                return "Inactive";
+            case 2:
+                return "Active";
+            case 3:
+                return "Finished";
+            case 4:
+                return "Did not finish";
+            case 5:
+                return "Disqualified";
+            default:
+                return "Unbekannt";
+        }
+    }
+
     const handleUploadfinalClassification = () => {
         const classificationData = {};
     
-        // Annahme: 'Fahrerliste' enthält die Daten der Fahrer in einer Liste
         Fahrerliste.forEach((fahrer, index) => {
             classificationData[index] = {
-                m_position: "",
-                m_gridPosition: "",
-                m_points: "",
-                m_numPitStops: "",
-                m_resultStatus: "",
-                m_bestLapTimeInMS: "",
-                m_totalRaceTime: "",
-                m_penaltiesTime: ""
-                // Hier alle weiteren notwendigen Felder hinzufügen
+                m_position: Rundendaten[index] ? Rundendaten[index].m_carPosition : 'N/A',
+                m_gridPosition: Rundendaten[index] ? Rundendaten[index].m_gridPosition : 'N/A',
+                m_points: handlePointsforPosition(Rundendaten[index] ? Rundendaten[index].m_carPosition : 'N/A'),
+                m_numPitStops: Rundendaten[index] ? Rundendaten[index].m_numPitStops : 'N/A',
+                m_resultStatus: getResultStatus(Rundendaten[index] ? Rundendaten[index].m_resultStatus : 'N/A'),
+                m_penaltiesTime: Rundendaten[index] ? Rundendaten[index].m_penalties : 'N/A',
+                m_name: Fahrerliste[index].m_name,
+                m_teamId: Fahrerliste[index].m_teamId
             };
         });
     
-        set(ref(realtimeDatabase, 'finalClassification'), classificationData)
+        const finalData = {
+            m_classificationData: classificationData
+        };
+    
+        console.log('finalData:', finalData);
+        
+        const uploadToRealtimeDatabase = set(ref(realtimeDatabase, 'finalClassification'), finalData);
+        const uploadToFirestore = setDoc(doc(db, "Ergebnisse", Strecke), finalData);
+
+        Promise.all([uploadToRealtimeDatabase, uploadToFirestore])
             .then(() => {
-                console.log('Data successfully uploaded');
+                console.log('Both uploads were successful');
+                notifications.show({
+                    title: 'Erfolgreich',
+                    message: 'Endklassifizierung erfolgreich hochgeladen',
+                    color: 'green'
+                });
             })
             .catch((error) => {
                 console.error('Error uploading data:', error);
             });
     };
-    */}
 
     return (
         <>  
@@ -376,7 +434,6 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
                 <p>Sessiontyp: {SessionTyp}</p>
             </div>
 
-            {/*}
             <div>
                 <Center>
                     <Tooltip label="Ergebnis Speichern">
@@ -386,7 +443,6 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
                     </Tooltip>
                 </Center>
             </div>
-            */}
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px' }}>
                 <ScrollArea h={height} w={getCardWidth()}>
