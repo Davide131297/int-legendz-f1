@@ -132,7 +132,7 @@ const Header = () => {
                             style={{marginRight: '5px'}}
                             onClick={() => navigate('/')}
                         />{' '}
-                        <span className="title" onClick={() => navigate('/f1league')}>Virtual Racing</span>
+                        <span className="title" onClick={() => navigate('/')}>Virtual Racing</span>
                     </Navbar.Brand>
                     <Navbar.Collapse className="justify-content-end">
                             <Button 
