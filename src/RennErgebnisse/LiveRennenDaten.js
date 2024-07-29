@@ -13,6 +13,7 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
 
     const [opened, { open, close }] = useDisclosure(false);
     const [TelemetrieIndex, setTelemetrieIndex] = useState(null);
+    const [openedTestModal, setOpenTestModal] = useState(false);
 
     useEffect(() => {
         console.log('Fahrerliste:', Fahrerliste);
@@ -484,6 +485,57 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
         }
     }
 
+    function handleTestModal() {
+        setOpenTestModal(true);
+        setTelemetrieIndex(19);
+    }
+
+    function getGradient(brake) {
+        console.log('Brake:', brake);
+        if (brake === 0) {
+            console.log('0%');
+            return "0%";
+        } else if (brake >= 0.1 && brake <= 0.2) {
+            console.log('10%');
+            return "10%";
+        } else if (brake >= 0.21 && brake <= 0.3) {
+            console.log('20%');
+            return "20%";
+        }  else if (brake >= 0.31 && brake <= 0.4) {
+            console.log('30%');
+            return "30%";
+        } else if (brake >= 0.41 && brake <= 0.5) {
+            console.log('40%');
+            return "40%";
+        } else if (brake >= 0.51 && brake <= 0.6) {
+            console.log('50%');
+            return "50%";
+        } else if (brake >= 0.61 && brake <= 0.7) {
+            console.log('60%');
+            return "60%";
+        } else if (brake >= 0.71 && brake <= 0.8) {
+            console.log('70%');
+            return "70%";
+        } else if (brake >= 0.81 && brake <= 0.9) {
+            console.log('80%');
+            return "80%";
+        } else if (brake >= 0.91 && brake <= 0.99) {
+            console.log('90%');
+            return "90%";
+        } else if (brake === 1) {
+            console.log('100%');
+            return "100%";
+        }
+    }
+
+    function getDRSMode(drs) {
+        if (drs === 0) {
+            return "white";
+        } else if (drs === 1) {
+            return "yellow";
+        }
+    }
+
     return (
         <>  
             <div style={{marginLeft: '20px', marginTop: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
@@ -499,6 +551,9 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
                             <IoIosSave size={20} stroke={1.5}/>
                         </ActionIcon>
                     </Tooltip>
+                </Center>
+                <Center>
+                    <button onClick={handleTestModal}>Öffnen</button>
                 </Center>
             </div>
 
@@ -572,49 +627,35 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
                         <div style={{marginLeft: '20px'}}>
                             {CarTelemetry[TelemetrieIndex] && (
                                 <>
-                                    <div>
-                                        <Progress value={getEngineRPM(CarTelemetry[TelemetrieIndex]?.m_engineRPM)} />
-                                        <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_engineRPM} RPM</Text>
-                                    </div>
-
-                                    <Space h="md" />
-
-                                    <div>
-                                        <SimpleGrid cols={2}>
-                                            <div>
-                                                <Center>
-                                                    <Title order={1} size="h1">{CarTelemetry[TelemetrieIndex]?.m_gear}</Title>
-                                                </Center>
-                                                <Center>
-                                                    <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_speed} KM/H</Text>
-                                                </Center>
-                                            </div>
-                                            <div>
-                                                <Center>
-                                                    <img src={getVisualTyre(CarStatus[TelemetrieIndex]?.m_visualTyreCompound)} alt="Reifen" height={60} width={60} />
-                                                </Center>
-                                                <Center>
-                                                    <Text size="sm">{CarStatus[TelemetrieIndex]?.m_tyresAgeLaps} Runde(n)</Text>
-                                                </Center>
-                                            </div>
-                                        </SimpleGrid>
-                                        <Space h="md" />
-                                        <Progress color="green" value={getThrottle(CarTelemetry[TelemetrieIndex]?.m_throttle)} size={5}/>
-                                        <Progress color="red" value={getBrake(CarTelemetry[TelemetrieIndex]?.m_brake)} size={5}/>
-                                    </div>
-                                    <div style={{marginTop: '10px'}}>
-                                        <Center>
-                                            <Switch 
-                                                checked={getDRS(CarTelemetry[TelemetrieIndex]?.m_drs)} 
-                                                label="DRS"
-                                                style={{marginRight: '20px'}}
-                                            />
-                                            <Switch
-                                                checked={getERSMode(CarStatus[TelemetrieIndex]?.m_ersDeployMode)}
-                                                label={getERSDescription(CarStatus[TelemetrieIndex]?.m_ersDeployMode)}
-                                            />
-                                        </Center>
-                                    </div>
+                                    <svg width="130%" height="auto" viewBox="0 0 3375 3375" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ fillRule: 'evenodd', clipRule: 'evenodd', strokeLinecap: 'round', strokeLinejoin: 'round', strokeMiterlimit: 1.5 }}>
+                                        <defs>
+                                            <linearGradient id="brakeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" style={{ stopColor: 'red', stopOpacity: 1 }} />
+                                            <stop offset={getGradient((CarTelemetry[TelemetrieIndex]?.m_brake))} style={{ stopColor: 'red', stopOpacity: 1 }} />
+                                            <stop offset={getGradient((CarTelemetry[TelemetrieIndex]?.m_brake))} style={{ stopColor: '#fff', stopOpacity: 1 }} />
+                                            <stop offset="100%" style={{ stopColor: '#fff', stopOpacity: 1 }} />
+                                            </linearGradient>
+                                        </defs>
+                                        <circle id="Hintergrund" cx="1687.5" cy="1687.5" r="1666.67" style={{ fillOpacity: 0.9 }} />
+                                        <rect id="Throttle" x="2593.22" y="840.25" width="272.224" height="1694.5" style={{ fill: '#fff', stroke: '#001cff', strokeWidth: '20.83px' }} />
+                                        <rect id="Brake" x="510.719" y="840.25" width="272.224" height="1694.5" style={{ fill: 'url(#brakeGradient)', stroke: '#001cff', strokeWidth: '20.83px' }} />
+                                        <circle cx="1687.5" cy="1687.5" r="1666.67" style={{ fill: 'none', stroke: '#001cff', strokeWidth: '41.67px' }} />
+                                        <path id="DRS_Bereich" d="M2027.92,2115.17l0,154.855c0,62.835 -51.014,113.85 -113.849,113.85l-453.14,-0c-62.835,-0 -113.849,-51.015 -113.849,-113.85l-0,-154.855c-0,-62.836 51.014,-113.85 113.849,-113.85l453.14,-0c62.835,-0 113.849,51.014 113.849,113.85Z" style={{ fill: getDRSMode(CarTelemetry[TelemetrieIndex]?.m_drs) }} />
+                                        <g id="DRS_Text" transform="matrix(235.553,0,0,235.553,1933.23,2276.91)"></g>
+                                        <text x="1435.9px" y="2276.91px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '235.553px' }}>DRS</text>
+                                        <g id="KMH_data" transform="matrix(536.393,0,0,536.393,2136.55,1016.56)"></g>
+                                        <text x="1241.6px" y="1016.56px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '536.393px', fill: '#fff' }}>{CarTelemetry[TelemetrieIndex]?.m_speed}</text>
+                                        <g transform="matrix(200,0,0,200,1910.45,1254.56)"></g>
+                                        <text x="1466.02px" y="1254.56px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '200px', fill: '#fff' }}>KMH</text>
+                                        <g id="RPM_data" transform="matrix(331.652,0,0,331.652,2150.25,1604.71)"></g>
+                                        <text x="1228.01px" y="1604.71px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '331.652px', fill: '#fff' }}>{CarTelemetry[TelemetrieIndex]?.m_engineRPM}</text>
+                                        <g transform="matrix(200,0,0,200,1906.94,1813.34)"></g>
+                                        <text x="1462.5px" y="1813.34px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '200px', fill: '#fff' }}>RPM</text>
+                                        <g id="GEAR_data" transform="matrix(200,0,0,200,2061.33,2741.53)"></g>
+                                        <text x="1950.1px" y="2741.53px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '200px', fill: '#fff' }}>{CarTelemetry[TelemetrieIndex]?.m_gear}</text>
+                                        <g transform="matrix(200,0,0,200,1878.61,2741.53)"></g>
+                                        <text x="1311.81px" y="2741.53px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '200px', fill: '#fff' }}>GEAR</text>
+                                    </svg>
                                 </>
                             )}
                         </div>
@@ -693,6 +734,54 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
                         </div>
                 </div>
                 )}
+            </Modal>
+
+            <Modal 
+                opened={openedTestModal} 
+                onClose={() => setOpenTestModal(false)} 
+                centered 
+                title="Test Modal"
+                size="xl"
+            >
+                <div>
+                    <Center>
+                        <Title order={2}>Test Modal</Title>
+                    </Center>
+                </div>
+
+                <Space h="xl" />
+
+                <Center>
+                    <svg width="30%" height="auto" viewBox="0 0 3375 3375" version="1.1" xmlns="http://www.w3.org/2000/svg" style={{ fillRule: 'evenodd', clipRule: 'evenodd', strokeLinecap: 'round', strokeLinejoin: 'round', strokeMiterlimit: 1.5 }}>
+                        <defs>
+                            <linearGradient id="brakeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style={{ stopColor: 'red', stopOpacity: 1 }} />
+                            <stop offset={getGradient((CarTelemetry[TelemetrieIndex]?.m_brake))} style={{ stopColor: 'red', stopOpacity: 1 }} />
+                            <stop offset={getGradient((CarTelemetry[TelemetrieIndex]?.m_brake))} style={{ stopColor: '#fff', stopOpacity: 1 }} />
+                            <stop offset="100%" style={{ stopColor: '#fff', stopOpacity: 1 }} />
+                            </linearGradient>
+                        </defs>
+                        <circle id="Hintergrund" cx="1687.5" cy="1687.5" r="1666.67" style={{ fillOpacity: 0.9 }} />
+                        <rect id="Throttle" x="2593.22" y="840.25" width="272.224" height="1694.5" style={{ fill: '#fff', stroke: '#001cff', strokeWidth: '20.83px' }} />
+                        <rect id="Brake" x="510.719" y="840.25" width="272.224" height="1694.5" style={{ fill: 'url(#brakeGradient)', stroke: '#001cff', strokeWidth: '20.83px' }} />
+                        <circle cx="1687.5" cy="1687.5" r="1666.67" style={{ fill: 'none', stroke: '#001cff', strokeWidth: '41.67px' }} />
+                        <path id="DRS_Bereich" d="M2027.92,2115.17l0,154.855c0,62.835 -51.014,113.85 -113.849,113.85l-453.14,-0c-62.835,-0 -113.849,-51.015 -113.849,-113.85l-0,-154.855c-0,-62.836 51.014,-113.85 113.849,-113.85l453.14,-0c62.835,-0 113.849,51.014 113.849,113.85Z" style={{ fill: getDRSMode(CarTelemetry[TelemetrieIndex]?.m_drs) }} />
+                        <g id="DRS_Text" transform="matrix(235.553,0,0,235.553,1933.23,2276.91)"></g>
+                        <text x="1435.9px" y="2276.91px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '235.553px' }}>DRS</text>
+                        <g id="KMH_data" transform="matrix(536.393,0,0,536.393,2136.55,1016.56)"></g>
+                        <text x="1241.6px" y="1016.56px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '536.393px', fill: '#fff' }}>{CarTelemetry[TelemetrieIndex]?.m_speed}</text>
+                        <g transform="matrix(200,0,0,200,1910.45,1254.56)"></g>
+                        <text x="1466.02px" y="1254.56px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '200px', fill: '#fff' }}>KMH</text>
+                        <g id="RPM_data" transform="matrix(331.652,0,0,331.652,2150.25,1604.71)"></g>
+                        <text x="1228.01px" y="1604.71px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '331.652px', fill: '#fff' }}>{CarTelemetry[TelemetrieIndex]?.m_engineRPM}</text>
+                        <g transform="matrix(200,0,0,200,1906.94,1813.34)"></g>
+                        <text x="1462.5px" y="1813.34px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '200px', fill: '#fff' }}>RPM</text>
+                        <g id="GEAR_data" transform="matrix(200,0,0,200,2061.33,2741.53)"></g>
+                        <text x="1950.1px" y="2741.53px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '200px', fill: '#fff' }}>{CarTelemetry[TelemetrieIndex]?.m_gear}</text>
+                        <g transform="matrix(200,0,0,200,1878.61,2741.53)"></g>
+                        <text x="1311.81px" y="2741.53px" style={{ fontFamily: 'ArialMT, Arial, sans-serif', fontSize: '200px', fill: '#fff' }}>GEAR</text>
+                    </svg>
+                </Center>
             </Modal>
         </>
     );
