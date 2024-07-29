@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from "react";
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, ScrollArea, Center, Title, Space, Progress, Text, Switch, SimpleGrid, ActionIcon, Tooltip } from '@mantine/core';
+import { Modal, ScrollArea, Center, Title, Space, Progress, Text, Switch, SimpleGrid, ActionIcon, Tooltip, Box } from '@mantine/core';
 import Table from 'react-bootstrap/Table';
 import './Rennergebnise.css';
 import { IoIosSave } from "react-icons/io";
@@ -9,7 +9,7 @@ import { ref, set } from 'firebase/database';
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { notifications } from '@mantine/notifications';
 
-const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, CarStatus}) => {
+const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, CarStatus, CarDamage}) => {
 
     const [opened, { open, close }] = useDisclosure(false);
     const [TelemetrieIndex, setTelemetrieIndex] = useState(null);
@@ -19,7 +19,8 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
         console.log('Rundendaten:', Rundendaten);
         console.log('CarTelemetry:', CarTelemetry);
         console.log('CarStatus:', CarStatus);
-    }, [Fahrerliste, Rundendaten, CarTelemetry, CarStatus]);
+        console.log('CarDamage:', CarDamage);
+    }, [Fahrerliste, Rundendaten, CarTelemetry, CarStatus, CarDamage]);
 
     const [height, setHeight] = useState('90vh');
 
@@ -437,6 +438,51 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
         }
     };
 
+    function getRearDamageColor(damage) {
+        if (damage >= 0 && damage <= 10) {
+            return '#01DF3A';
+        } else if (damage >= 11 && damage <= 16) {
+            return 'blue';
+        } else if (damage >= 17 && damage <= 25) {
+            return '#A5DF00';
+        } else if (damage >= 26 && damage <= 35) {
+            return '#F4FA58';
+        } else if (damage >= 36 && damage <= 50) {
+            return '#FFFF00';
+        } else if (damage >= 51 && damage <= 75) {
+            return '#FF8000';
+        } else if (damage === 100)
+            return '#FF0000';
+    }
+
+    function getFrontWingDamageColor(damage) {
+        if (damage >= 0 && damage <= 10) {
+            return '#01DF3A';
+        } else if (damage >= 11 && damage <= 50) {
+            return '#9ACD32'
+        } else if (damage >= 50 && damage <= 70) {
+            return '#FFBF00';
+        } else if (damage >= 71 && damage <= 99) {
+            return '#FF8000';
+        } else if (damage === 100) {
+            return '#FF0000';
+        }
+    }
+
+    function getUniversalDamageColor(damage) {
+        if (damage >= 0 && damage <= 10) {
+            return '#01DF3A';
+        } else if (damage >= 11 && damage <= 50) {
+            return '#FFBF00';
+        } else if (damage >= 51 && damage <= 70) {
+            return '#FF8000';
+        } else if (damage >= 71 && damage <= 99) {
+            return '#DF3A01';
+        } else if (damage === 100) {
+            return '#FF0000';
+        }
+    }
+
     return (
         <>  
             <div style={{marginLeft: '20px', marginTop: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
@@ -506,62 +552,149 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
                 </ScrollArea>
             </div>
 
-            <Modal opened={opened} onClose={close} centered title="Live Telemetrie">
+            <Modal 
+                opened={opened} 
+                onClose={close} 
+                centered 
+                title="Live Telemetrie"
+            >
                 <div>
                     <Center>
                         <Title order={2}>Live Telemetrie von {Fahrerliste[TelemetrieIndex]?.m_name}</Title>
                     </Center>
                 </div>
 
-                <Space h="md" />
-
-                {CarTelemetry[TelemetrieIndex] && (
-                    <>
-                        <div>
-                            <Progress value={getEngineRPM(CarTelemetry[TelemetrieIndex]?.m_engineRPM)} />
-                            <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_engineRPM} RPM</Text>
-                        </div>
-
-                        <Space h="md" />
-
-                        <div>
-                            <SimpleGrid cols={2}>
+                <Space h="xl" />
+                
+                <SimpleGrid cols={2}>
+                    <Center>
+                    <div>
+                        {CarTelemetry[TelemetrieIndex] && (
+                            <>
                                 <div>
+                                    <Progress value={getEngineRPM(CarTelemetry[TelemetrieIndex]?.m_engineRPM)} />
+                                    <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_engineRPM} RPM</Text>
+                                </div>
+
+                                <Space h="md" />
+
+                                <div>
+                                    <SimpleGrid cols={2}>
+                                        <div>
+                                            <Center>
+                                                <Title order={1} size="h1">{CarTelemetry[TelemetrieIndex]?.m_gear}</Title>
+                                            </Center>
+                                            <Center>
+                                                <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_speed} KM/H</Text>
+                                            </Center>
+                                        </div>
+                                        <div>
+                                            <Center>
+                                                <img src={getVisualTyre(CarStatus[TelemetrieIndex]?.m_visualTyreCompound)} alt="Reifen" height={60} width={60} />
+                                            </Center>
+                                            <Center>
+                                                <Text size="sm">{CarStatus[TelemetrieIndex]?.m_tyresAgeLaps} Runde(n)</Text>
+                                            </Center>
+                                        </div>
+                                    </SimpleGrid>
+                                    <Space h="md" />
+                                    <Progress color="green" value={getThrottle(CarTelemetry[TelemetrieIndex]?.m_throttle)} size={5}/>
+                                    <Progress color="red" value={getBrake(CarTelemetry[TelemetrieIndex]?.m_brake)} size={5}/>
+                                </div>
+                                <div style={{marginTop: '10px'}}>
                                     <Center>
-                                        <Title order={1} size="h1">{CarTelemetry[TelemetrieIndex]?.m_gear}</Title>
-                                    </Center>
-                                    <Center>
-                                        <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_speed} KM/H</Text>
+                                        <Switch 
+                                            checked={getDRS(CarTelemetry[TelemetrieIndex]?.m_drs)} 
+                                            label="DRS"
+                                            style={{marginRight: '20px'}}
+                                        />
+                                        <Switch
+                                            checked={getERSMode(CarStatus[TelemetrieIndex]?.m_ersDeployMode)}
+                                            label={getERSDescription(CarStatus[TelemetrieIndex]?.m_ersDeployMode)}
+                                        />
                                     </Center>
                                 </div>
-                                <div>
-                                    <Center>
-                                        <img src={getVisualTyre(CarStatus[TelemetrieIndex]?.m_visualTyreCompound)} alt="Reifen" height={60} width={60} />
-                                    </Center>
-                                    <Center>
-                                        <Text size="sm">{CarStatus[TelemetrieIndex]?.m_tyresAgeLaps} Runde(n)</Text>
-                                    </Center>
-                                </div>
-                            </SimpleGrid>
-                            <Space h="md" />
-                            <Progress color="green" value={getThrottle(CarTelemetry[TelemetrieIndex]?.m_throttle)} size={5}/>
-                            <Progress color="red" value={getBrake(CarTelemetry[TelemetrieIndex]?.m_brake)} size={5}/>
+                            </>
+                        )}
+                    </div>
+                    </Center>
+
+                    <Center>
+                        <div>
+                            <svg 
+                                width="70%" 
+                                height="auto" 
+                                viewBox="0 0 263 542" 
+                                ersion="1.1" 
+                                xmlns="http://www.w3.org/2000/svg" 
+                                style={{
+                                    fillRule: 'evenodd',
+                                    clipRule: 'evenodd',
+                                    strokeLinejoin: 'round',
+                                    strokeMiterlimit: 2
+                                }}
+                            >
+                                <g>
+                                    <path 
+                                        id="reifen_hinten_links" 
+                                        d="M35.742,444.466l-23.655,-0.483l-0.149,-72.683l23.791,-0.004l0.013,73.17Z"
+                                        style={{ fill: getRearDamageColor(CarDamage[TelemetrieIndex]?.m_tyresDamage[0])}}
+                                    />
+                                    <path 
+                                        id="reifen_hinten_rechts" 
+                                        d="M226.046,374.113l23.792,-0.005l0.012,70.15l-23.792,0.005l-0.012,-70.15Z" 
+                                        style={{ fill: getRearDamageColor(CarDamage[TelemetrieIndex]?.m_tyresDamage[1])}}
+                                    />
+                                    <path 
+                                        id="reifen_vorne_links" 
+                                        d="M11.908,175.396l-0.012,-70.15l23.787,-0.004l0.013,70.15l-23.788,0.004Z" 
+                                        style={{ fill: getRearDamageColor(CarDamage[TelemetrieIndex]?.m_tyresDamage[2])}}
+                                    />
+                                    <path 
+                                        id="reifen_vorne_rechts" 
+                                        d="M249.792,105.208l0.012,70.146l-23.787,0.004l-0.013,-70.145l23.788,-0.005Z" 
+                                        style={{ fill: getRearDamageColor(CarDamage[TelemetrieIndex]?.m_tyresDamage[3])}}
+                                    />
+                                    <path 
+                                        id="fluegel_vorne_links" 
+                                        d="M23.783,58.479l-0.008,-35.075l83.267,-0.012l0.004,35.075l-83.263,0.012Z" 
+                                        style={{ fill: getFrontWingDamageColor(CarDamage[TelemetrieIndex]?.m_frontLeftWingDamage)}}
+                                    />
+                                    <path 
+                                        id="fluegel_vorne_rechts" 
+                                        d="M237.883,23.371l0.009,35.071l-83.267,0.016l-0.004,-35.075l83.262,-0.012Z" 
+                                        style={{ fill: getFrontWingDamageColor(CarDamage[TelemetrieIndex]?.m_frontRightWingDamage)}}
+                                    />
+                                    <path 
+                                        id="Heckfluegel" 
+                                        d="M202.275,479.342l0.008,46.762l-142.741,0.025l-0.005,-46.767l142.738,-0.02Z" 
+                                        style={{ fill: getUniversalDamageColor(CarDamage[TelemetrieIndex]?.m_rearWingDamage)}}
+                                    />
+                                    <path 
+                                        id="Motor" 
+                                        d="M116.079,444.279l-40.796,-128.6l31.804,-0.004l0.009,35.075c-0,6.467 5.316,11.692 11.896,11.692l23.791,-0.005c6.575,-0.004 11.892,-5.229 11.892,-11.695l-0.008,-35.075l31.808,-0.005l-40.754,128.613l-29.642,0.004Z" 
+                                        style={{ fill: getUniversalDamageColor(CarDamage[TelemetrieIndex]?.m_engineDamage)}}
+                                    />
+                                    <path 
+                                        id="Seitenkasten_Right" 
+                                        d="M190.371,432.575l-28.367,0.004l28.354,-90.612l0.013,90.608Z" 
+                                        style={{ fill: getUniversalDamageColor(CarDamage[TelemetrieIndex]?.m_floorDamage)}}
+                                    />
+                                    <path 
+                                        id="Seitenkasen_Left" 
+                                        d="M71.425,432.596l-0.017,-90.608l28.384,90.604l-28.367,0.004Z" 
+                                        style={{ fill: getUniversalDamageColor(CarDamage[TelemetrieIndex]?.m_floorDamage)}}
+                                    />
+                                    <path 
+                                        d="M214.108,105.213l0.005,23.383l-59.475,0.008c-0.005,-19.467 -0.005,-39.808 -0.009,-58.454l83.263,-0.017l0.004,11.692l11.896,-0l-0.013,-70.15l-95.158,0.017c-0.004,-7.388 -0.004,-11.692 -0.004,-11.692l-47.58,0.008l0,11.692l-95.158,0.017l0.013,70.145l11.895,0l-0.004,-11.691l83.267,-0.013c-0,18.646 0.004,38.988 0.008,58.455l-59.475,0.012l-0.004,-23.383c0,-6.467 -5.317,-11.692 -11.896,-11.692l-23.791,0.004c-6.575,0 -11.892,5.229 -11.892,11.696l0.012,70.146c0,6.466 5.317,11.691 11.896,11.691l23.792,-0.004c6.575,-0.004 11.892,-5.229 11.892,-11.696l-0.005,-16.566l59.484,35.054l-0,16.579c0.008,35.075 -47.563,93.538 -47.563,93.538l0.013,93.533l-11.892,0l-0.004,-23.383c-0.004,-6.463 -5.321,-11.688 -11.9,-11.688l-23.788,0.004c-6.579,0 -11.895,5.225 -11.891,11.692l0.008,70.15c0.004,6.462 5.321,11.692 11.9,11.688l23.788,-0.005c6.579,0 11.895,-5.225 11.891,-11.691l0,-23.384l11.892,0l0.004,23.38l43.917,-0.005l3.666,11.692l11.896,-0.004l0,11.692l-71.371,0.012l0.013,70.146l166.529,-0.025l-0.012,-70.15l-71.367,0.012l-0.004,-11.691l11.896,-0l3.662,-11.692l43.917,-0.008l-0.004,-23.384l11.895,-0.004l0,23.383c0.005,6.467 5.321,11.692 11.9,11.692l23.788,-0.004c6.579,0 11.896,-5.229 11.896,-11.696l-0.013,-70.146c0,-6.466 -5.321,-11.691 -11.896,-11.691l-23.791,0.004c-6.579,0.004 -11.896,5.229 -11.892,11.696l0.004,23.383l-11.896,0l-0.016,-93.529c-0,-0 -47.588,-58.45 -47.596,-93.525l-0,-16.579l59.467,-35.071l0.004,16.566c-0,6.463 5.316,11.688 11.896,11.688l23.791,-0.004c6.575,-0 11.892,-5.225 11.892,-11.692l-0.013,-70.15c0,-6.462 -5.316,-11.687 -11.895,-11.687l-23.792,0.004c-6.575,-0 -11.892,5.225 -11.892,11.692Zm-178.366,339.079l-23.655,-0.459l-0.15,-69.683l23.792,-0.004l0.013,70.146Zm166.533,35.05l0.008,46.762l-142.741,0.025l-0.005,-46.766l142.738,-0.021Zm23.771,-105.229l23.791,-0.005l0.013,70.15l-23.792,0.005l-0.012,-70.15Zm11.837,-350.742l0.009,35.071l-83.267,0.016c0,-13.387 -0.004,-25.416 -0.004,-35.075l83.262,-0.012Zm-214.1,35.108l-0.008,-35.075l83.267,-0.012c-0,9.654 0.004,21.687 0.004,35.075l-83.263,0.012Zm-11.875,116.917l-0.012,-70.15l23.787,-0.004l0.013,70.15l-23.788,0.004Zm47.229,-23.392l47.926,-0.008c-0.001,10.208 0.004,19.758 0.004,28.258l-47.93,-28.25Zm12.288,280.592l-0.017,-90.608l28.384,90.604l-28.367,0.004Zm44.654,11.683l-40.796,-128.6l31.804,-0.004l0.009,35.075c-0,6.467 5.316,11.692 11.896,11.692l23.791,-0.004c6.575,-0.005 11.892,-5.23 11.892,-11.696l-0.008,-35.075l31.808,-0.004l-40.754,128.612l-29.642,0.004Zm2.896,-175.371l23.792,-0.004l0.012,81.842l-23.787,0.004l-0.017,-81.842Zm71.396,163.667l-28.367,0.004l28.354,-90.612l0.013,90.608Zm-3.138,-128.604l-32.566,0.004l-0.005,-35.071c-0.004,-6.466 -5.32,-11.691 -11.9,-11.691l-23.787,0.004c-6.579,-0 -11.896,5.229 -11.892,11.691l0.004,35.075l-32.57,0.009c13.525,-17.788 44.454,-61.984 44.45,-93.542l-0.034,-198.754l23.792,-0.004l0.033,198.754c0.005,31.558 30.963,75.746 44.475,93.525Zm-32.591,-151.983l47.925,-0.009l-47.921,28.267c-0,-8.5 -0.004,-18.05 -0.004,-28.258Zm95.15,-46.78l0.012,70.146l-23.787,0.004l-0.013,-70.145l23.788,-0.005Z" 
+                                        style={{ fillRule: 'nonzero' }}
+                                    />
+                                </g>
+                            </svg>
                         </div>
-                        <div style={{marginTop: '10px'}}>
-                            <Center>
-                                <Switch 
-                                    checked={getDRS(CarTelemetry[TelemetrieIndex]?.m_drs)} 
-                                    label="DRS"
-                                    style={{marginRight: '20px'}}
-                                />
-                                <Switch
-                                    checked={getERSMode(CarStatus[TelemetrieIndex]?.m_ersDeployMode)}
-                                    label={getERSDescription(CarStatus[TelemetrieIndex]?.m_ersDeployMode)}
-                                />
-                            </Center>
-                        </div>
-                    </>
-                )}
+                    </Center>
+                </SimpleGrid>
+
             </Modal>
         </>
     );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { realtimeDatabase } from './../utils/firebase';
-import { ref, onValue } from 'firebase/database'; // Importieren Sie die ref und onValue Funktionen
+import { ref, onValue, set } from 'firebase/database'; // Importieren Sie die ref und onValue Funktionen
 import './Rennergebnise.css';
 import ErgebnisTabelle from './ErgebnisTabelle';
 import LiveRennenDaten from './LiveRennenDaten';
@@ -20,6 +20,7 @@ const Rennergebnise = () => {
     const [Rundendaten, setRundendaten] = useState(null);
     const [CarTelemetry, setCarTelemetry] = useState(null);
     const [CarStatus, setCarStatus] = useState(null);
+    const [CarDamage, setCarDamage] = useState(null);
 
     useEffect(() => {
         const rennergebniseRef = ref(realtimeDatabase, 'finalClassification');
@@ -86,6 +87,22 @@ const Rennergebnise = () => {
             .filter(car => !car.m_tyresPressure.every(pressure => pressure === 0));
             console.log("Eingegangene CarTelemetry:", carTelemetryArray);
             setCarTelemetry(carTelemetryArray);
+        });
+    }, []);
+
+    useEffect(() => {
+        const carDamage = ref(realtimeDatabase, 'carDamage');
+        onValue(carDamage, (snapshot) => {
+            const data = snapshot.val();
+            const Cdata = data?.m_carDamageData;
+            const headerData = data?.m_header;
+            const index = headerData?.m_playerCarIndex;
+
+            const carDamageArray = Object.values(Cdata)
+            const playerCarDamage = carDamageArray.slice(0, index + 1); // +1, weil slice das Ende exklusiv behandelt
+
+            console.log("Autoschaden", playerCarDamage);
+            setCarDamage(playerCarDamage);
         });
     }, []);
 
@@ -169,6 +186,7 @@ const Rennergebnise = () => {
                         Rundendaten={Rundendaten} 
                         CarTelemetry={CarTelemetry} 
                         CarStatus={CarStatus}
+                        CarDamage={CarDamage}
                     />
                     )}
                 </Tabs.Panel>
