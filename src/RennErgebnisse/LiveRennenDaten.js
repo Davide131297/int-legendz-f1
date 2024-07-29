@@ -485,11 +485,6 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
         }
     }
 
-    function handleTestModal() {
-        setOpenTestModal(true);
-        setTelemetrieIndex(19);
-    }
-
     function getGradient(brake) {
         console.log('Brake:', brake);
         if (brake === 0) {
@@ -551,9 +546,6 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
                             <IoIosSave size={20} stroke={1.5}/>
                         </ActionIcon>
                     </Tooltip>
-                </Center>
-                <Center>
-                    <button onClick={handleTestModal}>Öffnen</button>
                 </Center>
             </div>
 
