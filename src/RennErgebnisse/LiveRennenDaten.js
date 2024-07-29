@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from "react";
 import { useDisclosure } from '@mantine/hooks';
-import { Modal, ScrollArea, Center, Title, Space, Progress, Text, Switch, SimpleGrid, ActionIcon, Tooltip, Box } from '@mantine/core';
+import { Modal, ScrollArea, Center, Title, Space, Progress, Text, Switch, SimpleGrid, ActionIcon, Tooltip } from '@mantine/core';
 import Table from 'react-bootstrap/Table';
 import './Rennergebnise.css';
 import { IoIosSave } from "react-icons/io";
@@ -566,63 +566,61 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
 
                 <Space h="xl" />
                 
-                <SimpleGrid cols={2}>
-                    <Center>
-                    <div>
-                        {CarTelemetry[TelemetrieIndex] && (
-                            <>
-                                <div>
-                                    <Progress value={getEngineRPM(CarTelemetry[TelemetrieIndex]?.m_engineRPM)} />
-                                    <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_engineRPM} RPM</Text>
-                                </div>
+                {CarDamage[TelemetrieIndex] && (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        <div style={{marginLeft: '20px'}}>
+                            {CarTelemetry[TelemetrieIndex] && (
+                                <>
+                                    <div>
+                                        <Progress value={getEngineRPM(CarTelemetry[TelemetrieIndex]?.m_engineRPM)} />
+                                        <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_engineRPM} RPM</Text>
+                                    </div>
 
-                                <Space h="md" />
-
-                                <div>
-                                    <SimpleGrid cols={2}>
-                                        <div>
-                                            <Center>
-                                                <Title order={1} size="h1">{CarTelemetry[TelemetrieIndex]?.m_gear}</Title>
-                                            </Center>
-                                            <Center>
-                                                <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_speed} KM/H</Text>
-                                            </Center>
-                                        </div>
-                                        <div>
-                                            <Center>
-                                                <img src={getVisualTyre(CarStatus[TelemetrieIndex]?.m_visualTyreCompound)} alt="Reifen" height={60} width={60} />
-                                            </Center>
-                                            <Center>
-                                                <Text size="sm">{CarStatus[TelemetrieIndex]?.m_tyresAgeLaps} Runde(n)</Text>
-                                            </Center>
-                                        </div>
-                                    </SimpleGrid>
                                     <Space h="md" />
-                                    <Progress color="green" value={getThrottle(CarTelemetry[TelemetrieIndex]?.m_throttle)} size={5}/>
-                                    <Progress color="red" value={getBrake(CarTelemetry[TelemetrieIndex]?.m_brake)} size={5}/>
-                                </div>
-                                <div style={{marginTop: '10px'}}>
-                                    <Center>
-                                        <Switch 
-                                            checked={getDRS(CarTelemetry[TelemetrieIndex]?.m_drs)} 
-                                            label="DRS"
-                                            style={{marginRight: '20px'}}
-                                        />
-                                        <Switch
-                                            checked={getERSMode(CarStatus[TelemetrieIndex]?.m_ersDeployMode)}
-                                            label={getERSDescription(CarStatus[TelemetrieIndex]?.m_ersDeployMode)}
-                                        />
-                                    </Center>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                    </Center>
 
-                    <Center>
-                        <div>
+                                    <div>
+                                        <SimpleGrid cols={2}>
+                                            <div>
+                                                <Center>
+                                                    <Title order={1} size="h1">{CarTelemetry[TelemetrieIndex]?.m_gear}</Title>
+                                                </Center>
+                                                <Center>
+                                                    <Text size="sm">{CarTelemetry[TelemetrieIndex]?.m_speed} KM/H</Text>
+                                                </Center>
+                                            </div>
+                                            <div>
+                                                <Center>
+                                                    <img src={getVisualTyre(CarStatus[TelemetrieIndex]?.m_visualTyreCompound)} alt="Reifen" height={60} width={60} />
+                                                </Center>
+                                                <Center>
+                                                    <Text size="sm">{CarStatus[TelemetrieIndex]?.m_tyresAgeLaps} Runde(n)</Text>
+                                                </Center>
+                                            </div>
+                                        </SimpleGrid>
+                                        <Space h="md" />
+                                        <Progress color="green" value={getThrottle(CarTelemetry[TelemetrieIndex]?.m_throttle)} size={5}/>
+                                        <Progress color="red" value={getBrake(CarTelemetry[TelemetrieIndex]?.m_brake)} size={5}/>
+                                    </div>
+                                    <div style={{marginTop: '10px'}}>
+                                        <Center>
+                                            <Switch 
+                                                checked={getDRS(CarTelemetry[TelemetrieIndex]?.m_drs)} 
+                                                label="DRS"
+                                                style={{marginRight: '20px'}}
+                                            />
+                                            <Switch
+                                                checked={getERSMode(CarStatus[TelemetrieIndex]?.m_ersDeployMode)}
+                                                label={getERSDescription(CarStatus[TelemetrieIndex]?.m_ersDeployMode)}
+                                            />
+                                        </Center>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+
+                        <div style={{marginLeft: '60px'}}>
                             <svg 
-                                width="70%" 
+                                width="90%" 
                                 height="auto" 
                                 viewBox="0 0 263 542" 
                                 ersion="1.1" 
@@ -692,9 +690,8 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
                                 </g>
                             </svg>
                         </div>
-                    </Center>
-                </SimpleGrid>
-
+                </div>
+                )}
             </Modal>
         </>
     );
