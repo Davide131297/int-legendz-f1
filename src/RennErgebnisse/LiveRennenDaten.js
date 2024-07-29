@@ -444,7 +444,7 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
         if (damage >= 0 && damage <= 10) {
             return '#01DF3A';
         } else if (damage >= 11 && damage <= 16) {
-            return 'blue';
+            return '#99ff66';
         } else if (damage >= 17 && damage <= 25) {
             return '#A5DF00';
         } else if (damage >= 26 && damage <= 35) {
@@ -635,10 +635,17 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
                                             <stop offset={getGradient((CarTelemetry[TelemetrieIndex]?.m_brake))} style={{ stopColor: '#fff', stopOpacity: 1 }} />
                                             <stop offset="100%" style={{ stopColor: '#fff', stopOpacity: 1 }} />
                                             </linearGradient>
+
+                                            <linearGradient id="throttleGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                            <stop offset="0%" style={{ stopColor: 'green', stopOpacity: 1 }} />
+                                            <stop offset={getGradient((CarTelemetry[TelemetrieIndex]?.m_throttle))} style={{ stopColor: 'green', stopOpacity: 1 }} />
+                                            <stop offset={getGradient((CarTelemetry[TelemetrieIndex]?.m_throttle))} style={{ stopColor: '#fff', stopOpacity: 1 }} />
+                                            <stop offset="100%" style={{ stopColor: '#fff', stopOpacity: 1 }} />
+                                            </linearGradient>
                                         </defs>
                                         <circle id="Hintergrund" cx="1687.5" cy="1687.5" r="1666.67" style={{ fillOpacity: 0.9 }} />
-                                        <rect id="Throttle" x="2593.22" y="840.25" width="272.224" height="1694.5" style={{ fill: '#fff', stroke: '#001cff', strokeWidth: '20.83px' }} />
-                                        <rect id="Brake" x="510.719" y="840.25" width="272.224" height="1694.5" style={{ fill: 'url(#brakeGradient)', stroke: '#001cff', strokeWidth: '20.83px' }} />
+                                        <rect id="Throttle" x="2593.22" y="840.25" width="272.224" height="1694.5" style={{ fill: 'url(#throttleGradient)', stroke: '#001cff', strokeWidth: '20.83px' }} transform="rotate(180, 2729.332, 1687.5)" />
+                                        <rect id="Brake" x="510.719" y="840.25" width="272.224" height="1694.5" style={{ fill: 'url(#brakeGradient)', stroke: '#001cff', strokeWidth: '20.83px' }} transform="rotate(180, 646.831, 1687.5)"/>
                                         <circle cx="1687.5" cy="1687.5" r="1666.67" style={{ fill: 'none', stroke: '#001cff', strokeWidth: '41.67px' }} />
                                         <path id="DRS_Bereich" d="M2027.92,2115.17l0,154.855c0,62.835 -51.014,113.85 -113.849,113.85l-453.14,-0c-62.835,-0 -113.849,-51.015 -113.849,-113.85l-0,-154.855c-0,-62.836 51.014,-113.85 113.849,-113.85l453.14,-0c62.835,-0 113.849,51.014 113.849,113.85Z" style={{ fill: getDRSMode(CarTelemetry[TelemetrieIndex]?.m_drs) }} />
                                         <g id="DRS_Text" transform="matrix(235.553,0,0,235.553,1933.23,2276.91)"></g>
