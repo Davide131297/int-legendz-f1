@@ -9,7 +9,7 @@ import { ref, set } from 'firebase/database';
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { notifications } from '@mantine/notifications';
 
-const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, CarStatus, CarDamage}) => {
+const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, CarStatus, CarDamage, CarMotion}) => {
 
     const [opened, { open, close }] = useDisclosure(false);
     const [TelemetrieIndex, setTelemetrieIndex] = useState(null);
@@ -20,7 +20,8 @@ const LiveRennenDaten = ({SessionData, Fahrerliste, Rundendaten, CarTelemetry, C
         console.log('CarTelemetry:', CarTelemetry);
         console.log('CarStatus:', CarStatus);
         console.log('CarDamage:', CarDamage);
-    }, [Fahrerliste, Rundendaten, CarTelemetry, CarStatus, CarDamage]);
+        console.log('CarMotion:', CarMotion);
+    }, [Fahrerliste, Rundendaten, CarTelemetry, CarStatus, CarDamage, CarMotion]);
 
     const [height, setHeight] = useState('90vh');
 

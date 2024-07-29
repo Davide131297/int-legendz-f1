@@ -21,6 +21,7 @@ const Rennergebnise = () => {
     const [CarTelemetry, setCarTelemetry] = useState(null);
     const [CarStatus, setCarStatus] = useState(null);
     const [CarDamage, setCarDamage] = useState(null);
+    const [CarMotion, setCarMotion] = useState(null);
 
     useEffect(() => {
         const rennergebniseRef = ref(realtimeDatabase, 'finalClassification');
@@ -119,6 +120,21 @@ const Rennergebnise = () => {
         }
     )}, []);
 
+    useEffect(() => {
+        const motion = ref(realtimeDatabase, 'motion');
+        onValue(motion, (snapshot) => {
+            const data = snapshot.val();
+            const Cdata = data.m_carMotionData;
+            const headerData = data.m_header;
+            const index = headerData.m_playerCarIndex;
+
+            const motionArray = Object.values(Cdata)
+            const playerCarMotion = motionArray.slice(0, index + 1); // +1, weil slice das Ende exklusiv behandelt
+            console.log("Bewegungsdaten", playerCarMotion);
+            setCarMotion(playerCarMotion);
+        });
+    }, []);
+
     const downloadJSON = () => {
         const data = RennErgebnis.slice(0, -2)
             .map((ergebnis, index) => ({
@@ -179,7 +195,7 @@ const Rennergebnise = () => {
                     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '10px'}}>
                         <WeatherWidget WetterDaten={WetterDaten} />
                     </div>
-                    {CarTelemetry && (
+                    {CarTelemetry && CarMotion &&(
                     <LiveRennenDaten 
                         SessionData={SessionData} 
                         Fahrerliste={Fahrerliste} 
@@ -187,6 +203,7 @@ const Rennergebnise = () => {
                         CarTelemetry={CarTelemetry} 
                         CarStatus={CarStatus}
                         CarDamage={CarDamage}
+                        CarMotion={CarMotion}
                     />
                     )}
                 </Tabs.Panel>
